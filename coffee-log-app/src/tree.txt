@@ -1,7 +1,5 @@
 .
 ├── app
-│   ├── [id]
-│   │   └── page.tsx
 │   ├── coffee
 │   │   ├── ClientCoffeeList.tsx
 │   │   ├── [id]
@@ -47,4 +45,4 @@
 │   └── database.types.ts
 └── utils
 
-20 directories, 28 files
+19 directories, 27 files
