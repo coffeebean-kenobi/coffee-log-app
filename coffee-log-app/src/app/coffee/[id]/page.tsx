@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import DeleteCoffeeButton from '@/components/coffee/DeleteCoffeeButton'
 
 export const revalidate = 0
 
@@ -73,7 +74,15 @@ export default async function CoffeeDetailPage({
               >
                 編集
               </Link>
-              {/* 削除ボタンはクライアントコンポーネントで実装 */}
+              <div className="flex space-x-2">
+  <Link 
+    href={`/coffee/edit/${coffee.id}`}
+    className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+  >
+    編集
+  </Link>
+  <DeleteCoffeeButton coffeeId={coffee.id} />
+</div>
             </div>
           </div>
           

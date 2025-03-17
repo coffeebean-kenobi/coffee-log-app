@@ -1,0 +1,50 @@
+.
+├── app
+│   ├── [id]
+│   │   └── page.tsx
+│   ├── coffee
+│   │   ├── ClientCoffeeList.tsx
+│   │   ├── [id]
+│   │   │   └── page.tsx
+│   │   ├── add
+│   │   │   └── page.tsx
+│   │   ├── edit
+│   │   │   └── [id]
+│   │   │       └── page.tsx
+│   │   └── page.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── not-found.tsx
+│   ├── page.tsx
+│   ├── profile
+│   │   └── page.tsx
+│   ├── signin
+│   │   └── page.tsx
+│   └── signup
+│       └── page.tsx
+├── components
+│   ├── auth
+│   │   ├── LoginForm.tsx
+│   │   └── SignUpForm.tsx
+│   ├── coffee
+│   │   ├── CoffeeCard.tsx
+│   │   ├── CoffeeFilter.tsx
+│   │   ├── CoffeeForm.tsx
+│   │   ├── CoffeeList.tsx
+│   │   └── DeleteCoffeeButton.tsx
+│   ├── layout
+│   │   ├── Footer.tsx
+│   │   └── Header.tsx
+│   ├── profile
+│   │   └── ProfileForm.tsx
+│   └── ui
+├── lib
+│   ├── supabase-server.ts
+│   └── supabase.ts
+├── tree.txt
+├── types
+│   └── database.types.ts
+└── utils
+
+20 directories, 28 files
