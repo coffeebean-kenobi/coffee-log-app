@@ -11,7 +11,7 @@ export default function CoffeeList({ coffees }: Props) {
   if (coffees.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">記録がありません</p>
+        <p className="text-muted-foreground">記録がありません</p>
       </div>
     );
   }

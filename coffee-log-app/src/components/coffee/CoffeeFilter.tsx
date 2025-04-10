@@ -43,12 +43,12 @@ export default function CoffeeFilter({ onFilterChange }: Props) {
   }
 
   return (
-    <div className="bg-gray-50 p-4 rounded-lg mb-6">
-      <h2 className="text-lg font-medium mb-4">絞り込み検索</h2>
+    <div className="bg-card p-4 rounded-lg mb-6 shadow-sm">
+      <h2 className="text-lg font-medium mb-4 text-card-foreground">絞り込み検索</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label htmlFor="shopName" className="block text-sm font-medium mb-1">
+          <label htmlFor="shopName" className="block text-sm font-medium mb-1 text-card-foreground">
             店名
           </label>
           <input
@@ -58,12 +58,12 @@ export default function CoffeeFilter({ onFilterChange }: Props) {
             value={filters.shopName}
             onChange={handleChange}
             placeholder="店名で検索"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
         
         <div>
-          <label htmlFor="country" className="block text-sm font-medium mb-1">
+          <label htmlFor="country" className="block text-sm font-medium mb-1 text-card-foreground">
             原産国
           </label>
           <input
@@ -73,12 +73,12 @@ export default function CoffeeFilter({ onFilterChange }: Props) {
             value={filters.country}
             onChange={handleChange}
             placeholder="原産国で検索"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
         
         <div>
-          <label htmlFor="rating" className="block text-sm font-medium mb-1">
+          <label htmlFor="rating" className="block text-sm font-medium mb-1 text-card-foreground">
             評価
           </label>
           <select
@@ -86,7 +86,7 @@ export default function CoffeeFilter({ onFilterChange }: Props) {
             name="rating"
             value={filters.rating || ''}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value="">すべて</option>
             <option value="5">★★★★★ (5)</option>
@@ -102,7 +102,7 @@ export default function CoffeeFilter({ onFilterChange }: Props) {
         <button
           type="button"
           onClick={handleReset}
-          className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
+          className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           リセット
         </button>

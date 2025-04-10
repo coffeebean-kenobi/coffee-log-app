@@ -70,14 +70,14 @@ export default function ClientCoffeeList({
       <CoffeeFilter onFilterChange={handleFilterChange} />
       
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+        <div className="bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded mb-6">
           {error}
         </div>
       )}
       
       {loading ? (
         <div className="text-center py-12">
-          <p className="text-gray-500">読み込み中...</p>
+          <p className="text-muted-foreground">読み込み中...</p>
         </div>
       ) : (
         <CoffeeList coffees={coffees} />
