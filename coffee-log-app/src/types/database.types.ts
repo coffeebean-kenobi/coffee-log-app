@@ -54,6 +54,13 @@ export interface Database {
           consumed_at: string | null
           created_at: string
           updated_at: string
+          acidity: number | null
+          flavor: number | null
+          sweetness: number | null
+          mouthfeel: number | null
+          body: number | null
+          clean_cup: number | null
+          balance: number | null
         }
         Insert: {
           id?: string
@@ -70,6 +77,13 @@ export interface Database {
           consumed_at?: string | null
           created_at?: string
           updated_at?: string
+          acidity?: number | null
+          flavor?: number | null
+          sweetness?: number | null
+          mouthfeel?: number | null
+          body?: number | null
+          clean_cup?: number | null
+          balance?: number | null
         }
         Update: {
           id?: string
@@ -86,6 +100,13 @@ export interface Database {
           consumed_at?: string | null
           created_at?: string
           updated_at?: string
+          acidity?: number | null
+          flavor?: number | null
+          sweetness?: number | null
+          mouthfeel?: number | null
+          body?: number | null
+          clean_cup?: number | null
+          balance?: number | null
         }
       }
     }

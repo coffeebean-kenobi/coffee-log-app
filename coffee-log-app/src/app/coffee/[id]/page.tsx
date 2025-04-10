@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import DeleteCoffeeButton from '@/components/coffee/DeleteCoffeeButton'
+import CoffeeDetailTasteChart from '@/components/coffee/CoffeeDetailTasteChart'
 
 export const revalidate = 0
 
@@ -74,15 +75,7 @@ export default async function CoffeeDetailPage({
               >
                 編集
               </Link>
-              <div className="flex space-x-2">
-  <Link 
-    href={`/coffee/edit/${coffee.id}`}
-    className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
-  >
-    編集
-  </Link>
-  <DeleteCoffeeButton coffeeId={coffee.id} />
-</div>
+              <DeleteCoffeeButton coffeeId={coffee.id} />
             </div>
           </div>
           
@@ -125,6 +118,9 @@ export default async function CoffeeDetailPage({
               </div>
             </div>
           </div>
+          
+          {/* 味わい評価のレーダーチャート */}
+          <CoffeeDetailTasteChart coffee={coffee} />
           
           {coffee.description && (
             <div className="mt-6">

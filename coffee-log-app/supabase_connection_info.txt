@@ -1,0 +1,55 @@
+# Supabase接続情報
+
+## 1. 環境変数
+NEXT_PUBLIC_SUPABASE_URL=https://ydetoumhgpzlilaxykpf.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZXRvdW1oZ3B6bGlsYXh5a3BmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIxMTAyNzIsImV4cCI6MjA1NzY4NjI3Mn0.Edb6kxoemZTjfsqo8LYss3e-fKQI3bg8DRY78gcxKGM
+
+## 2. 接続エンドポイント
+- REST API: https://ydetoumhgpzlilaxykpf.supabase.co/rest/v1
+- 認証: https://ydetoumhgpzlilaxykpf.supabase.co/auth/v1
+- リアルタイム: wss://ydetoumhgpzlilaxykpf.supabase.co/realtime/v1
+
+## 3. 接続管理ファイル
+### クライアントサイド (src/lib/supabase.ts)
+```typescript
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/types/database.types';
+
+export const createClient = () => {
+  return createClientComponentClient<Database>();
+};
+```
+
+### サーバーサイド (src/lib/supabase-server.ts)
+```typescript
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import { Database } from '@/types/database.types';
+
+export const createClient = () => {
+  return createServerComponentClient<Database>({ cookies });
+};
+```
+
+### ミドルウェア (middleware.ts)
+```typescript
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient({ req, res })
+  // ...
+}
+```
+
+## 4. データ操作の例
+### 認証
+- ログイン: supabase.auth.signInWithPassword()
+- ログアウト: supabase.auth.signOut()
+- ユーザー情報取得: supabase.auth.getUser()
+
+### データベース操作
+- データ取得: supabase.from('table_name').select()
+- データ作成: supabase.from('table_name').insert()
+- データ更新: supabase.from('table_name').update()
+- データ削除: supabase.from('table_name').delete()

@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { Database } from '@/types/database.types'
+import TasteRatingInput from './TasteRatingInput'
+import TasteRadarChart, { TasteRatings } from './TasteRadarChart'
 
 type CoffeeRecord = Database['public']['Tables']['coffee_records']['Insert']
 type Props = {
@@ -36,7 +38,15 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
     description: initialData?.description || '',
     consumed_at: initialData?.consumed_at 
       ? new Date(initialData.consumed_at).toISOString().split('T')[0]
-      : new Date().toISOString().split('T')[0]
+      : new Date().toISOString().split('T')[0],
+    // 味わい評価の初期値設定
+    acidity: initialData?.acidity || 0,
+    flavor: initialData?.flavor || 0,
+    sweetness: initialData?.sweetness || 0,
+    mouthfeel: initialData?.mouthfeel || 0,
+    body: initialData?.body || 0,
+    clean_cup: initialData?.clean_cup || 0,
+    balance: initialData?.balance || 0
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -44,6 +54,14 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
     setFormData(prev => ({
       ...prev,
       [name]: value
+    }))
+  }
+
+  // 味わい評価を更新する関数
+  const handleTasteRatingsChange = (newRatings: TasteRatings) => {
+    setFormData(prev => ({
+      ...prev,
+      ...newRatings
     }))
   }
 
@@ -93,6 +111,17 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
     } finally {
       setLoading(false)
     }
+  }
+
+  // 味わい評価用のデータ取得
+  const tasteRatings: TasteRatings = {
+    acidity: formData.acidity,
+    flavor: formData.flavor,
+    sweetness: formData.sweetness,
+    mouthfeel: formData.mouthfeel,
+    body: formData.body,
+    clean_cup: formData.clean_cup,
+    balance: formData.balance
   }
 
   return (
@@ -251,9 +280,22 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
         </div>
       </div>
 
+      {/* 味わい評価用の入力UI */}
+      <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+        <TasteRatingInput 
+          ratings={tasteRatings}
+          onChange={handleTasteRatingsChange}
+        />
+        
+        <div className="mt-6">
+          <h4 className="text-md font-medium mb-2">レーダーチャートプレビュー</h4>
+          <TasteRadarChart ratings={tasteRatings} />
+        </div>
+      </div>
+
       <div>
         <label htmlFor="description" className="block text-sm font-medium">
-          感想
+          メモ・感想
         </label>
         <textarea
           id="description"
@@ -265,22 +307,22 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
         />
       </div>
 
-      <div className="flex justify-end space-x-4">
+      <div className="flex justify-end space-x-3">
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-4 py-2 border border-gray-300 rounded-md text-gray-700"
+          className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
         >
           キャンセル
         </button>
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+          className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
         >
-          {loading ? '保存中...' : isEditing ? '更新する' : '記録する'}
+          {loading ? '保存中...' : isEditing ? '更新' : '保存'}
         </button>
       </div>
     </form>
-  );
+  )
 }
