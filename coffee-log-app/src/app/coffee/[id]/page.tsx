@@ -50,7 +50,7 @@ export default async function CoffeeDetailPage({
     return Array(5)
       .fill(0)
       .map((_, i) => (
-        <span key={i} className={i < rating ? 'text-yellow-500' : 'text-gray-300'}>
+        <span key={i} className={i < rating ? 'text-amber-500' : 'text-muted'}>
           ★
         </span>
       ))
@@ -59,19 +59,19 @@ export default async function CoffeeDetailPage({
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-6">
-        <Link href="/coffee" className="text-blue-600 hover:underline">
+        <Link href="/coffee" className="text-primary hover:underline">
           ← 一覧に戻る
         </Link>
       </div>
       
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-card rounded-lg shadow-md overflow-hidden border border-border">
         <div className="p-6">
           <div className="flex justify-between items-start">
-            <h1 className="text-2xl font-bold">{coffee.shop_name}</h1>
+            <h1 className="text-2xl font-bold text-card-foreground">{coffee.shop_name}</h1>
             <div className="flex space-x-2">
               <Link 
                 href={`/coffee/edit/${coffee.id}`}
-                className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                className="px-3 py-1 bg-primary text-primary-foreground text-sm rounded hover:bg-primary/90 transition-colors"
               >
                 編集
               </Link>
@@ -80,7 +80,7 @@ export default async function CoffeeDetailPage({
           </div>
           
           {coffee.coffee_name && (
-            <p className="text-gray-600 mt-1">{coffee.coffee_name}</p>
+            <p className="text-muted-foreground mt-1">{coffee.coffee_name}</p>
           )}
           
           <div className="flex items-center mt-3 text-xl">
@@ -90,31 +90,31 @@ export default async function CoffeeDetailPage({
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <div>
-                <span className="font-medium">飲んだ日: </span>
-                <span>{formattedDate}</span>
+                <span className="font-medium text-card-foreground">飲んだ日: </span>
+                <span className="text-card-foreground">{formattedDate}</span>
               </div>
               <div>
-                <span className="font-medium">原産国: </span>
-                <span>{coffee.country || 'なし'}</span>
+                <span className="font-medium text-card-foreground">原産国: </span>
+                <span className="text-card-foreground">{coffee.country || 'なし'}</span>
               </div>
               <div>
-                <span className="font-medium">地域: </span>
-                <span>{coffee.region || 'なし'}</span>
+                <span className="font-medium text-card-foreground">地域: </span>
+                <span className="text-card-foreground">{coffee.region || 'なし'}</span>
               </div>
               <div>
-                <span className="font-medium">農園: </span>
-                <span>{coffee.farm || 'なし'}</span>
+                <span className="font-medium text-card-foreground">農園: </span>
+                <span className="text-card-foreground">{coffee.farm || 'なし'}</span>
               </div>
             </div>
             
             <div className="space-y-2">
               <div>
-                <span className="font-medium">精製方法: </span>
-                <span>{coffee.processing_method || 'なし'}</span>
+                <span className="font-medium text-card-foreground">精製方法: </span>
+                <span className="text-card-foreground">{coffee.processing_method || 'なし'}</span>
               </div>
               <div>
-                <span className="font-medium">焙煎度合い: </span>
-                <span>{getRoastLevelText(coffee.roast_level)}</span>
+                <span className="font-medium text-card-foreground">焙煎度合い: </span>
+                <span className="text-card-foreground">{getRoastLevelText(coffee.roast_level)}</span>
               </div>
             </div>
           </div>
@@ -124,8 +124,8 @@ export default async function CoffeeDetailPage({
           
           {coffee.description && (
             <div className="mt-6">
-              <h2 className="font-medium text-lg mb-2">感想</h2>
-              <p className="whitespace-pre-line">{coffee.description}</p>
+              <h2 className="font-medium text-lg mb-2 text-card-foreground">感想</h2>
+              <p className="whitespace-pre-line text-card-foreground">{coffee.description}</p>
             </div>
           )}
         </div>

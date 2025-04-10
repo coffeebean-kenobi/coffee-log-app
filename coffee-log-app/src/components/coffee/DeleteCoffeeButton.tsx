@@ -38,21 +38,21 @@ export default function DeleteCoffeeButton({ coffeeId }: Props) {
 
   if (showConfirm) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white p-6 rounded-lg max-w-sm w-full">
-          <h3 className="text-lg font-bold mb-4">削除の確認</h3>
-          <p className="mb-6">この記録を削除してもよろしいですか？この操作は元に戻せません。</p>
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="bg-card p-6 rounded-lg max-w-sm w-full border border-border shadow-lg">
+          <h3 className="text-lg font-bold mb-4 text-card-foreground">削除の確認</h3>
+          <p className="mb-6 text-card-foreground">この記録を削除してもよろしいですか？この操作は元に戻せません。</p>
           <div className="flex justify-end space-x-3">
             <button
               onClick={() => setShowConfirm(false)}
-              className="px-4 py-2 text-gray-700 border border-gray-300 rounded"
+              className="px-4 py-2 text-foreground bg-background border border-border rounded hover:bg-secondary transition-colors"
               disabled={isDeleting}
             >
               キャンセル
             </button>
             <button
               onClick={handleDelete}
-              className="px-4 py-2 bg-red-600 text-white rounded"
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition-colors"
               disabled={isDeleting}
             >
               {isDeleting ? '削除中...' : '削除する'}
@@ -66,7 +66,7 @@ export default function DeleteCoffeeButton({ coffeeId }: Props) {
   return (
     <button
       onClick={() => setShowConfirm(true)}
-      className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
+      className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
     >
       削除
     </button>

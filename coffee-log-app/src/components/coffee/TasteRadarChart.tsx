@@ -10,7 +10,7 @@ import {
   Legend 
 } from 'chart.js'
 import { Radar } from 'react-chartjs-2'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 // ChartJSコンポーネントの登録
 ChartJS.register(
@@ -43,6 +43,23 @@ const TasteRadarChart: FC<TasteRadarChartProps> = ({
   editable = false,
   onChange 
 }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check if we're in the browser and if dark mode is enabled
+    if (typeof window !== 'undefined') {
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setIsDarkMode(isDark);
+      
+      // Listen for changes in color scheme preference
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handler = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
+      mediaQuery.addEventListener('change', handler);
+      
+      return () => mediaQuery.removeEventListener('change', handler);
+    }
+  }, []);
+  
   // デフォルト値を設定（null または undefined の場合は0に）
   const values = {
     acidity: ratings.acidity || 0,
@@ -76,8 +93,12 @@ const TasteRadarChart: FC<TasteRadarChartProps> = ({
           values.clean_cup, 
           values.balance
         ],
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: isDarkMode 
+          ? 'rgba(96, 165, 250, 0.3)' // More visible in dark mode
+          : 'rgba(75, 192, 192, 0.2)',
+        borderColor: isDarkMode 
+          ? 'rgba(96, 165, 250, 1)' // primary color in dark mode
+          : 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
       },
     ],
@@ -87,13 +108,36 @@ const TasteRadarChart: FC<TasteRadarChartProps> = ({
     scales: {
       r: {
         angleLines: {
-          display: true
+          display: true,
+          color: isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+        },
+        grid: {
+          color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
         },
         suggestedMin: 0,
         suggestedMax: 5,
         ticks: {
-          stepSize: 1
+          stepSize: 1,
+          backdropColor: 'transparent',
+          color: isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+        },
+        pointLabels: {
+          color: isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
         }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+        }
+      },
+      tooltip: {
+        backgroundColor: isDarkMode ? 'rgba(30, 30, 30, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+        titleColor: isDarkMode ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.9)',
+        bodyColor: isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+        borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+        borderWidth: 1
       }
     }
   }

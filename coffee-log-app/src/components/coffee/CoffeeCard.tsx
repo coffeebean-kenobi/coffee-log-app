@@ -19,7 +19,7 @@ export default function CoffeeCard({ coffee }: Props) {
     return Array(5)
       .fill(0)
       .map((_, i) => (
-        <span key={i} className={`text-lg ${i < rating ? 'text-yellow-500' : 'text-gray-300'}`}>
+        <span key={i} className={`text-lg ${i < rating ? 'text-amber-500' : 'text-muted'}`}>
           ★
         </span>
       ));
@@ -40,11 +40,11 @@ export default function CoffeeCard({ coffee }: Props) {
   };
 
   return (
-    <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <div className="border border-border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-card">
       <div className="p-4">
-        <h3 className="font-bold text-lg">{coffee.shop_name}</h3>
+        <h3 className="font-bold text-lg text-card-foreground">{coffee.shop_name}</h3>
         {coffee.coffee_name && (
-          <p className="text-sm text-gray-600 mt-1">{coffee.coffee_name}</p>
+          <p className="text-sm text-muted-foreground mt-1">{coffee.coffee_name}</p>
         )}
         <div className="flex items-center mt-2">
           {renderStars(coffee.rating)}
@@ -53,26 +53,27 @@ export default function CoffeeCard({ coffee }: Props) {
         <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
           {coffee.country && (
             <div>
-              <span className="text-gray-500">原産国:</span> {coffee.country}
+              <span className="text-muted-foreground">原産国:</span>{' '}
+              <span className="text-card-foreground">{coffee.country}</span>
             </div>
           )}
           {coffee.roast_level && (
             <div>
-              <span className="text-gray-500">焙煎:</span>{' '}
-              {getRoastLevelText(coffee.roast_level)}
+              <span className="text-muted-foreground">焙煎:</span>{' '}
+              <span className="text-card-foreground">{getRoastLevelText(coffee.roast_level)}</span>
             </div>
           )}
         </div>
         
         {coffee.description && (
-          <p className="mt-3 text-sm text-gray-700 line-clamp-2">
+          <p className="mt-3 text-sm text-card-foreground line-clamp-2">
             {coffee.description}
           </p>
         )}
         
         <div className="mt-4 flex items-center justify-between">
-          <span className="text-xs text-gray-500">{formattedDate}</span>
-          <Link href={`/coffee/${coffee.id}`} className="text-blue-600 text-sm hover:underline">
+          <span className="text-xs text-muted-foreground">{formattedDate}</span>
+          <Link href={`/coffee/${coffee.id}`} className="text-primary text-sm hover:underline">
             詳細を見る
           </Link>
         </div>
