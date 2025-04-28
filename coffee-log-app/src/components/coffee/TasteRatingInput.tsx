@@ -28,7 +28,7 @@ const TasteRatingInput: FC<TasteRatingInputProps> = ({ ratings, onChange }) => {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium">味わい評価（5段階）</h3>
+      <h3 className="text-lg font-medium text-foreground">味わい評価（5段階）</h3>
       
       <div className="space-y-3">
         {TASTE_ATTRIBUTES.map(attr => {
@@ -38,7 +38,7 @@ const TasteRatingInput: FC<TasteRatingInputProps> = ({ ratings, onChange }) => {
           return (
             <div key={attr.key} className="space-y-1">
               <div className="flex justify-between">
-                <label htmlFor={`taste-${attr.key}`} className="block text-sm font-medium">
+                <label htmlFor={`taste-${attr.key}`} className="block text-sm font-medium text-foreground">
                   {attr.label}: {value}
                 </label>
               </div>
@@ -50,9 +50,9 @@ const TasteRatingInput: FC<TasteRatingInputProps> = ({ ratings, onChange }) => {
                 max="5"
                 value={value}
                 onChange={(e) => handleChange(key, Number(e.target.value))}
-                className="w-full"
+                className="w-full accent-primary"
               />
-              <div className="flex justify-between text-xs text-gray-500">
+              <div className="flex justify-between text-xs text-muted-foreground">
                 <span>0</span>
                 <span>1</span>
                 <span>2</span>
