@@ -1,6 +1,6 @@
 'use client'
 
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { TasteRatings } from './TasteRadarChart'
 
 interface TasteRatingInputProps {
@@ -19,6 +19,23 @@ const TASTE_ATTRIBUTES = [
 ]
 
 const TasteRatingInput: FC<TasteRatingInputProps> = ({ ratings, onChange }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check if we're in the browser and if dark mode is enabled
+    if (typeof window !== 'undefined') {
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setIsDarkMode(isDark);
+      
+      // Listen for changes in color scheme preference
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handler = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
+      mediaQuery.addEventListener('change', handler);
+      
+      return () => mediaQuery.removeEventListener('change', handler);
+    }
+  }, []);
+
   const handleChange = (key: keyof TasteRatings, value: number) => {
     onChange({
       ...ratings,
@@ -52,13 +69,19 @@ const TasteRatingInput: FC<TasteRatingInputProps> = ({ ratings, onChange }) => {
                 onChange={(e) => handleChange(key, Number(e.target.value))}
                 className="w-full accent-primary"
               />
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>0</span>
-                <span>1</span>
-                <span>2</span>
-                <span>3</span>
-                <span>4</span>
-                <span>5</span>
+              <div className="flex justify-between text-xs">
+                {[0, 1, 2, 3, 4, 5].map((num) => (
+                  <span 
+                    key={num} 
+                    className={`px-1.5 py-0.5 rounded ${
+                      isDarkMode 
+                        ? 'bg-muted text-muted-foreground' 
+                        : 'text-muted-foreground'
+                    }`}
+                  >
+                    {num}
+                  </span>
+                ))}
               </div>
             </div>
           )
