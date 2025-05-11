@@ -1,9 +1,5 @@
-import { theme as baseTheme } from '../../theme';
-
 export const industrialRefinedTheme = {
-  ...baseTheme,
   colors: {
-    ...baseTheme.colors,
     primary: {
       main: '#1A1A1A',    // ダークチャコール
       light: '#333333',   // ミディアムグレー
