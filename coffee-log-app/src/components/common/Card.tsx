@@ -5,9 +5,17 @@ interface CardProps {
   children: React.ReactNode;
   style?: React.CSSProperties;
   onClick?: () => void;
+  onMouseEnter?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onMouseLeave?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-export const Card: React.FC<CardProps> = ({ children, style, onClick }) => {
+export const Card: React.FC<CardProps> = ({
+  children,
+  style,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+}) => {
   return (
     <div
       style={{
@@ -21,6 +29,8 @@ export const Card: React.FC<CardProps> = ({ children, style, onClick }) => {
         ...style,
       }}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {children}
     </div>

@@ -91,10 +91,10 @@ export const CoffeeLogDetail: React.FC<CoffeeLogDetailProps> = ({
               variant="secondary"
               onClick={onEdit}
               style={{
-                flex: getResponsiveValue({
+                flexGrow: getResponsiveValue({
                   xs: 1,
-                  sm: 'none',
-                }, 'none'),
+                  sm: 0,
+                }, 0),
               }}
             >
               編集
@@ -103,10 +103,10 @@ export const CoffeeLogDetail: React.FC<CoffeeLogDetailProps> = ({
               variant="secondary"
               onClick={onDelete}
               style={{
-                flex: getResponsiveValue({
+                flexGrow: getResponsiveValue({
                   xs: 1,
-                  sm: 'none',
-                }, 'none'),
+                  sm: 0,
+                }, 0),
               }}
             >
               削除

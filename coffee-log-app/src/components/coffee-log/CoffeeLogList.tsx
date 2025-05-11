@@ -2,7 +2,7 @@ import React from 'react';
 import { theme } from '../../theme';
 import { Card } from '../common/Card';
 import { Button } from '../common/Button';
-import { slideIn, hoverScale, hoverShadow } from '../../utils/animations';
+import { slideIn } from '../../utils/animations';
 import { getResponsiveValue } from '../../utils/responsive';
 
 interface CoffeeLog {
@@ -92,10 +92,17 @@ export const CoffeeLogList: React.FC<CoffeeLogListProps> = ({
               alignItems: 'center',
               gap: theme.spacing.md,
               animation: `${slideIn.from} ${slideIn.config.duration}ms ease-out ${index * 100}ms forwards`,
-              ':hover': {
-                ...hoverScale,
-                ...hoverShadow,
-              },
+              transform: 'scale(1)',
+              transition: `transform ${theme.transitions.fast}, box-shadow ${theme.transitions.fast}`,
+              cursor: 'pointer',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.02)';
+              e.currentTarget.style.boxShadow = theme.shadows.lg;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = theme.shadows.sm;
             }}
           >
             <div>
