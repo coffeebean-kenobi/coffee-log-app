@@ -12,10 +12,15 @@ const nextConfig = {
       chunkIds: 'deterministic',
     };
     
-    // 非推奨警告を抑制
+    // Webpackの非推奨警告を抑制
     config.infrastructureLogging = {
       level: 'error',
     };
+
+    // プロセス環境変数でNode.jsの警告を抑制
+    if (isServer) {
+      process.env.NODE_NO_WARNINGS = '1';
+    }
 
     return config;
   },
