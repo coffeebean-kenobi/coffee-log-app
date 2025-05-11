@@ -34,6 +34,7 @@ export const Input: React.FC<InputProps> = ({
           width: '100%',
           padding: theme.spacing.md,
           border: error ? theme.borders.medium : theme.borders.thin,
+          borderColor: error ? theme.colors.text.error : undefined,
           borderRadius: theme.borderRadius.sm,
           backgroundColor: theme.colors.background.paper,
           color: theme.colors.text.primary,
