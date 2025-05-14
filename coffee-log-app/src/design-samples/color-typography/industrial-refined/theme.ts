@@ -47,7 +47,8 @@ export const industrialRefinedTheme = {
       body1: '1rem',
       body2: '0.875rem',
       caption: '0.75rem',
-    },
+      button: '0.875rem',
+    } as const,
     fontWeight: {
       light: 300,
       regular: 400,
@@ -61,6 +62,7 @@ export const industrialRefinedTheme = {
     letterSpacing: {
       heading: '0.02em',
       body: '0.01em',
+      button: '0.05em',
     },
   },
   spacing: {
