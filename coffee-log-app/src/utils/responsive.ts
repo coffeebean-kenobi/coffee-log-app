@@ -1,3 +1,5 @@
+import { theme } from '../theme';
+
 export const breakpoints = {
   xs: '320px',
   sm: '576px',
@@ -31,4 +33,61 @@ export const getResponsiveValue = <T>(
   if (width >= parseInt(breakpoints.sm) && values.sm) return values.sm;
   if (width >= parseInt(breakpoints.xs) && values.xs) return values.xs;
   return defaultValue;
+};
+
+/**
+ * メディアクエリの文字列を生成するユーティリティ関数
+ */
+export const mediaQuery = {
+  mobile: `@media (max-width: ${theme.breakpoints.mobile})`,
+  tablet: `@media (min-width: ${theme.breakpoints.mobile}) and (max-width: ${theme.breakpoints.tablet})`,
+  desktop: `@media (min-width: ${theme.breakpoints.desktop})`,
+  touch: `@media (hover: none)`,
+};
+
+/**
+ * 現在のビューポートがモバイルサイズかどうかを判定する
+ */
+export const isMobile = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth <= parseInt(theme.breakpoints.mobile);
+};
+
+/**
+ * 現在のビューポートがタブレットサイズかどうかを判定する
+ */
+export const isTablet = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  const width = window.innerWidth;
+  return width > parseInt(theme.breakpoints.mobile) && width <= parseInt(theme.breakpoints.tablet);
+};
+
+/**
+ * 現在のビューポートがデスクトップサイズかどうかを判定する
+ */
+export const isDesktop = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth > parseInt(theme.breakpoints.tablet);
+};
+
+/**
+ * 現在のデバイスがタッチデバイスかどうかを判定する
+ */
+export const isTouchDevice = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+};
+
+/**
+ * レスポンシブスタイルを生成するヘルパー関数
+ */
+export const responsive = <T>(styles: {
+  base: T;
+  mobile?: Partial<T>;
+  tablet?: Partial<T>;
+  desktop?: Partial<T>;
+}): T => {
+  // このヘルパー関数はCSS-in-JSライブラリと組み合わせて使用することを想定しています
+  // 実際の実装はライブラリによって異なります
+  return styles.base;
 }; 

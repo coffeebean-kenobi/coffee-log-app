@@ -92,4 +92,26 @@ export const industrialRefinedTheme = {
     medium: '300ms',
     slow: '500ms',
   },
+  breakpoints: {
+    mobile: '768px',
+    tablet: '1024px',
+    desktop: '1025px',
+  },
+  animations: {
+    fadeIn: 'fade-in 0.3s ease-in-out',
+    slideUp: 'slide-up 0.4s ease-out',
+    pulse: 'pulse 1.5s infinite',
+    bounce: 'bounce 0.5s ease',
+    spin: 'spin 1s linear infinite',
+  },
+  zIndex: {
+    modal: 1000,
+    overlay: 900,
+    dropdown: 800,
+    header: 700,
+    footer: 600,
+  },
+  touchTarget: {
+    min: '44px', // タッチデバイス向けの最小サイズ
+  },
 }; 
