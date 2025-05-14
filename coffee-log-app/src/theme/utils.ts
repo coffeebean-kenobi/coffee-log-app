@@ -1,3 +1,5 @@
+"use client";
+
 import { useTheme } from './ThemeProvider';
 import { Theme } from './index';
 
