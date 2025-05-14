@@ -2,7 +2,7 @@ import React from 'react';
 import { theme } from '../../theme';
 import { Card } from '../common/Card';
 import { Button } from '../common/Button';
-import { fadeIn } from '../../utils/animations';
+import { fadeIn, getAnimationStyle } from '../../utils/animations';
 import { getResponsiveValue } from '../../utils/responsive';
 
 interface CoffeeLog {
@@ -29,7 +29,7 @@ export const CoffeeLogDetail: React.FC<CoffeeLogDetailProps> = ({
 }) => {
   return (
     <Card style={{
-      animation: `${fadeIn.from} ${fadeIn.config.duration}ms ease-out forwards`,
+      animation: theme.animations.fadeIn,
       maxWidth: getResponsiveValue({
         xs: '100%',
         sm: '600px',

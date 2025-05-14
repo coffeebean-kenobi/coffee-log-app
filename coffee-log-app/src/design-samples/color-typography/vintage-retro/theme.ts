@@ -42,7 +42,7 @@ export const vintageRetroTheme = {
       body2: '1rem',
       button: '1rem',
       caption: '0.875rem',
-    },
+    } as const,
     fontWeight: {
       heading: 700,
       body: 400,
