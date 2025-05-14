@@ -42,7 +42,7 @@ export const urbanIndustrialTheme = {
       body2: '0.875rem',
       button: '0.875rem',
       caption: '0.75rem',
-    },
+    } as const,
     fontWeight: {
       heading: 700,
       body: 400,

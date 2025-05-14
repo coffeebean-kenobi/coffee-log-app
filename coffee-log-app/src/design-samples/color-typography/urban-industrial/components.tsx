@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { urbanIndustrialTheme as theme } from './theme';
 
 export const UrbanIndustrialComponents: React.FC = () => {
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
+
   return (
     <div style={{ 
       backgroundColor: theme.colors.background.main,
@@ -49,21 +51,22 @@ export const UrbanIndustrialComponents: React.FC = () => {
       </div>
 
       {/* ボタン */}
-      <button style={{
-        backgroundColor: theme.colors.accent.main,
-        color: theme.colors.background.paper,
-        padding: `${theme.spacing.sm} ${theme.spacing.lg}`,
-        border: 'none',
-        borderRadius: theme.borderRadius.sm,
-        fontFamily: theme.typography.fontFamily.body,
-        fontSize: theme.typography.fontSize.button,
-        fontWeight: theme.typography.fontWeight.medium,
-        cursor: 'pointer',
-        transition: 'background-color 0.2s',
-        ':hover': {
-          backgroundColor: theme.colors.accent.dark
-        }
-      }}>
+      <button 
+        onMouseEnter={() => setIsButtonHovered(true)}
+        onMouseLeave={() => setIsButtonHovered(false)}
+        style={{
+          backgroundColor: isButtonHovered ? theme.colors.accent.dark : theme.colors.accent.main,
+          color: theme.colors.background.paper,
+          padding: `${theme.spacing.sm} ${theme.spacing.lg}`,
+          border: 'none',
+          borderRadius: theme.borderRadius.sm,
+          fontFamily: theme.typography.fontFamily.body,
+          fontSize: theme.typography.fontSize.button,
+          fontWeight: theme.typography.fontWeight.medium,
+          cursor: 'pointer',
+          transition: 'background-color 0.2s'
+        }}
+      >
         Add New Log
       </button>
 

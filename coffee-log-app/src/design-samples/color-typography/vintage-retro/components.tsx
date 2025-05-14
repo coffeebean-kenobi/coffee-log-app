@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { vintageRetroTheme as theme } from './theme';
 
 export const VintageRetroComponents: React.FC = () => {
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
+
   return (
     <div style={{ 
       backgroundColor: theme.colors.background.main,
@@ -70,24 +72,24 @@ export const VintageRetroComponents: React.FC = () => {
       </div>
 
       {/* ボタン */}
-      <button style={{
-        backgroundColor: theme.colors.accent.main,
-        color: theme.colors.primary.dark,
-        padding: `${theme.spacing.sm} ${theme.spacing.lg}`,
-        border: `2px solid ${theme.colors.primary.main}`,
-        borderRadius: theme.borderRadius.md,
-        fontFamily: theme.typography.fontFamily.body,
-        fontSize: theme.typography.fontSize.button,
-        fontWeight: theme.typography.fontWeight.medium,
-        cursor: 'pointer',
-        transition: 'all 0.3s ease',
-        boxShadow: theme.shadows.sm,
-        ':hover': {
-          backgroundColor: theme.colors.accent.light,
-          transform: 'translateY(-2px)',
-          boxShadow: theme.shadows.md
-        }
-      }}>
+      <button 
+        onMouseEnter={() => setIsButtonHovered(true)}
+        onMouseLeave={() => setIsButtonHovered(false)}
+        style={{
+          backgroundColor: isButtonHovered ? theme.colors.accent.light : theme.colors.accent.main,
+          color: theme.colors.primary.dark,
+          padding: `${theme.spacing.sm} ${theme.spacing.lg}`,
+          border: `2px solid ${theme.colors.primary.main}`,
+          borderRadius: theme.borderRadius.md,
+          fontFamily: theme.typography.fontFamily.body,
+          fontSize: theme.typography.fontSize.button,
+          fontWeight: theme.typography.fontWeight.medium,
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          boxShadow: isButtonHovered ? theme.shadows.md : theme.shadows.sm,
+          transform: isButtonHovered ? 'translateY(-2px)' : 'translateY(0)'
+        }}
+      >
         Add New Log
       </button>
 

@@ -3,6 +3,7 @@ import { industrialRefinedTheme as theme } from './theme';
 
 export const IndustrialRefinedComponents: React.FC = () => {
   const [showNewLog, setShowNewLog] = useState(false);
+  const [hoveredItemId, setHoveredItemId] = useState<number | null>(null);
 
   const NewLogForm = () => (
     <div style={{
@@ -256,21 +257,25 @@ export const IndustrialRefinedComponents: React.FC = () => {
           gap: theme.spacing.md
         }}>
           {/* リストアイテム */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'auto 1fr auto',
-            gap: theme.spacing.lg,
-            padding: theme.spacing.lg,
-            backgroundColor: theme.colors.background.paper,
-            border: theme.borders.thin,
-            borderRadius: theme.borderRadius.sm,
-            transition: theme.transitions.fast,
-            cursor: 'pointer',
-            ':hover': {
-              borderColor: theme.colors.accent.main,
-              boxShadow: theme.shadows.sm
-            }
-          }}>
+          <div 
+            onMouseEnter={() => setHoveredItemId(1)}
+            onMouseLeave={() => setHoveredItemId(null)}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'auto 1fr auto',
+              gap: theme.spacing.lg,
+              padding: theme.spacing.lg,
+              backgroundColor: theme.colors.background.paper,
+              border: theme.borders.thin,
+              borderRadius: theme.borderRadius.sm,
+              transition: theme.transitions.fast,
+              cursor: 'pointer',
+              ...(hoveredItemId === 1 && {
+                borderColor: theme.colors.accent.main,
+                boxShadow: theme.shadows.sm
+              })
+            }}
+          >
             <div style={{
               width: '60px',
               height: '60px',
@@ -323,21 +328,25 @@ export const IndustrialRefinedComponents: React.FC = () => {
           </div>
 
           {/* 2つ目のリストアイテム */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'auto 1fr auto',
-            gap: theme.spacing.lg,
-            padding: theme.spacing.lg,
-            backgroundColor: theme.colors.background.paper,
-            border: theme.borders.thin,
-            borderRadius: theme.borderRadius.sm,
-            transition: theme.transitions.fast,
-            cursor: 'pointer',
-            ':hover': {
-              borderColor: theme.colors.accent.main,
-              boxShadow: theme.shadows.sm
-            }
-          }}>
+          <div 
+            onMouseEnter={() => setHoveredItemId(2)}
+            onMouseLeave={() => setHoveredItemId(null)}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'auto 1fr auto',
+              gap: theme.spacing.lg,
+              padding: theme.spacing.lg,
+              backgroundColor: theme.colors.background.paper,
+              border: theme.borders.thin,
+              borderRadius: theme.borderRadius.sm,
+              transition: theme.transitions.fast,
+              cursor: 'pointer',
+              ...(hoveredItemId === 2 && {
+                borderColor: theme.colors.accent.main,
+                boxShadow: theme.shadows.sm
+              })
+            }}
+          >
             <div style={{
               width: '60px',
               height: '60px',
