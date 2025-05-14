@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
+import { ThemeProvider } from "@/theme/ThemeProvider";
 import "./globals.css";
 
 // Noto Sans JPフォントを設定
@@ -22,9 +23,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={notoSansJP.className}>
-        {children}
-      </body>
+      <ThemeProvider>
+        <body className={notoSansJP.className}>
+          {children}
+        </body>
+      </ThemeProvider>
     </html>
   );
 }

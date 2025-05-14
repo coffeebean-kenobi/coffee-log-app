@@ -2,44 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CSS変数は削除または最小限に */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --secondary: #f3f4f6;
-  --secondary-foreground: #1f2937;
-  --accent: #f59e0b;
-  --accent-foreground: #ffffff;
-  --muted: #f3f4f6;
-  --muted-foreground: #6b7280;
-  --card: #ffffff;
-  --card-foreground: #171717;
-  --border: #e5e7eb;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #121212;
-    --foreground: #f3f4f6;
-    --primary: #60a5fa;
-    --primary-foreground: #030712;
-    --secondary: #1f2937;
-    --secondary-foreground: #e5e7eb;
-    --accent: #fbbf24;
-    --accent-foreground: #030712;
-    --muted: #1f2937;
-    --muted-foreground: #9ca3af;
-    --card: #1e1e1e;
-    --card-foreground: #f3f4f6;
-    --border: #374151;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
+  /* テーマから直接参照できないグローバル設定のみ残す */
 }
 
 /* アニメーションのキーフレーム */
