@@ -1,14 +1,15 @@
 "use client";
 
 import React from 'react';
-import { useThemeStyles } from '@/theme/utils';
+import { cn } from '@/lib/utils';
 
 type ButtonProps = {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'accent';
+  variant?: 'primary' | 'secondary' | 'accent' | 'outlined';
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 };
 
 export const Button: React.FC<ButtonProps> = ({ 
@@ -16,38 +17,28 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'primary', 
   onClick,
   className = '',
-  disabled = false
+  disabled = false,
+  type = 'button'
 }) => {
-  const styles = useThemeStyles();
-  
-  const buttonStyle = {
-    backgroundColor: styles.color(`${variant}.main`),
-    color: variant === 'primary' 
-      ? styles.color('text.primary') 
-      : styles.color('background.paper'),
-    padding: `${styles.spacing('sm')} ${styles.spacing('md')}`,
-    borderRadius: styles.borderRadius('md'),
-    fontFamily: styles.typography('fontFamily.body'),
-    fontSize: styles.typography('fontSize.button'),
-    fontWeight: styles.typography('fontWeight.medium'),
-    letterSpacing: styles.typography('letterSpacing.button'),
-    transition: `all ${styles.transitions('medium')}`,
-    cursor: disabled ? 'not-allowed' : 'pointer',
-    opacity: disabled ? 0.7 : 1,
-    border: 'none',
-    outline: 'none',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    boxShadow: styles.shadows('sm'),
+  const baseClasses = 'btn';
+  const variantClasses = {
+    primary: 'btn-primary',
+    secondary: 'btn-secondary',
+    accent: 'btn-accent',
+    outlined: 'btn-outlined',
   };
   
   return (
     <button 
-      style={buttonStyle}
+      className={cn(
+        baseClasses,
+        variantClasses[variant],
+        disabled && 'opacity-70 cursor-not-allowed',
+        className
+      )}
       onClick={onClick}
-      className={className}
       disabled={disabled}
+      type={type}
     >
       {children}
     </button>

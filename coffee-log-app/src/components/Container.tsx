@@ -1,42 +1,39 @@
 "use client";
 
 import React from 'react';
-import { useThemeStyles } from '@/theme/utils';
+import { cn } from '@/lib/utils';
 
 type ContainerProps = {
   children: React.ReactNode;
-  className?: string;
   maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  className?: string;
+  style?: React.CSSProperties;
 };
 
-export const Container: React.FC<ContainerProps> = ({
-  children,
-  className = '',
+export const Container: React.FC<ContainerProps> = ({ 
+  children, 
   maxWidth = 'lg',
+  className = '',
+  style
 }) => {
-  const styles = useThemeStyles();
-  
-  const getMaxWidth = () => {
-    switch (maxWidth) {
-      case 'sm': return '640px';
-      case 'md': return '768px';
-      case 'lg': return '1024px';
-      case 'xl': return '1280px';
-      case 'full': return '100%';
-      default: return '1024px';
-    }
+  const baseClasses = 'mx-auto px-4';
+  const maxWidthClasses = {
+    sm: 'container-sm',
+    md: 'container-md',
+    lg: 'container-lg',
+    xl: 'max-w-screen-xl',
+    full: 'w-full',
   };
-  
-  const containerStyle = {
-    width: '100%',
-    maxWidth: getMaxWidth(),
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    padding: `0 ${styles.spacing('md')}`,
-  };
-  
+
   return (
-    <div style={containerStyle} className={className}>
+    <div 
+      className={cn(
+        baseClasses,
+        maxWidthClasses[maxWidth],
+        className
+      )}
+      style={style}
+    >
       {children}
     </div>
   );

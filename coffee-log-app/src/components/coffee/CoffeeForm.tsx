@@ -6,6 +6,10 @@ import { createClient } from '@/lib/supabase'
 import { Database } from '@/types/database.types'
 import TasteRatingInput from './TasteRatingInput'
 import TasteRadarChart, { TasteRatings } from './TasteRadarChart'
+import { Card } from '@/components/Card'
+import { Typography } from '@/components/Typography'
+import { Button } from '@/components/Button'
+import { useThemeStyles } from '@/theme/utils'
 
 type CoffeeRecord = Database['public']['Tables']['coffee_records']['Insert']
 type Props = {
@@ -23,6 +27,7 @@ const roastLevels = [
 export default function CoffeeForm({ initialData, isEditing = false }: Props) {
   const router = useRouter()
   const supabase = createClient()
+  const styles = useThemeStyles()
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   
@@ -124,204 +129,251 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
     balance: formData.balance
   }
 
+  // 入力フィールドのスタイル
+  const inputStyle = {
+    width: '100%',
+    padding: styles.spacing('sm'),
+    border: styles.borders('thin'),
+    borderRadius: styles.borderRadius('sm'),
+    fontSize: styles.typography('fontSize.body1'),
+    backgroundColor: styles.color('background.paper'),
+    color: styles.color('text.primary'),
+    marginTop: styles.spacing('xs'),
+  }
+
+  // ラベルのスタイル
+  const labelStyle = {
+    display: 'block',
+    marginBottom: styles.spacing('xs'),
+    fontSize: styles.typography('fontSize.body2'),
+    fontWeight: styles.typography('fontWeight.medium'),
+    color: styles.color('text.primary'),
+  }
+
+  // フォームのグリッドレイアウト
+  const gridContainerStyle = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+    gap: styles.spacing('md'),
+    marginBottom: styles.spacing('md'),
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
-      {error && (
-        <div className="bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded">
-          {error}
-        </div>
-      )}
+    <form onSubmit={handleSubmit} style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <div style={{ marginBottom: styles.spacing('lg') }}>
+        {error && (
+          <div style={{ 
+            padding: styles.spacing('md'),
+            backgroundColor: '#FFEBEE',
+            borderRadius: styles.borderRadius('sm'),
+            color: '#D32F2F',
+            marginBottom: styles.spacing('md'),
+          }}>
+            <Typography variant="body2">{error}</Typography>
+          </div>
+        )}
 
-      <div>
-        <label htmlFor="shop_name" className="block text-sm font-medium text-foreground">
-          店名 *
-        </label>
-        <input
-          type="text"
-          id="shop_name"
-          name="shop_name"
-          value={formData.shop_name}
-          onChange={handleChange}
-          required
-          className="mt-1 block w-full rounded-md border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="coffee_name" className="block text-sm font-medium text-foreground">
-          コーヒー名
-        </label>
-        <input
-          type="text"
-          id="coffee_name"
-          name="coffee_name"
-          value={formData.coffee_name || ''}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="country" className="block text-sm font-medium text-foreground">
-            原産国
+        <div style={{ marginBottom: styles.spacing('md') }}>
+          <label htmlFor="shop_name" style={labelStyle}>
+            店名 *
           </label>
           <input
             type="text"
-            id="country"
-            name="country"
-            value={formData.country || ''}
+            id="shop_name"
+            name="shop_name"
+            value={formData.shop_name}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            required
+            style={inputStyle}
           />
         </div>
 
-        <div>
-          <label htmlFor="region" className="block text-sm font-medium text-foreground">
-            地域
+        <div style={{ marginBottom: styles.spacing('md') }}>
+          <label htmlFor="coffee_name" style={labelStyle}>
+            コーヒー名
           </label>
           <input
             type="text"
-            id="region"
-            name="region"
-            value={formData.region || ''}
+            id="coffee_name"
+            name="coffee_name"
+            value={formData.coffee_name || ''}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            style={inputStyle}
           />
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="farm" className="block text-sm font-medium text-foreground">
-            農園
+        <div style={gridContainerStyle}>
+          <div>
+            <label htmlFor="country" style={labelStyle}>
+              原産国
+            </label>
+            <input
+              type="text"
+              id="country"
+              name="country"
+              value={formData.country || ''}
+              onChange={handleChange}
+              style={inputStyle}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="region" style={labelStyle}>
+              地域
+            </label>
+            <input
+              type="text"
+              id="region"
+              name="region"
+              value={formData.region || ''}
+              onChange={handleChange}
+              style={inputStyle}
+            />
+          </div>
+        </div>
+
+        <div style={gridContainerStyle}>
+          <div>
+            <label htmlFor="farm" style={labelStyle}>
+              農園
+            </label>
+            <input
+              type="text"
+              id="farm"
+              name="farm"
+              value={formData.farm || ''}
+              onChange={handleChange}
+              style={inputStyle}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="processing_method" style={labelStyle}>
+              精製方法
+            </label>
+            <input
+              type="text"
+              id="processing_method"
+              name="processing_method"
+              value={formData.processing_method || ''}
+              onChange={handleChange}
+              style={inputStyle}
+            />
+          </div>
+        </div>
+
+        <div style={gridContainerStyle}>
+          <div>
+            <label htmlFor="roast_level" style={labelStyle}>
+              焙煎度合い
+            </label>
+            <select
+              id="roast_level"
+              name="roast_level"
+              value={formData.roast_level || ''}
+              onChange={handleChange}
+              style={inputStyle}
+            >
+              <option value="">選択してください</option>
+              {roastLevels.map((level) => (
+                <option key={level.value} value={level.value}>
+                  {level.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="consumed_at" style={labelStyle}>
+              飲んだ日
+            </label>
+            <input
+              type="date"
+              id="consumed_at"
+              name="consumed_at"
+              value={formData.consumed_at || ''}
+              onChange={handleChange}
+              style={inputStyle}
+            />
+          </div>
+        </div>
+
+        <div style={{ marginBottom: styles.spacing('lg') }}>
+          <label htmlFor="rating" style={labelStyle}>
+            総合評価（1〜5）: {formData.rating}
           </label>
           <input
-            type="text"
-            id="farm"
-            name="farm"
-            value={formData.farm || ''}
+            type="range"
+            id="rating"
+            name="rating"
+            min="1"
+            max="5"
+            value={formData.rating || 3}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            style={{ width: '100%', accentColor: styles.color('primary.main') }}
+          />
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            fontSize: styles.typography('fontSize.small'),
+            color: styles.color('text.secondary')
+          }}>
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+          </div>
+        </div>
+
+        {/* 味わい評価用の入力UI */}
+        <Card>
+          <div style={{ padding: styles.spacing('lg') }}>
+            <TasteRatingInput 
+              ratings={tasteRatings}
+              onChange={handleTasteRatingsChange}
+            />
+            
+            <div style={{ marginTop: styles.spacing('lg') }}>
+              <Typography variant="h4" style={{ marginBottom: styles.spacing('sm') }}>レーダーチャートプレビュー</Typography>
+              <TasteRadarChart ratings={tasteRatings} />
+            </div>
+          </div>
+        </Card>
+
+        <div style={{ marginTop: styles.spacing('lg') }}>
+          <label htmlFor="description" style={labelStyle}>
+            メモ・感想
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            rows={4}
+            value={formData.description || ''}
+            onChange={handleChange}
+            style={{ ...inputStyle, resize: 'vertical' }}
           />
         </div>
 
-        <div>
-          <label htmlFor="processing_method" className="block text-sm font-medium text-foreground">
-            精製方法
-          </label>
-          <input
-            type="text"
-            id="processing_method"
-            name="processing_method"
-            value={formData.processing_method || ''}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="roast_level" className="block text-sm font-medium text-foreground">
-            焙煎度合い
-          </label>
-          <select
-            id="roast_level"
-            name="roast_level"
-            value={formData.roast_level || ''}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'flex-end', 
+          gap: styles.spacing('sm'),
+          marginTop: styles.spacing('lg')
+        }}>
+          <Button
+            variant="secondary"
+            onClick={() => router.back()}
           >
-            <option value="">選択してください</option>
-            {roastLevels.map((level) => (
-              <option key={level.value} value={level.value}>
-                {level.label}
-              </option>
-            ))}
-          </select>
+            キャンセル
+          </Button>
+          <Button
+            variant="primary"
+            disabled={loading}
+          >
+            {loading ? '保存中...' : isEditing ? '更新' : '保存'}
+          </Button>
         </div>
-
-        <div>
-          <label htmlFor="consumed_at" className="block text-sm font-medium text-foreground">
-            飲んだ日
-          </label>
-          <input
-            type="date"
-            id="consumed_at"
-            name="consumed_at"
-            value={formData.consumed_at || ''}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor="rating" className="block text-sm font-medium text-foreground">
-          総合評価（1〜5）: {formData.rating}
-        </label>
-        <input
-          type="range"
-          id="rating"
-          name="rating"
-          min="1"
-          max="5"
-          value={formData.rating || 3}
-          onChange={handleChange}
-          className="mt-1 block w-full accent-primary"
-        />
-        <div className="flex justify-between text-xs text-muted-foreground">
-          <span>1</span>
-          <span>2</span>
-          <span>3</span>
-          <span>4</span>
-          <span>5</span>
-        </div>
-      </div>
-
-      {/* 味わい評価用の入力UI */}
-      <div className="mt-8 p-4 bg-card rounded-lg border border-border shadow-sm">
-        <TasteRatingInput 
-          ratings={tasteRatings}
-          onChange={handleTasteRatingsChange}
-        />
-        
-        <div className="mt-6">
-          <h4 className="text-md font-medium mb-2 text-foreground">レーダーチャートプレビュー</h4>
-          <TasteRadarChart ratings={tasteRatings} />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor="description" className="block text-sm font-medium text-foreground">
-          メモ・感想
-        </label>
-        <textarea
-          id="description"
-          name="description"
-          rows={4}
-          value={formData.description || ''}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border border-border bg-background text-foreground px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-        />
-      </div>
-
-      <div className="flex justify-end space-x-3">
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="px-4 py-2 border border-border rounded-md shadow-sm text-sm font-medium text-foreground bg-background hover:bg-muted transition-colors"
-        >
-          キャンセル
-        </button>
-        <button
-          type="submit"
-          disabled={loading}
-          className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition-colors"
-        >
-          {loading ? '保存中...' : isEditing ? '更新' : '保存'}
-        </button>
       </div>
     </form>
   )

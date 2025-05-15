@@ -1,39 +1,36 @@
 "use client";
 
 import React from 'react';
-import { useThemeStyles } from '@/theme/utils';
+import { cn } from '@/lib/utils';
 
 type CardProps = {
   children: React.ReactNode;
+  variant?: 'sm' | 'md' | 'lg';
   className?: string;
-  elevation?: 'sm' | 'md' | 'lg';
-  onClick?: () => void;
+  style?: React.CSSProperties;
 };
 
 export const Card: React.FC<CardProps> = ({ 
   children, 
+  variant = 'md',
   className = '',
-  elevation = 'sm',
-  onClick
+  style
 }) => {
-  const styles = useThemeStyles();
-  
-  const cardStyle = {
-    backgroundColor: styles.color('background.paper'),
-    color: styles.color('text.primary'),
-    borderRadius: styles.borderRadius('md'),
-    padding: styles.spacing('lg'),
-    boxShadow: styles.shadows(elevation),
-    transition: `all ${styles.transitions('medium')}`,
-    border: styles.borders('thin'),
-    cursor: onClick ? 'pointer' : 'default',
+  const baseClasses = 'card';
+  const variantClasses = {
+    sm: 'card-sm',
+    md: 'card-md',
+    lg: 'card-lg',
   };
   
   return (
     <div 
-      style={cardStyle}
-      className={className}
-      onClick={onClick}
+      className={cn(
+        baseClasses,
+        variantClasses[variant],
+        className
+      )}
+      style={style}
     >
       {children}
     </div>
