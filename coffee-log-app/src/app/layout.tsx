@@ -13,7 +13,7 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: "コーヒー記録アプリ",
+  title: "LOGCUP",
   description: "コーヒーの情報や感想を記録するアプリ",
 };
 

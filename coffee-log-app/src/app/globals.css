@@ -169,7 +169,7 @@
   
   /* カードスタイル */
   .card {
-    @apply bg-background-paper rounded-md overflow-hidden dark:bg-background-paper;
+    @apply bg-background-paper rounded-md overflow-hidden dark:bg-background-paper p-4;
   }
   
   .card-sm {

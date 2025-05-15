@@ -46,7 +46,7 @@ export const InteractiveLayoutExample = () => {
           color: theme.colors.primary.main,
           marginBottom: theme.spacing.xl,
         }}>
-          Coffee Log
+          LOGCUP
         </h1>
       </AnimatedHeader>
 

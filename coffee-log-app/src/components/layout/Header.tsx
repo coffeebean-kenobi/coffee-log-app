@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase'
@@ -39,8 +40,9 @@ export const Header = () => {
     <header className="sticky top-0 z-50 bg-background-paper dark:bg-background-paper border-b border-gray-200 dark:border-gray-800">
       <Container>
         <div className="flex justify-between items-center py-4">
-          <Link href="/" className="text-text-primary dark:text-text-primary no-underline">
-            <Typography variant="h5">コーヒー記録アプリ</Typography>
+          <Link href="/" className="text-text-primary dark:text-text-primary no-underline flex items-center gap-2">
+            <Image src="/LogCup_logo.png" alt="LOGCUP" width={32} height={32} />
+            <Typography variant="h5">LOGCUP</Typography>
           </Link>
           
           <div className="flex items-center gap-6">
