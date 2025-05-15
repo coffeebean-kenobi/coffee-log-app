@@ -23,7 +23,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const mode = localStorage.getItem('theme-mode') || 'system';
+                  const isDark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <ThemeProvider>
         <body className={`${notoSansJP.className} bg-background-main dark:bg-background-main min-h-screen`}>
           <Header />
