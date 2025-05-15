@@ -2,9 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
-/* CSS変数は削除または最小限に */
+/* CSS変数の定義 */
 :root {
-  /* テーマから直接参照できないグローバル設定のみ残す */
+  /* Colors */
+  --color-primary-main: theme('colors.primary.main');
+  --color-primary-light: theme('colors.primary.light');
+  --color-primary-dark: theme('colors.primary.dark');
+  
+  --color-secondary-main: theme('colors.secondary.main');
+  --color-secondary-light: theme('colors.secondary.light');
+  --color-secondary-dark: theme('colors.secondary.dark');
+  
+  --color-accent-main: theme('colors.accent.main');
+  --color-accent-light: theme('colors.accent.light');
+  --color-accent-dark: theme('colors.accent.dark');
+  
+  --color-background-main: theme('colors.background.main');
+  --color-background-paper: theme('colors.background.paper');
+  --color-background-dark: theme('colors.background.dark');
+  
+  --color-text-primary: theme('colors.text.primary');
+  --color-text-secondary: theme('colors.text.secondary');
+  --color-text-disabled: theme('colors.text.disabled');
+  --color-text-error: theme('colors.text.error');
+  
+  /* Typography */
+  --font-family-heading: theme('fontFamily.heading');
+  --font-family-body: theme('fontFamily.body');
+  
+  /* Spacing */
+  --spacing-xs: theme('spacing.xs');
+  --spacing-sm: theme('spacing.sm');
+  --spacing-md: theme('spacing.md');
+  --spacing-lg: theme('spacing.lg');
+  --spacing-xl: theme('spacing.xl');
+  
+  /* Border Radius */
+  --border-radius-sm: theme('borderRadius.sm');
+  --border-radius-md: theme('borderRadius.md');
+  --border-radius-lg: theme('borderRadius.lg');
+  
+  /* Shadows */
+  --shadow-sm: theme('boxShadow.sm');
+  --shadow-md: theme('boxShadow.md');
+  --shadow-lg: theme('boxShadow.lg');
+  
+  /* Transitions */
+  --transition-fast: theme('transitionDuration.fast');
+  --transition-medium: theme('transitionDuration.medium');
+  --transition-slow: theme('transitionDuration.slow');
+
+  /* ライトモードのデフォルト変数 */
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  /* ダークモードの変数 */
+  --color-primary-main: #60A5FA;
+  --color-primary-light: #93C5FD;
+  --color-primary-dark: #2563EB;
+  
+  --color-secondary-main: #6B7280;
+  --color-secondary-light: #9CA3AF;
+  --color-secondary-dark: #4B5563;
+  
+  --color-accent-main: #F59E0B;
+  --color-accent-light: #FBBF24;
+  --color-accent-dark: #D97706;
+  
+  --color-background-main: #1F2937;
+  --color-background-paper: #111827;
+  --color-background-dark: #374151;
+  
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #D1D5DB;
+  --color-text-disabled: #6B7280;
+  --color-text-error: #EF4444;
+
+  color-scheme: dark;
 }
 
 /* アニメーションのキーフレーム */
@@ -55,6 +130,94 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* カスタムコンポーネントクラス */
+@layer components {
+  /* ボタンスタイル */
+  .btn {
+    @apply px-4 py-2 rounded-md transition-all font-medium inline-flex items-center justify-center;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-main text-white hover:bg-primary-dark dark:bg-primary-main dark:text-black dark:hover:bg-primary-light;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary-main text-white hover:bg-secondary-dark dark:bg-secondary-main dark:text-white dark:hover:bg-secondary-light;
+  }
+  
+  .btn-accent {
+    @apply bg-accent-main text-primary-main hover:bg-accent-dark dark:bg-accent-main dark:text-background-paper dark:hover:bg-accent-light;
+  }
+  
+  .btn-outlined {
+    @apply bg-transparent border border-primary-main text-primary-main hover:bg-primary-main/10 dark:border-primary-light dark:text-primary-light dark:hover:bg-primary-dark/30;
+  }
+  
+  /* カードスタイル */
+  .card {
+    @apply bg-background-paper rounded-md overflow-hidden dark:bg-background-paper;
+  }
+  
+  .card-sm {
+    @apply shadow-sm dark:shadow-gray-900/20 border border-gray-200 dark:border-gray-800;
+  }
+  
+  .card-md {
+    @apply shadow-md dark:shadow-gray-900/40 border border-gray-200 dark:border-gray-800;
+  }
+  
+  .card-lg {
+    @apply shadow-lg dark:shadow-gray-900/60 border border-gray-200 dark:border-gray-800;
+  }
+  
+  /* タイポグラフィスタイル */
+  .typography-h1 {
+    @apply font-heading text-h1 font-bold text-text-primary leading-heading tracking-heading dark:text-text-primary;
+  }
+  
+  .typography-h2 {
+    @apply font-heading text-h2 font-bold text-text-primary leading-heading tracking-heading dark:text-text-primary;
+  }
+  
+  .typography-h3 {
+    @apply font-heading text-h3 font-bold text-text-primary leading-heading tracking-heading dark:text-text-primary;
+  }
+  
+  .typography-h4 {
+    @apply font-heading text-h4 font-bold text-text-primary leading-heading tracking-heading dark:text-text-primary;
+  }
+  
+  .typography-body1 {
+    @apply font-body text-body1 font-regular text-text-primary leading-body tracking-body dark:text-text-primary;
+  }
+  
+  .typography-body2 {
+    @apply font-body text-body2 font-regular text-text-secondary leading-body tracking-body dark:text-text-secondary;
+  }
+  
+  /* フォーム要素 */
+  .input {
+    @apply w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-main/30 focus:border-primary-main dark:bg-background-dark dark:border-gray-700 dark:text-text-primary dark:focus:ring-primary-light/30 dark:focus:border-primary-light;
+  }
+  
+  .input-label {
+    @apply block mb-1 text-body2 font-medium text-text-primary dark:text-text-primary;
+  }
+  
+  /* レイアウト */
+  .container-sm {
+    @apply max-w-screen-sm mx-auto px-4;
+  }
+  
+  .container-md {
+    @apply max-w-screen-md mx-auto px-4;
+  }
+  
+  .container-lg {
+    @apply max-w-screen-lg mx-auto px-4;
   }
 }
 

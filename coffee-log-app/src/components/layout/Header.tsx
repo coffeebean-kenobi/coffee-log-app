@@ -1,93 +1,118 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase'
+import { ThemeToggle } from '@/components/ThemeToggle'
+import { Container } from '@/components/Container'
+import { Typography } from '@/components/Typography'
 
-export default function Header() {
+export const Header = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
 
   useEffect(() => {
     async function getUser() {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user || null);
+      setLoading(true);
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
       setLoading(false);
     }
     
     getUser();
-    
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user || null);
-      }
-    );
-    
-    return () => subscription.unsubscribe();
-  }, [supabase]);
+  }, []);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     router.push('/');
   };
 
-  return (
-    <header className="bg-primary text-primary-foreground shadow-md">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex justify-between items-center">
-          <Link href="/" className="text-xl font-bold">
-            コーヒー記録
-          </Link>
+  const isActive = (path: string) => {
+    return pathname === path;
+  };
 
-          <nav>
-            <ul className="flex space-x-6">
+  return (
+    <header className="sticky top-0 z-50 bg-background-paper dark:bg-background-paper border-b border-gray-200 dark:border-gray-800">
+      <Container>
+        <div className="flex justify-between items-center py-4">
+          <Link href="/" className="text-text-primary dark:text-text-primary no-underline">
+            <Typography variant="h5">コーヒー記録アプリ</Typography>
+          </Link>
+          
+          <div className="flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-4">
               {!loading && user ? (
                 <>
-                  <li>
-                    <Link href="/coffee" className="hover:underline">
-                      記録一覧
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/coffee/add" className="hover:underline">
-                      新規記録
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/profile" className="hover:underline">
-                      プロフィール
-                    </Link>
-                  </li>
-                  <li>
-                    <button
-                      onClick={handleSignOut}
-                      className="hover:underline"
-                    >
-                      ログアウト
-                    </button>
-                  </li>
+                  <Link 
+                    href="/coffee" 
+                    className={`px-3 py-2 rounded-md transition-colors ${
+                      isActive('/coffee') 
+                        ? 'bg-gray-100 dark:bg-gray-800 text-primary-main dark:text-primary-light' 
+                        : 'text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800'
+                    }`}
+                  >
+                    <Typography variant="body1">コーヒー一覧</Typography>
+                  </Link>
+                  <Link 
+                    href="/coffee/add" 
+                    className={`px-3 py-2 rounded-md transition-colors ${
+                      isActive('/coffee/add') 
+                        ? 'bg-gray-100 dark:bg-gray-800 text-primary-main dark:text-primary-light' 
+                        : 'text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800'
+                    }`}
+                  >
+                    <Typography variant="body1">新規追加</Typography>
+                  </Link>
+                  <Link 
+                    href="/profile" 
+                    className={`px-3 py-2 rounded-md transition-colors ${
+                      isActive('/profile') 
+                        ? 'bg-gray-100 dark:bg-gray-800 text-primary-main dark:text-primary-light' 
+                        : 'text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800'
+                    }`}
+                  >
+                    <Typography variant="body1">プロフィール</Typography>
+                  </Link>
+                  <button
+                    onClick={handleSignOut}
+                    className="px-3 py-2 rounded-md transition-colors text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800"
+                  >
+                    <Typography variant="body1">ログアウト</Typography>
+                  </button>
                 </>
               ) : (
                 <>
-                  <li>
-                    <Link href="/signin" className="hover:underline">
-                      ログイン
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/signup" className="hover:underline">
-                      ユーザー登録
-                    </Link>
-                  </li>
+                  <Link 
+                    href="/signin" 
+                    className={`px-3 py-2 rounded-md transition-colors ${
+                      isActive('/signin') 
+                        ? 'bg-gray-100 dark:bg-gray-800 text-primary-main dark:text-primary-light' 
+                        : 'text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800'
+                    }`}
+                  >
+                    <Typography variant="body1">ログイン</Typography>
+                  </Link>
+                  <Link 
+                    href="/signup" 
+                    className={`px-3 py-2 rounded-md transition-colors ${
+                      isActive('/signup') 
+                        ? 'bg-gray-100 dark:bg-gray-800 text-primary-main dark:text-primary-light' 
+                        : 'text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800'
+                    }`}
+                  >
+                    <Typography variant="body1">ユーザー登録</Typography>
+                  </Link>
                 </>
               )}
-            </ul>
-          </nav>
+            </nav>
+            <ThemeToggle />
+          </div>
         </div>
-      </div>
+      </Container>
     </header>
   );
-}
+};

@@ -6,7 +6,7 @@ import { Theme } from './index';
 type TypographyCategory = keyof Theme['typography'];
 
 export const useThemeStyles = () => {
-  const { currentTheme } = useTheme();
+  const { currentTheme, isDark } = useTheme();
   
   return {
     color: (colorKey: string) => {
@@ -49,6 +49,12 @@ export const useThemeStyles = () => {
     },
     zIndex: (key: keyof typeof currentTheme.zIndex) => {
       return currentTheme.zIndex[key];
+    },
+    // ダークモード状態の確認
+    isDarkMode: () => isDark,
+    // 条件付きカラー
+    colorMode: (lightColor: string, darkColor: string) => {
+      return isDark ? darkColor : lightColor;
     },
   };
 }; 

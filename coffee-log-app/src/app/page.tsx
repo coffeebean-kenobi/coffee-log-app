@@ -1,67 +1,93 @@
+"use client";
+
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase-server'
+import { Typography } from '@/components/Typography'
+import { Button } from '@/components/Button'
+import { Card } from '@/components/Card'
+import { Container } from '@/components/Container'
+import { useThemeStyles } from '@/theme/utils'
 
-export default async function Home() {
-  const supabase = createClient()
-  const { data: { session } } = await supabase.auth.getSession()
+export default function Home() {
+  const styles = useThemeStyles()
+  
+  // クライアントコンポーネントではSupabaseのServer APIは使用できないので、
+  // ユーザーがログインしているかどうかはクライアントサイドで確認するロジックが必要
+  // 一旦このデモではログインしていないと仮定
+  const isLoggedIn = false
 
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 text-center">
-      <h1 className="text-4xl font-bold mb-6">コーヒー記録アプリ</h1>
-      <p className="max-w-lg mb-8 text-lg">
-        飲んだコーヒーの情報や感想を記録して、あなただけのコーヒージャーナルを作りましょう。
-      </p>
-      
-      <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex">
-        {session ? (
-          <>
-            <Link 
-              href="/coffee"
-              className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 inline-block"
-            >
-              記録を見る
-            </Link>
-            <Link 
-              href="/coffee/add"
-              className="px-6 py-3 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 inline-block"
-            >
-              新しい記録を追加
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link 
-              href="/signin"
-              className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 inline-block"
-            >
-              ログイン
-            </Link>
-            <Link 
-              href="/signup"
-              className="px-6 py-3 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 inline-block"
-            >
-              ユーザー登録
-            </Link>
-          </>
-        )}
-      </div>
-      
-      <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl w-full">
-        <div className="p-6 border rounded-lg">
-          <h2 className="text-xl font-bold mb-3">記録する</h2>
-          <p>飲んだコーヒーの店名、豆の情報、評価、感想を簡単に記録できます。</p>
+    <Container>
+      <div style={{ 
+        minHeight: '70vh', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        padding: styles.spacing('md'),
+        textAlign: 'center'
+      }}>
+        <Typography variant="h1">コーヒー記録アプリ</Typography>
+        <Typography 
+          variant="body1" 
+          style={{ 
+            maxWidth: '32rem', 
+            marginBottom: styles.spacing('lg')
+          }}
+        >
+          飲んだコーヒーの情報や感想を記録して、あなただけのコーヒージャーナルを作りましょう。
+        </Typography>
+        
+        <div style={{ 
+          display: 'flex', 
+          gap: styles.spacing('md'),
+          marginBottom: styles.spacing('xl')
+        }}>
+          {isLoggedIn ? (
+            <>
+              <Link href="/coffee">
+                <Button variant="primary">記録を見る</Button>
+              </Link>
+              <Link href="/coffee/add">
+                <Button variant="secondary">新しい記録を追加</Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/signin">
+                <Button variant="primary">ログイン</Button>
+              </Link>
+              <Link href="/signup">
+                <Button variant="secondary">ユーザー登録</Button>
+              </Link>
+            </>
+          )}
         </div>
         
-        <div className="p-6 border rounded-lg">
-          <h2 className="text-xl font-bold mb-3">振り返る</h2>
-          <p>過去に飲んだコーヒーを簡単に検索、フィルタリングして振り返ることができます。</p>
-        </div>
-        
-        <div className="p-6 border rounded-lg">
-          <h2 className="text-xl font-bold mb-3">発見する</h2>
-          <p>あなたの好みのパターンを見つけて、新しいコーヒーとの出会いを楽しみましょう。</p>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: styles.spacing('lg'), 
+          width: '100%', 
+          maxWidth: '1024px',
+          marginTop: styles.spacing('xl')
+        }}>
+          <Card>
+            <Typography variant="h4">記録する</Typography>
+            <Typography variant="body1">飲んだコーヒーの店名、豆の情報、評価、感想を簡単に記録できます。</Typography>
+          </Card>
+          
+          <Card>
+            <Typography variant="h4">振り返る</Typography>
+            <Typography variant="body1">過去に飲んだコーヒーを簡単に検索、フィルタリングして振り返ることができます。</Typography>
+          </Card>
+          
+          <Card>
+            <Typography variant="h4">発見する</Typography>
+            <Typography variant="body1">あなたの好みのパターンを見つけて、新しいコーヒーとの出会いを楽しみましょう。</Typography>
+          </Card>
         </div>
       </div>
-    </div>
+    </Container>
   )
 }

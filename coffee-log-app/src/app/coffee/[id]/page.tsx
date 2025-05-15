@@ -3,6 +3,10 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import DeleteCoffeeButton from '@/components/coffee/DeleteCoffeeButton'
 import CoffeeDetailTasteChart from '@/components/coffee/CoffeeDetailTasteChart'
+import { Container } from '@/components/Container'
+import { Typography } from '@/components/Typography'
+import { Card } from '@/components/Card'
+import { Button } from '@/components/Button'
 
 export const revalidate = 0
 
@@ -45,91 +49,113 @@ export default async function CoffeeDetailPage({
   
   // 星評価の表示
   const renderStars = (rating: number | null) => {
-    if (rating === null) return 'なし'
-    
     return Array(5)
       .fill(0)
       .map((_, i) => (
-        <span key={i} className={i < rating ? 'text-amber-500' : 'text-muted'}>
+        <span key={i} style={{ 
+          color: i < (rating || 0) ? '#F59E0B' : '#D1D5DB'
+        }}>
           ★
         </span>
-      ))
+      ));
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-6">
-        <Link href="/coffee" className="text-primary hover:underline">
-          ← 一覧に戻る
-        </Link>
-      </div>
-      
-      <div className="bg-card rounded-lg shadow-md overflow-hidden border border-border">
-        <div className="p-6">
-          <div className="flex justify-between items-start">
-            <h1 className="text-2xl font-bold text-card-foreground">{coffee.shop_name}</h1>
-            <div className="flex space-x-2">
-              <Link 
-                href={`/coffee/edit/${coffee.id}`}
-                className="px-3 py-1 bg-primary text-primary-foreground text-sm rounded hover:bg-primary/90 transition-colors"
-              >
-                編集
-              </Link>
-              <DeleteCoffeeButton coffeeId={coffee.id} />
-            </div>
-          </div>
-          
-          {coffee.coffee_name && (
-            <p className="text-muted-foreground mt-1">{coffee.coffee_name}</p>
-          )}
-          
-          <div className="flex items-center mt-3 text-xl">
-            {renderStars(coffee.rating)}
-          </div>
-          
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
+    <Container>
+      <div style={{ padding: '2rem 0' }}>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <Link href="/coffee">
+            <Button variant="secondary">← 一覧に戻る</Button>
+          </Link>
+        </div>
+        
+        <Card>
+          <div style={{ padding: '1.5rem' }}>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'flex-start', 
+              marginBottom: '1.5rem' 
+            }}>
               <div>
-                <span className="font-medium text-card-foreground">飲んだ日: </span>
-                <span className="text-card-foreground">{formattedDate}</span>
+                <Typography variant="h2">{coffee.shop_name}</Typography>
+                {coffee.coffee_name && (
+                  <Typography variant="body1" color="text.secondary">
+                    {coffee.coffee_name}
+                  </Typography>
+                )}
+                <div style={{ marginTop: '0.5rem', display: 'flex', fontSize: '1.25rem' }}>
+                  {renderStars(coffee.rating)}
+                </div>
               </div>
-              <div>
-                <span className="font-medium text-card-foreground">原産国: </span>
-                <span className="text-card-foreground">{coffee.country || 'なし'}</span>
-              </div>
-              <div>
-                <span className="font-medium text-card-foreground">地域: </span>
-                <span className="text-card-foreground">{coffee.region || 'なし'}</span>
-              </div>
-              <div>
-                <span className="font-medium text-card-foreground">農園: </span>
-                <span className="text-card-foreground">{coffee.farm || 'なし'}</span>
+              
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <Link href={`/coffee/edit/${coffee.id}`}>
+                  <Button variant="primary">編集</Button>
+                </Link>
+                <DeleteCoffeeButton coffeeId={coffee.id} />
               </div>
             </div>
             
-            <div className="space-y-2">
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+              gap: '1.5rem',
+              marginBottom: '1.5rem'
+            }}>
               <div>
-                <span className="font-medium text-card-foreground">精製方法: </span>
-                <span className="text-card-foreground">{coffee.processing_method || 'なし'}</span>
+                <Typography variant="h4" style={{ marginBottom: '1rem' }}>基本情報</Typography>
+                
+                <div style={{ marginBottom: '0.75rem' }}>
+                  <Typography variant="body2" color="text.secondary">飲んだ日</Typography>
+                  <Typography variant="body1">{formattedDate}</Typography>
+                </div>
+                
+                <div style={{ marginBottom: '0.75rem' }}>
+                  <Typography variant="body2" color="text.secondary">原産国</Typography>
+                  <Typography variant="body1">{coffee.country || 'なし'}</Typography>
+                </div>
+                
+                <div style={{ marginBottom: '0.75rem' }}>
+                  <Typography variant="body2" color="text.secondary">地域</Typography>
+                  <Typography variant="body1">{coffee.region || 'なし'}</Typography>
+                </div>
+                
+                <div style={{ marginBottom: '0.75rem' }}>
+                  <Typography variant="body2" color="text.secondary">農園</Typography>
+                  <Typography variant="body1">{coffee.farm || 'なし'}</Typography>
+                </div>
               </div>
+              
               <div>
-                <span className="font-medium text-card-foreground">焙煎度合い: </span>
-                <span className="text-card-foreground">{getRoastLevelText(coffee.roast_level)}</span>
+                <Typography variant="h4" style={{ marginBottom: '1rem' }}>詳細情報</Typography>
+                
+                <div style={{ marginBottom: '0.75rem' }}>
+                  <Typography variant="body2" color="text.secondary">精製方法</Typography>
+                  <Typography variant="body1">{coffee.processing_method || 'なし'}</Typography>
+                </div>
+                
+                <div style={{ marginBottom: '0.75rem' }}>
+                  <Typography variant="body2" color="text.secondary">焙煎度合い</Typography>
+                  <Typography variant="body1">{getRoastLevelText(coffee.roast_level)}</Typography>
+                </div>
               </div>
             </div>
+            
+            {/* 味わい評価のレーダーチャート */}
+            <CoffeeDetailTasteChart coffee={coffee} />
+            
+            {coffee.description && (
+              <div style={{ marginTop: '1.5rem' }}>
+                <Typography variant="h4" style={{ marginBottom: '0.75rem' }}>感想</Typography>
+                <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
+                  {coffee.description}
+                </Typography>
+              </div>
+            )}
           </div>
-          
-          {/* 味わい評価のレーダーチャート */}
-          <CoffeeDetailTasteChart coffee={coffee} />
-          
-          {coffee.description && (
-            <div className="mt-6">
-              <h2 className="font-medium text-lg mb-2 text-card-foreground">感想</h2>
-              <p className="whitespace-pre-line text-card-foreground">{coffee.description}</p>
-            </div>
-          )}
-        </div>
+        </Card>
       </div>
-    </div>
+    </Container>
   )
 }

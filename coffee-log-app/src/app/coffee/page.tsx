@@ -1,6 +1,9 @@
 import { createClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import ClientCoffeeList from './ClientCoffeeList'
+import { Container } from '@/components/Container'
+import { Typography } from '@/components/Typography'
+import { Button } from '@/components/Button'
 
 export const revalidate = 0
 
@@ -17,15 +20,22 @@ export default async function CoffeeListPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">コーヒー記録一覧</h1>
-        <Link href="/coffee/add" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-          新しい記録を追加
-        </Link>
+    <Container>
+      <div style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          marginBottom: '2rem' 
+        }}>
+          <Typography variant="h2">コーヒー記録一覧</Typography>
+          <Link href="/coffee/add">
+            <Button variant="primary">新しい記録を追加</Button>
+          </Link>
+        </div>
+        
+        <ClientCoffeeList initialCoffees={coffees || []} />
       </div>
-      
-      <ClientCoffeeList initialCoffees={coffees || []} />
-    </div>
+    </Container>
   )
 }
