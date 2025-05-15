@@ -1,20 +1,34 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from '@/theme/ThemeProvider';
 import { useThemeStyles } from '@/theme/utils';
 
 export const ThemeToggle: React.FC = () => {
-  const { mode, setMode, isDark } = useTheme();
+  const { mode, setMode, isDark, isReady } = useTheme();
   const styles = useThemeStyles();
   
   const handleToggle = () => {
     setMode(isDark ? 'light' : 'dark');
+    // 即時にDOM属性を更新（レンダリングを待たずに視覚的な変更を即時反映）
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
   };
   
   const handleModeChange = (newMode: 'light' | 'dark' | 'system') => {
     setMode(newMode);
+    // 即時にDOM属性を更新
+    if (newMode === 'system') {
+      const isDarkSystem = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', isDarkSystem ? 'dark' : 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', newMode);
+    }
   };
+  
+  // コンポーネントが準備できていない場合は何も表示しない
+  if (!isReady) {
+    return <div className="w-20 h-8"></div>; // プレースホルダー
+  }
   
   return (
     <div className="flex items-center">
