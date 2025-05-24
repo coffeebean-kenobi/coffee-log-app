@@ -13,8 +13,12 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: "コーヒー記録アプリ",
+  title: "LOGCUP",
   description: "コーヒーの情報や感想を記録するアプリ",
+  icons: {
+    icon: '/LOG.png',
+    apple: '/LOG.png',
+  },
 };
 
 export default function RootLayout({
@@ -40,7 +44,14 @@ export default function RootLayout({
         />
       </head>
       <ThemeProvider>
-        <body className={`${notoSansJP.className} bg-background-main dark:bg-background-main min-h-screen`}>
+        <body 
+          className={`${notoSansJP.className} min-h-screen`}
+          style={{
+            backgroundColor: 'var(--color-background-main)',
+            color: 'var(--color-text-primary)',
+            transition: 'background-color 0.3s ease, color 0.3s ease'
+          }}
+        >
           <Header />
           <main className="pb-20">
             {children}

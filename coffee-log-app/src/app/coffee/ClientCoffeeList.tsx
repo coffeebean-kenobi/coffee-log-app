@@ -2,17 +2,19 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Coffee } from '@/types/coffee'
+import { Database } from '@/types/database.types'
 import { Card } from '@/components/Card'
 import { Typography } from '@/components/Typography'
 import { useThemeStyles } from '@/theme/utils'
 
+type CoffeeRecord = Database['public']['Tables']['coffee_records']['Row']
+
 type ClientCoffeeListProps = {
-  initialCoffees: Coffee[]
+  initialCoffees: CoffeeRecord[]
 }
 
 export default function ClientCoffeeList({ initialCoffees }: ClientCoffeeListProps) {
-  const [coffees] = useState<Coffee[]>(initialCoffees)
+  const [coffees] = useState<CoffeeRecord[]>(initialCoffees)
   const styles = useThemeStyles()
 
   if (coffees.length === 0) {
@@ -36,9 +38,9 @@ export default function ClientCoffeeList({ initialCoffees }: ClientCoffeeListPro
         <Link key={coffee.id} href={`/coffee/${coffee.id}`} style={{ textDecoration: 'none' }}>
           <Card>
             <div>
-              <Typography variant="h4">{coffee.name}</Typography>
-              <Typography variant="body2" color="text.secondary" style={{ marginTop: styles.spacing('xs') }}>
-                {new Date(coffee.consumed_at).toLocaleDateString('ja-JP')}
+              <Typography variant="h4">{coffee.coffee_name || coffee.shop_name}</Typography>
+              <Typography variant="body2" color="secondary" style={{ marginTop: styles.spacing('xs') }}>
+                {coffee.consumed_at ? new Date(coffee.consumed_at).toLocaleDateString('ja-JP') : '日付不明'}
               </Typography>
               
               <div style={{ 
@@ -51,21 +53,36 @@ export default function ClientCoffeeList({ initialCoffees }: ClientCoffeeListPro
                   width: '60px', 
                   height: '60px', 
                   borderRadius: '50%', 
-                  backgroundColor: coffee.color || styles.color('accent.main'),
-                  marginRight: styles.spacing('sm')
-                }} />
+                  backgroundColor: styles.color('accent.main'),
+                  marginRight: styles.spacing('sm'),
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: styles.color('background.paper'),
+                  fontSize: styles.typography('fontSize.h4'),
+                  fontWeight: 'bold'
+                }}>
+                  ☕
+                </div>
                 <div>
-                  <Typography variant="body1">{coffee.roaster || '不明'}</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {coffee.origin ? `原産地: ${coffee.origin}` : '原産地: 不明'}
+                  <Typography variant="body1">{coffee.shop_name}</Typography>
+                  <Typography variant="body2" color="secondary">
+                    {coffee.country ? `原産地: ${coffee.country}` : '原産地: 不明'}
                   </Typography>
+                  {coffee.roast_level && (
+                    <Typography variant="body2" color="secondary">
+                      焙煎: {coffee.roast_level === 'light' ? '浅煎り' : 
+                             coffee.roast_level === 'medium' ? '中煎り' : 
+                             coffee.roast_level === 'medium-dark' ? '中深煎り' : '深煎り'}
+                    </Typography>
+                  )}
                 </div>
               </div>
               
               <Typography variant="body1" style={{ marginTop: styles.spacing('sm') }}>
                 評価: {coffee.rating ? `${coffee.rating}/5` : '未評価'}
               </Typography>
-              {coffee.notes && (
+              {coffee.description && (
                 <Typography 
                   variant="body2" 
                   style={{ 
@@ -77,7 +94,7 @@ export default function ClientCoffeeList({ initialCoffees }: ClientCoffeeListPro
                     WebkitBoxOrient: 'vertical',
                   }}
                 >
-                  {coffee.notes}
+                  {coffee.description}
                 </Typography>
               )}
             </div>

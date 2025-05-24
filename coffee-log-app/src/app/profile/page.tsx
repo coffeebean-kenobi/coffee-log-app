@@ -74,7 +74,7 @@ export default function ProfilePage() {
           <Typography variant="body1" style={{ marginTop: styles.spacing('md'), marginBottom: styles.spacing('lg') }}>
             プロフィールページを表示するには、ログインしてください。
           </Typography>
-          <Button variant="primary" onClick={() => window.location.href = '/signin'}>
+          <Button variant="primary" onClick={() => window.location.href = '/signin'} type="button">
             ログインする
           </Button>
         </div>
@@ -98,19 +98,19 @@ export default function ProfilePage() {
                 width: '80px', 
                 height: '80px', 
                 borderRadius: '50%', 
-                backgroundColor: styles.color('primary.light'),
+                backgroundColor: 'var(--color-primary-light)',
                 marginRight: styles.spacing('md'),
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: styles.color('background.paper'),
+                color: 'var(--color-background-paper)',
                 fontSize: styles.typography('fontSize.h3')
               }}>
                 {user.email.substring(0, 1).toUpperCase()}
               </div>
               <div>
                 <Typography variant="h4">{user.email}</Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="secondary">
                   {new Date(user.created_at).toLocaleDateString('ja-JP')}から利用
                 </Typography>
               </div>
@@ -124,7 +124,7 @@ export default function ProfilePage() {
             }}>
               <div style={{ 
                 padding: styles.spacing('md'), 
-                border: styles.borders('thin'),
+                border: '1px solid var(--color-accent-main)',
                 borderRadius: styles.borderRadius('md'),
                 textAlign: 'center'
               }}>
@@ -134,7 +134,7 @@ export default function ProfilePage() {
             </div>
 
             <div style={{ marginTop: styles.spacing('lg') }}>
-              <Button variant="secondary" onClick={handleSignOut}>
+              <Button variant="secondary" onClick={handleSignOut} type="button">
                 ログアウト
               </Button>
             </div>

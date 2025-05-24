@@ -33,7 +33,7 @@ export const Typography: React.FC<TypographyProps> = ({
     h6: 'font-heading text-h6 font-bold text-text-primary leading-heading tracking-heading',
     body1: 'typography-body1',
     body2: 'typography-body2',
-    caption: 'font-body text-caption font-regular text-text-secondary leading-body tracking-body',
+    caption: 'font-body text-caption font-normal text-text-secondary leading-body tracking-body',
   };
   
   const colorClasses = {

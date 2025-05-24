@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase'
@@ -36,11 +37,18 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-background-paper dark:bg-background-paper border-b border-gray-200 dark:border-gray-800">
+    <header style={{
+      position: 'sticky',
+      top: 0,
+      zIndex: 50,
+      backgroundColor: 'var(--color-background-paper)',
+      borderBottom: '1px solid var(--color-accent-main)',
+    }}>
       <Container>
         <div className="flex justify-between items-center py-4">
-          <Link href="/" className="text-text-primary dark:text-text-primary no-underline">
-            <Typography variant="h5">コーヒー記録アプリ</Typography>
+          <Link href="/" className="text-text-primary dark:text-text-primary no-underline flex items-center gap-2">
+            <Image src="/LOG.png" alt="LOGCUP" width={40} height={40} />
+            <Typography variant="h5">LOGCUP</Typography>
           </Link>
           
           <div className="flex items-center gap-6">
@@ -51,8 +59,8 @@ export const Header = () => {
                     href="/coffee" 
                     className={`px-3 py-2 rounded-md transition-colors ${
                       isActive('/coffee') 
-                        ? 'bg-gray-100 dark:bg-gray-800 text-primary-main dark:text-primary-light' 
-                        : 'text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800'
+                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
+                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
                     }`}
                   >
                     <Typography variant="body1">コーヒー一覧</Typography>
@@ -61,8 +69,8 @@ export const Header = () => {
                     href="/coffee/add" 
                     className={`px-3 py-2 rounded-md transition-colors ${
                       isActive('/coffee/add') 
-                        ? 'bg-gray-100 dark:bg-gray-800 text-primary-main dark:text-primary-light' 
-                        : 'text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800'
+                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
+                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
                     }`}
                   >
                     <Typography variant="body1">新規追加</Typography>
@@ -71,15 +79,15 @@ export const Header = () => {
                     href="/profile" 
                     className={`px-3 py-2 rounded-md transition-colors ${
                       isActive('/profile') 
-                        ? 'bg-gray-100 dark:bg-gray-800 text-primary-main dark:text-primary-light' 
-                        : 'text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800'
+                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
+                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
                     }`}
                   >
                     <Typography variant="body1">プロフィール</Typography>
                   </Link>
                   <button
                     onClick={handleSignOut}
-                    className="px-3 py-2 rounded-md transition-colors text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="px-3 py-2 rounded-md transition-colors text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark"
                   >
                     <Typography variant="body1">ログアウト</Typography>
                   </button>
@@ -90,8 +98,8 @@ export const Header = () => {
                     href="/signin" 
                     className={`px-3 py-2 rounded-md transition-colors ${
                       isActive('/signin') 
-                        ? 'bg-gray-100 dark:bg-gray-800 text-primary-main dark:text-primary-light' 
-                        : 'text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800'
+                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
+                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
                     }`}
                   >
                     <Typography variant="body1">ログイン</Typography>
@@ -100,8 +108,8 @@ export const Header = () => {
                     href="/signup" 
                     className={`px-3 py-2 rounded-md transition-colors ${
                       isActive('/signup') 
-                        ? 'bg-gray-100 dark:bg-gray-800 text-primary-main dark:text-primary-light' 
-                        : 'text-text-primary dark:text-text-primary hover:bg-gray-50 dark:hover:bg-gray-800'
+                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
+                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
                     }`}
                   >
                     <Typography variant="body1">ユーザー登録</Typography>

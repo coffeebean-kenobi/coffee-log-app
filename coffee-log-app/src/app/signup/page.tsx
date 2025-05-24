@@ -82,7 +82,7 @@ export default function SignUpPage() {
       }}>
         <div style={{ textAlign: 'center', marginBottom: styles.spacing('xl') }}>
           <Typography variant="h2">ユーザー登録</Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" color="secondary">
             アカウントを作成してコーヒー記録を始めましょう
           </Typography>
         </div>
@@ -92,24 +92,26 @@ export default function SignUpPage() {
             {error && (
               <div style={{ 
                 padding: styles.spacing('md'), 
-                backgroundColor: '#FFEBEE', 
+                backgroundColor: 'var(--color-text-error)', 
                 borderRadius: styles.borderRadius('sm'), 
                 marginBottom: styles.spacing('md'),
-                color: '#D32F2F' 
+                color: 'var(--color-background-paper)',
+                border: '1px solid var(--color-text-error)',
               }}>
-                <Typography variant="body2">{error}</Typography>
+                <Typography variant="body2" style={{ color: 'inherit' }}>{error}</Typography>
               </div>
             )}
             
             {message && (
               <div style={{ 
                 padding: styles.spacing('md'), 
-                backgroundColor: '#E8F5E9', 
+                backgroundColor: 'var(--color-highlight-light)', 
                 borderRadius: styles.borderRadius('sm'), 
                 marginBottom: styles.spacing('md'),
-                color: '#2E7D32' 
+                color: 'var(--color-primary-main)',
+                border: '1px solid var(--color-highlight-main)',
               }}>
-                <Typography variant="body2">{message}</Typography>
+                <Typography variant="body2" style={{ color: 'inherit' }}>{message}</Typography>
               </div>
             )}
             
@@ -119,6 +121,7 @@ export default function SignUpPage() {
                 marginBottom: styles.spacing('xs'),
                 fontSize: styles.typography('fontSize.body2'),
                 fontWeight: styles.typography('fontWeight.medium'),
+                color: 'var(--color-text-primary)',
               }}>
                 メールアドレス
               </label>
@@ -130,9 +133,11 @@ export default function SignUpPage() {
                 style={{ 
                   width: '100%', 
                   padding: styles.spacing('sm'),
-                  border: styles.borders('thin'),
+                  border: '1px solid var(--color-accent-main)',
                   borderRadius: styles.borderRadius('sm'),
                   fontSize: styles.typography('fontSize.body1'),
+                  backgroundColor: 'var(--color-background-paper)',
+                  color: 'var(--color-text-primary)',
                 }}
               />
             </div>
@@ -143,6 +148,7 @@ export default function SignUpPage() {
                 marginBottom: styles.spacing('xs'),
                 fontSize: styles.typography('fontSize.body2'),
                 fontWeight: styles.typography('fontWeight.medium'),
+                color: 'var(--color-text-primary)',
               }}>
                 パスワード（6文字以上）
               </label>
@@ -154,9 +160,11 @@ export default function SignUpPage() {
                 style={{ 
                   width: '100%', 
                   padding: styles.spacing('sm'),
-                  border: styles.borders('thin'),
+                  border: '1px solid var(--color-accent-main)',
                   borderRadius: styles.borderRadius('sm'),
                   fontSize: styles.typography('fontSize.body1'),
+                  backgroundColor: 'var(--color-background-paper)',
+                  color: 'var(--color-text-primary)',
                 }}
               />
             </div>
@@ -165,6 +173,7 @@ export default function SignUpPage() {
               variant="primary" 
               className="w-full mb-4"
               disabled={loading}
+              type="submit"
             >
               {loading ? '登録中...' : 'ユーザー登録'}
             </Button>

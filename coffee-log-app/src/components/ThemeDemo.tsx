@@ -24,17 +24,17 @@ export const ThemeDemo = () => {
       </div>
       
       <div style={{ display: 'flex', gap: styles.spacing('lg'), flexWrap: 'wrap' }}>
-        <Card elevation="sm">
+        <Card variant="sm">
           <Typography variant="h3">カード (Shadow: Small)</Typography>
           <Typography variant="body1">テーマから適用されたスタイルによるカードコンポーネントです。</Typography>
         </Card>
         
-        <Card elevation="md">
+        <Card variant="md">
           <Typography variant="h3">カード (Shadow: Medium)</Typography>
           <Typography variant="body1">テーマから適用されたスタイルによるカードコンポーネントです。</Typography>
         </Card>
         
-        <Card elevation="lg">
+        <Card variant="lg">
           <Typography variant="h3">カード (Shadow: Large)</Typography>
           <Typography variant="body1">テーマから適用されたスタイルによるカードコンポーネントです。</Typography>
         </Card>

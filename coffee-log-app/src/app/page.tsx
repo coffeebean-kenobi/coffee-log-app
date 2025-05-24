@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase-server'
 import { Typography } from '@/components/Typography'
 import { Button } from '@/components/Button'
@@ -27,7 +28,10 @@ export default function Home() {
         padding: styles.spacing('md'),
         textAlign: 'center'
       }}>
-        <Typography variant="h1">コーヒー記録アプリ</Typography>
+        <div style={{ marginBottom: styles.spacing('md') }}>
+          <Image src="/LOG.png" alt="LOGCUP" width={90} height={90} />
+        </div>
+        <Typography variant="h1">LOGCUP</Typography>
         <Typography 
           variant="body1" 
           style={{ 
@@ -70,19 +74,20 @@ export default function Home() {
           gap: styles.spacing('lg'), 
           width: '100%', 
           maxWidth: '1024px',
-          marginTop: styles.spacing('xl')
+          marginTop: styles.spacing('xl'),
+          marginBottom: styles.spacing('xl')
         }}>
-          <Card>
+          <Card style={{ marginTop: '1rem', marginBottom: '1rem' }}>
             <Typography variant="h4">記録する</Typography>
             <Typography variant="body1">飲んだコーヒーの店名、豆の情報、評価、感想を簡単に記録できます。</Typography>
           </Card>
           
-          <Card>
+          <Card style={{ marginTop: '1rem', marginBottom: '1rem' }}>
             <Typography variant="h4">振り返る</Typography>
             <Typography variant="body1">過去に飲んだコーヒーを簡単に検索、フィルタリングして振り返ることができます。</Typography>
           </Card>
           
-          <Card>
+          <Card style={{ marginTop: '1rem', marginBottom: '1rem' }}>
             <Typography variant="h4">発見する</Typography>
             <Typography variant="body1">あなたの好みのパターンを見つけて、新しいコーヒーとの出会いを楽しみましょう。</Typography>
           </Card>

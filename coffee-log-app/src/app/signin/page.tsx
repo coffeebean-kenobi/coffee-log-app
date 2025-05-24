@@ -51,7 +51,7 @@ export default function SignInPage() {
       }}>
         <div style={{ textAlign: 'center', marginBottom: styles.spacing('xl') }}>
           <Typography variant="h2">ログイン</Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" color="secondary">
             コーヒー記録アプリへようこそ
           </Typography>
         </div>
@@ -61,12 +61,13 @@ export default function SignInPage() {
             {error && (
               <div style={{ 
                 padding: styles.spacing('md'), 
-                backgroundColor: '#FFEBEE', 
+                backgroundColor: 'var(--color-text-error)', 
                 borderRadius: styles.borderRadius('sm'), 
                 marginBottom: styles.spacing('md'),
-                color: '#D32F2F' 
+                color: 'var(--color-background-paper)',
+                border: '1px solid var(--color-text-error)',
               }}>
-                <Typography variant="body2">{error}</Typography>
+                <Typography variant="body2" style={{ color: 'inherit' }}>{error}</Typography>
               </div>
             )}
             
@@ -76,6 +77,7 @@ export default function SignInPage() {
                 marginBottom: styles.spacing('xs'),
                 fontSize: styles.typography('fontSize.body2'),
                 fontWeight: styles.typography('fontWeight.medium'),
+                color: 'var(--color-text-primary)',
               }}>
                 メールアドレス
               </label>
@@ -87,9 +89,11 @@ export default function SignInPage() {
                 style={{ 
                   width: '100%', 
                   padding: styles.spacing('sm'),
-                  border: styles.borders('thin'),
+                  border: '1px solid var(--color-accent-main)',
                   borderRadius: styles.borderRadius('sm'),
                   fontSize: styles.typography('fontSize.body1'),
+                  backgroundColor: 'var(--color-background-paper)',
+                  color: 'var(--color-text-primary)',
                 }}
               />
             </div>
@@ -100,6 +104,7 @@ export default function SignInPage() {
                 marginBottom: styles.spacing('xs'),
                 fontSize: styles.typography('fontSize.body2'),
                 fontWeight: styles.typography('fontWeight.medium'),
+                color: 'var(--color-text-primary)',
               }}>
                 パスワード
               </label>
@@ -111,9 +116,11 @@ export default function SignInPage() {
                 style={{ 
                   width: '100%', 
                   padding: styles.spacing('sm'),
-                  border: styles.borders('thin'),
+                  border: '1px solid var(--color-accent-main)',
                   borderRadius: styles.borderRadius('sm'),
                   fontSize: styles.typography('fontSize.body1'),
+                  backgroundColor: 'var(--color-background-paper)',
+                  color: 'var(--color-text-primary)',
                 }}
               />
             </div>
@@ -122,6 +129,7 @@ export default function SignInPage() {
               variant="primary" 
               className="w-full mb-4"
               disabled={loading}
+              type="submit"
             >
               {loading ? 'ログイン中...' : 'ログイン'}
             </Button>

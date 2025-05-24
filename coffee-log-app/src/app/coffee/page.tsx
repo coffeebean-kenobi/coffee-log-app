@@ -1,22 +1,57 @@
-import { createClient } from '@/lib/supabase-server'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase'
 import Link from 'next/link'
 import ClientCoffeeList from './ClientCoffeeList'
 import { Container } from '@/components/Container'
 import { Typography } from '@/components/Typography'
 import { Button } from '@/components/Button'
+import { Database } from '@/types/database.types'
 
-export const revalidate = 0
+type CoffeeRecord = Database['public']['Tables']['coffee_records']['Row']
 
-export default async function CoffeeListPage() {
+export default function CoffeeListPage() {
+  const [coffees, setCoffees] = useState<CoffeeRecord[]>([])
+  const [loading, setLoading] = useState(true)
   const supabase = createClient()
   
-  const { data: coffees, error } = await supabase
-    .from('coffee_records')
-    .select('*')
-    .order('consumed_at', { ascending: false })
-  
-  if (error) {
-    console.error('Error fetching coffee records:', error)
+  useEffect(() => {
+    async function fetchCoffees() {
+      try {
+        const { data: coffees, error } = await supabase
+          .from('coffee_records')
+          .select('*')
+          .order('consumed_at', { ascending: false })
+        
+        if (error) {
+          console.error('Error fetching coffee records:', error)
+        } else {
+          setCoffees(coffees || [])
+        }
+      } catch (error) {
+        console.error('Error fetching coffee records:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchCoffees()
+  }, [])
+
+  if (loading) {
+    return (
+      <Container>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          minHeight: '60vh' 
+        }}>
+          <Typography variant="body1">読み込み中...</Typography>
+        </div>
+      </Container>
+    )
   }
 
   return (
@@ -34,7 +69,7 @@ export default async function CoffeeListPage() {
           </Link>
         </div>
         
-        <ClientCoffeeList initialCoffees={coffees || []} />
+        <ClientCoffeeList initialCoffees={coffees} />
       </div>
     </Container>
   )

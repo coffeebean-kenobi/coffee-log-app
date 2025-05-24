@@ -7,196 +7,144 @@ Coffee Log AppはSupabase上のPostgreSQLデータベースを使用していま
 ## ER図
 
 ```
-┌───────────────┐       ┌───────────────┐       ┌───────────────┐
-│               │       │               │       │               │
-│     users     │       │    coffees    │       │   tasting     │
-│               │◄──────┼───────────────┼──────►│    notes      │
-│               │  1:N  │               │  1:N  │               │
-└───────────────┘       └───────────────┘       └───────────────┘
-                               ▲
-                               │
-                               │
-                        ┌──────┴────────┐
-                        │               │
-                        │   coffee      │
-                        │   images      │
-                        │               │
-                        └───────────────┘
+┌───────────────┐       ┌───────────────┐
+│               │       │               │
+│   profiles    │       │ coffee_records │
+│               │◄──────┼───────────────┤
+│               │  1:N  │               │
+└───────────────┘       └───────────────┘
 ```
 
 ## テーブル定義
 
-### users テーブル
+### profiles テーブル
 
 ユーザー情報を管理するテーブル。Supabase Authと連携。
 
 | カラム名         | データ型        | 制約                     | 説明                      |
 |----------------|---------------|--------------------------|--------------------------|
 | id             | uuid          | PRIMARY KEY, NOT NULL    | ユーザーID (Supabase Auth ID) |
-| email          | varchar(255)  | NOT NULL, UNIQUE         | メールアドレス              |
-| display_name   | varchar(100)  | NOT NULL                 | 表示名                    |
+| username       | varchar(255)  | UNIQUE                   | ユーザー名                 |
+| display_name   | varchar(100)  |                          | 表示名                    |
+| bio            | text          |                          | 自己紹介文                 |
 | avatar_url     | text          |                          | プロフィール画像URL          |
-| bio            | text          |                          | 自己紹介文                  |
 | created_at     | timestamptz   | NOT NULL, DEFAULT now()  | 作成日時                   |
 | updated_at     | timestamptz   | NOT NULL, DEFAULT now()  | 更新日時                   |
 
-### coffees テーブル
+### coffee_records テーブル
 
-コーヒーの基本情報を管理するテーブル。
+コーヒー記録の情報を管理するテーブル。
 
-| カラム名         | データ型        | 制約                     | 説明                      |
-|----------------|---------------|--------------------------|--------------------------|
-| id             | uuid          | PRIMARY KEY, DEFAULT uuid_generate_v4() | コーヒーID |
-| user_id        | uuid          | NOT NULL, REFERENCES users(id) | ユーザーID          |
-| name           | varchar(100)  | NOT NULL                 | コーヒー名                  |
-| origin         | varchar(100)  |                          | 原産地                    |
-| farm           | varchar(100)  |                          | 農園名                    |
-| variety        | varchar(100)  |                          | 品種                      |
-| process        | varchar(50)   |                          | 精製方法                   |
-| roast_level    | int           | CHECK (roast_level BETWEEN 1 AND 5) | 焙煎度 (1-5) |
-| roast_date     | date          |                          | 焙煎日                    |
-| brewing_method | varchar(50)   |                          | 抽出方法                   |
-| rating         | int           | CHECK (rating BETWEEN 1 AND 5) | 評価 (1-5)        |
-| price          | decimal(10,2) |                          | 価格                      |
-| purchase_date  | date          |                          | 購入日                    |
-| notes          | text          |                          | メモ                      |
-| created_at     | timestamptz   | NOT NULL, DEFAULT now()  | 作成日時                   |
-| updated_at     | timestamptz   | NOT NULL, DEFAULT now()  | 更新日時                   |
+| カラム名            | データ型        | 制約                     | 説明                      |
+|-------------------|---------------|--------------------------|--------------------------|
+| id                | uuid          | PRIMARY KEY, DEFAULT uuid_generate_v4() | レコードID |
+| user_id           | uuid          | NOT NULL, REFERENCES profiles(id) | ユーザーID          |
+| shop_name         | varchar(255)  | NOT NULL                 | ショップ・カフェ名           |
+| coffee_name       | varchar(255)  |                          | コーヒー名                 |
+| country           | varchar(100)  |                          | 原産国                    |
+| region            | varchar(100)  |                          | 地域                      |
+| farm              | varchar(100)  |                          | 農園名                    |
+| processing_method | varchar(50)   |                          | 精製方法                   |
+| roast_level       | roast_level   |                          | 焙煎度 (enum値)           |
+| rating            | int           | CHECK (rating BETWEEN 1 AND 5) | 総合評価 (1-5)     |
+| description       | text          |                          | 説明・メモ                 |
+| consumed_at       | timestamptz   |                          | 消費日時                   |
+| acidity           | int           | CHECK (acidity BETWEEN 1 AND 5) | 酸味 (1-5)         |
+| flavor            | int           | CHECK (flavor BETWEEN 1 AND 5) | 風味 (1-5)          |
+| sweetness         | int           | CHECK (sweetness BETWEEN 1 AND 5) | 甘味 (1-5)        |
+| mouthfeel         | int           | CHECK (mouthfeel BETWEEN 1 AND 5) | 口当たり (1-5)     |
+| body              | int           | CHECK (body BETWEEN 1 AND 5) | ボディ (1-5)           |
+| clean_cup         | int           | CHECK (clean_cup BETWEEN 1 AND 5) | クリーンカップ (1-5) |
+| balance           | int           | CHECK (balance BETWEEN 1 AND 5) | バランス (1-5)       |
+| created_at        | timestamptz   | NOT NULL, DEFAULT now()  | 作成日時                   |
+| updated_at        | timestamptz   | NOT NULL, DEFAULT now()  | 更新日時                   |
 
-### tasting_notes テーブル
+## Enum定義
 
-コーヒーのテイスティングノートを管理するテーブル。
+### roast_level
 
-| カラム名         | データ型        | 制約                     | 説明                      |
-|----------------|---------------|--------------------------|--------------------------|
-| id             | uuid          | PRIMARY KEY, DEFAULT uuid_generate_v4() | テイスティングノートID |
-| coffee_id      | uuid          | NOT NULL, REFERENCES coffees(id) | コーヒーID          |
-| tasting_date   | date          | NOT NULL                 | テイスティング日              |
-| acidity        | int           | CHECK (acidity BETWEEN 1 AND 5) | 酸味 (1-5)         |
-| sweetness      | int           | CHECK (sweetness BETWEEN 1 AND 5) | 甘味 (1-5)        |
-| body           | int           | CHECK (body BETWEEN 1 AND 5) | ボディ (1-5)           |
-| flavor_notes   | text          |                          | 風味ノート                  |
-| created_at     | timestamptz   | NOT NULL, DEFAULT now()  | 作成日時                   |
-| updated_at     | timestamptz   | NOT NULL, DEFAULT now()  | 更新日時                   |
+焙煎度を表すEnumです。
 
-### coffee_images テーブル
-
-コーヒーの画像情報を管理するテーブル。
-
-| カラム名         | データ型        | 制約                     | 説明                      |
-|----------------|---------------|--------------------------|--------------------------|
-| id             | uuid          | PRIMARY KEY, DEFAULT uuid_generate_v4() | 画像ID |
-| coffee_id      | uuid          | NOT NULL, REFERENCES coffees(id) | コーヒーID          |
-| url            | text          | NOT NULL                 | 画像URL                   |
-| alt_text       | varchar(255)  |                          | 代替テキスト                |
-| sort_order     | int           | DEFAULT 0                | 表示順序                   |
-| created_at     | timestamptz   | NOT NULL, DEFAULT now()  | 作成日時                   |
+| 値            | 説明       |
+|--------------|-----------|
+| light        | ライトロースト |
+| medium       | ミディアムロースト |
+| medium-dark  | ミディアムダークロースト |
+| dark         | ダークロースト |
 
 ## インデックス
 
 | テーブル名     | インデックス名       | カラム                  | 種類       | 説明                      |
 |--------------|-------------------|------------------------|-----------|--------------------------|
-| users        | users_email_idx   | email                  | BTREE     | メールアドレスによる検索用     |
-| coffees      | coffees_user_id_idx | user_id              | BTREE     | ユーザーIDによる検索用        |
-| coffees      | coffees_name_idx  | name                   | BTREE     | コーヒー名による検索用         |
-| tasting_notes | tasting_notes_coffee_id_idx | coffee_id   | BTREE     | コーヒーIDによる検索用        |
-| coffee_images | coffee_images_coffee_id_idx | coffee_id   | BTREE     | コーヒーIDによる検索用        |
+| profiles     | profiles_username_idx | username             | BTREE     | ユーザー名による検索用       |
+| coffee_records | coffee_records_user_id_idx | user_id        | BTREE     | ユーザーIDによる検索用        |
+| coffee_records | coffee_records_shop_name_idx | shop_name    | BTREE     | ショップ名による検索用         |
+| coffee_records | coffee_records_consumed_at_idx | consumed_at | BTREE     | 消費日時による並び替え用      |
 
 ## Row Level Security (RLS) ポリシー
 
-### users テーブル
+### profiles テーブル
 
 ```sql
 -- ユーザーは自分自身のプロフィールのみ表示可能
 CREATE POLICY "Users can view their own profile"
-  ON users
+  ON profiles
   FOR SELECT
   USING (auth.uid() = id);
 
 -- ユーザーは自分自身のプロフィールのみ更新可能
 CREATE POLICY "Users can update their own profile"
-  ON users
+  ON profiles
   FOR UPDATE
   USING (auth.uid() = id);
+
+-- ユーザーは自分自身のプロフィールのみ作成可能
+CREATE POLICY "Users can create their own profile"
+  ON profiles
+  FOR INSERT
+  WITH CHECK (auth.uid() = id);
 ```
 
-### coffees テーブル
+### coffee_records テーブル
 
 ```sql
 -- ユーザーは自分のコーヒーレコードのみ表示可能
-CREATE POLICY "Users can view their own coffees"
-  ON coffees
+CREATE POLICY "Users can view their own coffee records"
+  ON coffee_records
   FOR SELECT
   USING (auth.uid() = user_id);
 
 -- ユーザーは自分のコーヒーレコードのみ作成可能
-CREATE POLICY "Users can create their own coffees"
-  ON coffees
+CREATE POLICY "Users can create their own coffee records"
+  ON coffee_records
   FOR INSERT
   WITH CHECK (auth.uid() = user_id);
 
 -- ユーザーは自分のコーヒーレコードのみ更新可能
-CREATE POLICY "Users can update their own coffees"
-  ON coffees
+CREATE POLICY "Users can update their own coffee records"
+  ON coffee_records
   FOR UPDATE
   USING (auth.uid() = user_id);
 
 -- ユーザーは自分のコーヒーレコードのみ削除可能
-CREATE POLICY "Users can delete their own coffees"
-  ON coffees
+CREATE POLICY "Users can delete their own coffee records"
+  ON coffee_records
   FOR DELETE
   USING (auth.uid() = user_id);
 ```
 
-### tasting_notes テーブル
+## 実装状況メモ
 
-```sql
--- ユーザーは自分のコーヒーに関連するテイスティングノートのみ表示可能
-CREATE POLICY "Users can view their own tasting notes"
-  ON tasting_notes
-  FOR SELECT
-  USING (EXISTS (SELECT 1 FROM coffees WHERE coffees.id = coffee_id AND coffees.user_id = auth.uid()));
+### 完了している機能
+- ユーザープロフィール管理（profiles テーブル）
+- コーヒー記録のCRUD操作（coffee_records テーブル）
+- テイスティング評価機能（acidity, flavor, sweetness, mouthfeel, body, clean_cup, balance）
+- 認証・認可機能（Supabase Auth + RLS）
 
--- ユーザーは自分のコーヒーに関連するテイスティングノートのみ作成可能
-CREATE POLICY "Users can create tasting notes for their own coffees"
-  ON tasting_notes
-  FOR INSERT
-  WITH CHECK (EXISTS (SELECT 1 FROM coffees WHERE coffees.id = coffee_id AND coffees.user_id = auth.uid()));
-
--- ユーザーは自分のコーヒーに関連するテイスティングノートのみ更新可能
-CREATE POLICY "Users can update their own tasting notes"
-  ON tasting_notes
-  FOR UPDATE
-  USING (EXISTS (SELECT 1 FROM coffees WHERE coffees.id = coffee_id AND coffees.user_id = auth.uid()));
-
--- ユーザーは自分のコーヒーに関連するテイスティングノートのみ削除可能
-CREATE POLICY "Users can delete their own tasting notes"
-  ON tasting_notes
-  FOR DELETE
-  USING (EXISTS (SELECT 1 FROM coffees WHERE coffees.id = coffee_id AND coffees.user_id = auth.uid()));
-```
-
-### coffee_images テーブル
-
-```sql
--- ユーザーは自分のコーヒーに関連する画像のみ表示可能
-CREATE POLICY "Users can view their own coffee images"
-  ON coffee_images
-  FOR SELECT
-  USING (EXISTS (SELECT 1 FROM coffees WHERE coffees.id = coffee_id AND coffees.user_id = auth.uid()));
-
--- ユーザーは自分のコーヒーに関連する画像のみ作成可能
-CREATE POLICY "Users can create images for their own coffees"
-  ON coffee_images
-  FOR INSERT
-  WITH CHECK (EXISTS (SELECT 1 FROM coffees WHERE coffees.id = coffee_id AND coffees.user_id = auth.uid()));
-
--- ユーザーは自分のコーヒーに関連する画像のみ削除可能
-CREATE POLICY "Users can delete their own coffee images"
-  ON coffee_images
-  FOR DELETE
-  USING (EXISTS (SELECT 1 FROM coffees WHERE coffees.id = coffee_id AND coffees.user_id = auth.uid()));
-```
+### 今後実装予定の機能
+- 画像アップロード機能（Supabase Storage連携）
+- データ分析・可視化機能（Chart.js活用）
+- ソーシャル機能（レコード共有、レコメンデーション）
 
 ## データ移行・バックアップ戦略
 

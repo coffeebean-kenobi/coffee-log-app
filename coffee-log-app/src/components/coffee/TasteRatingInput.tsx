@@ -45,7 +45,7 @@ const TasteRatingInput: FC<TasteRatingInputProps> = ({ ratings, onChange }) => {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium text-foreground">味わい評価（5段階）</h3>
+      <h3 className="text-lg font-medium text-text-primary">味わい評価（5段階）</h3>
       
       <div className="space-y-3">
         {TASTE_ATTRIBUTES.map(attr => {
@@ -55,7 +55,7 @@ const TasteRatingInput: FC<TasteRatingInputProps> = ({ ratings, onChange }) => {
           return (
             <div key={attr.key} className="space-y-1">
               <div className="flex justify-between">
-                <label htmlFor={`taste-${attr.key}`} className="block text-sm font-medium text-foreground">
+                <label htmlFor={`taste-${attr.key}`} className="block text-sm font-medium text-text-primary">
                   {attr.label}: {value}
                 </label>
               </div>
@@ -67,17 +67,14 @@ const TasteRatingInput: FC<TasteRatingInputProps> = ({ ratings, onChange }) => {
                 max="5"
                 value={value}
                 onChange={(e) => handleChange(key, Number(e.target.value))}
-                className="w-full accent-primary"
+                className="w-full"
+                style={{ accentColor: 'var(--color-primary-main)' }}
               />
               <div className="flex justify-between text-xs">
                 {[0, 1, 2, 3, 4, 5].map((num) => (
                   <span 
                     key={num} 
-                    className={`px-1.5 py-0.5 rounded ${
-                      isDarkMode 
-                        ? 'bg-muted text-muted-foreground' 
-                        : 'text-muted-foreground'
-                    }`}
+                    className="px-1.5 py-0.5 rounded text-text-secondary"
                   >
                     {num}
                   </span>

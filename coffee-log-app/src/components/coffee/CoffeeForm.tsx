@@ -133,11 +133,11 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
   const inputStyle = {
     width: '100%',
     padding: styles.spacing('sm'),
-    border: styles.borders('thin'),
+    border: '1px solid var(--color-accent-main)',
     borderRadius: styles.borderRadius('sm'),
     fontSize: styles.typography('fontSize.body1'),
-    backgroundColor: styles.color('background.paper'),
-    color: styles.color('text.primary'),
+    backgroundColor: 'var(--color-background-paper)',
+    color: 'var(--color-text-primary)',
     marginTop: styles.spacing('xs'),
   }
 
@@ -147,7 +147,7 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
     marginBottom: styles.spacing('xs'),
     fontSize: styles.typography('fontSize.body2'),
     fontWeight: styles.typography('fontWeight.medium'),
-    color: styles.color('text.primary'),
+    color: 'var(--color-text-primary)',
   }
 
   // フォームのグリッドレイアウト
@@ -164,12 +164,13 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
         {error && (
           <div style={{ 
             padding: styles.spacing('md'),
-            backgroundColor: '#FFEBEE',
+            backgroundColor: 'var(--color-text-error)',
             borderRadius: styles.borderRadius('sm'),
-            color: '#D32F2F',
+            color: 'var(--color-background-paper)',
             marginBottom: styles.spacing('md'),
+            border: '1px solid var(--color-text-error)',
           }}>
-            <Typography variant="body2">{error}</Typography>
+            <Typography variant="body2" style={{ color: 'inherit' }}>{error}</Typography>
           </div>
         )}
 
@@ -272,7 +273,15 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
               name="roast_level"
               value={formData.roast_level || ''}
               onChange={handleChange}
-              style={inputStyle}
+              style={{
+                ...inputStyle,
+                appearance: 'none',
+                backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'><path fill=\'%23666\' d=\'M2 0L0 2h4zm0 5L0 3h4z\'/></svg>")',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'right 0.7rem center',
+                backgroundSize: '0.65rem auto',
+                paddingRight: '2.5rem',
+              }}
             >
               <option value="">選択してください</option>
               {roastLevels.map((level) => (
@@ -351,7 +360,11 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
             rows={4}
             value={formData.description || ''}
             onChange={handleChange}
-            style={{ ...inputStyle, resize: 'vertical' }}
+            style={{ 
+              ...inputStyle, 
+              resize: 'vertical',
+              fontFamily: 'inherit'
+            }}
           />
         </div>
 
@@ -364,12 +377,14 @@ export default function CoffeeForm({ initialData, isEditing = false }: Props) {
           <Button
             variant="secondary"
             onClick={() => router.back()}
+            type="button"
           >
             キャンセル
           </Button>
           <Button
             variant="primary"
             disabled={loading}
+            type="submit"
           >
             {loading ? '保存中...' : isEditing ? '更新' : '保存'}
           </Button>

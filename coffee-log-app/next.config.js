@@ -28,6 +28,14 @@ const nextConfig = {
   swcMinify: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  // 開発中は動的機能を使用するため、静的エクスポートは無効化
+  // 静的サイトとしてデプロイする場合は、環境変数 STATIC_EXPORT=true を設定
+  // ...(process.env.STATIC_EXPORT === 'true' ? {
+  //   output: 'export',
+  //   images: {
+  //     unoptimized: true,
+  //   },
+  // } : {}),
 }
 
 module.exports = nextConfig
