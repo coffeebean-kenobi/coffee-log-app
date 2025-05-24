@@ -2,259 +2,374 @@
 @tailwind components;
 @tailwind utilities;
 
-/* CSS変数の定義 */
+/* Industrial Refined Theme Styles */
 @layer base {
   :root {
-    /* Colors */
-    --color-primary-main: theme('colors.primary.main');
-    --color-primary-light: theme('colors.primary.light');
-    --color-primary-dark: theme('colors.primary.dark');
-    
-    --color-secondary-main: theme('colors.secondary.main');
-    --color-secondary-light: theme('colors.secondary.light');
-    --color-secondary-dark: theme('colors.secondary.dark');
-    
-    --color-accent-main: theme('colors.accent.main');
-    --color-accent-light: theme('colors.accent.light');
-    --color-accent-dark: theme('colors.accent.dark');
-    
-    --color-background-main: theme('colors.background.main');
-    --color-background-paper: theme('colors.background.paper');
-    --color-background-dark: theme('colors.background.dark');
-    
-    --color-text-primary: theme('colors.text.primary');
-    --color-text-secondary: theme('colors.text.secondary');
-    --color-text-disabled: theme('colors.text.disabled');
-    --color-text-error: theme('colors.text.error');
-    
-    /* Typography */
-    --font-family-heading: theme('fontFamily.heading');
-    --font-family-body: theme('fontFamily.body');
-    
-    /* Spacing */
-    --spacing-xs: theme('spacing.xs');
-    --spacing-sm: theme('spacing.sm');
-    --spacing-md: theme('spacing.md');
-    --spacing-lg: theme('spacing.lg');
-    --spacing-xl: theme('spacing.xl');
-    
-    /* Border Radius */
-    --border-radius-sm: theme('borderRadius.sm');
-    --border-radius-md: theme('borderRadius.md');
-    --border-radius-lg: theme('borderRadius.lg');
-    
-    /* Shadows */
-    --shadow-sm: theme('boxShadow.sm');
-    --shadow-md: theme('boxShadow.md');
-    --shadow-lg: theme('boxShadow.lg');
-    
-    /* Transitions */
-    --transition-fast: theme('transitionDuration.fast');
-    --transition-medium: theme('transitionDuration.medium');
-    --transition-slow: theme('transitionDuration.slow');
-
-    /* ライトモードのデフォルト変数 */
-    color-scheme: light;
+    /* Light theme colors */
+    --color-primary-main: #1A1A1A;
+    --color-primary-light: #333333;
+    --color-primary-dark: #000000;
+    --color-accent-main: #C0C0C0;
+    --color-accent-light: #E0E0E0;
+    --color-accent-dark: #808080;
+    --color-background-main: #F5F5F5;
+    --color-background-paper: #FFFFFF;
+    --color-background-dark: #E0E0E0;
+    --color-text-primary: #1A1A1A;
+    --color-text-secondary: #666666;
+    --color-text-disabled: #999999;
+    --color-text-error: #dc2626;
+    --color-secondary-main: #4A4A4A;
+    --color-secondary-light: #666666;
+    --color-secondary-dark: #333333;
+    --color-highlight-main: #FFD700;
+    --color-highlight-light: #FFE44D;
+    --color-highlight-dark: #B8860B;
   }
 
   [data-theme="dark"] {
-    /* ダークモードの変数 */
+    /* Dark theme colors */
     --color-primary-main: #60A5FA;
     --color-primary-light: #93C5FD;
     --color-primary-dark: #2563EB;
-    
-    --color-secondary-main: #6B7280;
-    --color-secondary-light: #9CA3AF;
-    --color-secondary-dark: #4B5563;
-    
     --color-accent-main: #F59E0B;
     --color-accent-light: #FBBF24;
     --color-accent-dark: #D97706;
-    
     --color-background-main: #1F2937;
     --color-background-paper: #111827;
     --color-background-dark: #374151;
-    
     --color-text-primary: #F9FAFB;
     --color-text-secondary: #D1D5DB;
     --color-text-disabled: #6B7280;
     --color-text-error: #EF4444;
-
-    color-scheme: dark;
+    --color-secondary-main: #6B7280;
+    --color-secondary-light: #9CA3AF;
+    --color-secondary-dark: #4B5563;
+    --color-highlight-main: #FBBF24;
+    --color-highlight-light: #FCD34D;
+    --color-highlight-dark: #D97706;
   }
 
-  /* テーマ切り替え時のトランジション */
-  html {
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  html.no-transition * {
+  /* Prevent transition flashing during theme changes */
+  .no-transition * {
     transition: none !important;
   }
-}
 
-/* アニメーションのキーフレーム */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+  body {
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    background-color: var(--color-background-main);
+    color: var(--color-text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
-@keyframes slide-up {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* カスタムコンポーネントクラス */
 @layer components {
-  /* ボタンスタイル */
-  .btn {
-    @apply px-4 py-2 rounded-md transition-all font-medium inline-flex items-center justify-center;
-  }
-  
-  .btn-primary {
-    @apply bg-primary-main text-white hover:bg-primary-dark dark:bg-primary-main dark:text-black dark:hover:bg-primary-light;
-  }
-  
-  .btn-secondary {
-    @apply bg-secondary-main text-white hover:bg-secondary-dark dark:bg-secondary-main dark:text-white dark:hover:bg-secondary-light;
-  }
-  
-  .btn-accent {
-    @apply bg-accent-main text-primary-main hover:bg-accent-dark dark:bg-accent-main dark:text-background-paper dark:hover:bg-accent-light;
-  }
-  
-  .btn-outlined {
-    @apply bg-transparent border border-primary-main text-primary-main hover:bg-primary-main hover:bg-opacity-10 dark:border-primary-light dark:text-primary-light dark:hover:bg-primary-dark dark:hover:bg-opacity-30;
-  }
-  
-  /* カードスタイル */
-  .card {
-    @apply bg-background-paper rounded-md overflow-hidden dark:bg-background-paper p-4;
-  }
-  
-  .card-sm {
-    @apply shadow-sm border border-gray-200 dark:border-gray-800 dark:bg-opacity-90;
-  }
-  
-  .card-md {
-    @apply shadow-md border border-gray-200 dark:border-gray-800 dark:bg-opacity-90;
-  }
-  
-  .card-lg {
-    @apply shadow-lg border border-gray-200 dark:border-gray-800 dark:bg-opacity-90;
-  }
-  
-  /* タイポグラフィスタイル */
+  /* Typography Components */
   .typography-h1 {
-    @apply font-heading text-h1 font-bold text-text-primary leading-heading tracking-heading dark:text-text-primary;
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary) !important;
   }
-  
+
   .typography-h2 {
-    @apply font-heading text-h2 font-bold text-text-primary leading-heading tracking-heading dark:text-text-primary;
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-primary) !important;
   }
-  
+
   .typography-h3 {
-    @apply font-heading text-h3 font-bold text-text-primary leading-heading tracking-heading dark:text-text-primary;
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text-primary) !important;
   }
-  
+
   .typography-h4 {
-    @apply font-heading text-h4 font-bold text-text-primary leading-heading tracking-heading dark:text-text-primary;
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary) !important;
   }
-  
+
   .typography-body1 {
-    @apply font-body text-body1 font-regular text-text-primary leading-body tracking-body dark:text-text-primary;
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-text-primary) !important;
   }
-  
+
   .typography-body2 {
-    @apply font-body text-body2 font-regular text-text-secondary leading-body tracking-body dark:text-text-secondary;
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--color-text-primary) !important;
   }
-  
-  /* フォーム要素 */
-  .input {
-    @apply w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-main focus:ring-opacity-30 focus:border-primary-main dark:bg-background-dark dark:border-gray-700 dark:text-text-primary dark:focus:ring-primary-light dark:focus:ring-opacity-30 dark:focus:border-primary-light;
+
+  /* Card Components */
+  .card {
+    background-color: var(--color-background-paper) !important;
+    border: 1px solid var(--color-accent-main) !important;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    padding: 1.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   }
-  
-  .input-label {
-    @apply block mb-1 text-body2 font-medium text-text-primary dark:text-text-primary;
+
+  .card:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
-  
-  /* レイアウト */
+
+  [data-theme="dark"] .card {
+    box-shadow: 0 1px 2px rgba(255, 255, 255, 0.05);
+  }
+
+  [data-theme="dark"] .card:hover {
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+  }
+
+  .card-sm {
+    padding: 1rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .card-md {
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-lg {
+    padding: 2rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Button Components */
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    outline: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn:focus {
+    box-shadow: 0 0 0 2px var(--color-primary-main);
+  }
+
+  .btn-primary {
+    background-color: var(--color-primary-main) !important;
+    color: var(--color-background-paper) !important;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-primary-dark) !important;
+  }
+
+  .btn-secondary {
+    background-color: var(--color-secondary-main) !important;
+    color: var(--color-background-paper) !important;
+    border: 1px solid var(--color-secondary-main) !important;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-secondary-dark) !important;
+    border-color: var(--color-secondary-dark) !important;
+  }
+
+  .btn-accent {
+    background-color: var(--color-highlight-main) !important;
+    color: var(--color-primary-main) !important;
+  }
+
+  .btn-accent:hover {
+    background-color: var(--color-highlight-dark) !important;
+  }
+
+  .btn-outlined {
+    border: 2px solid var(--color-primary-main) !important;
+    color: var(--color-primary-main) !important;
+    background-color: transparent !important;
+  }
+
+  .btn-outlined:hover {
+    background-color: var(--color-primary-main) !important;
+    color: var(--color-background-paper) !important;
+  }
+
+  /* Container Component */
   .container-sm {
-    @apply max-w-screen-sm mx-auto px-4;
+    @apply max-w-2xl mx-auto px-4;
   }
-  
+
   .container-md {
-    @apply max-w-screen-md mx-auto px-4;
+    @apply max-w-4xl mx-auto px-4;
   }
-  
+
   .container-lg {
-    @apply max-w-screen-lg mx-auto px-4;
+    @apply max-w-6xl mx-auto px-4;
   }
-}
 
-/* レスポンシブ用のユーティリティクラス */
-.mobile-only {
-  display: none;
-}
+  .container-xl {
+    @apply max-w-7xl mx-auto px-4;
+  }
 
-.desktop-only {
-  display: block;
-}
+  /* Form Components */
+  .form-input {
+    width: 100%;
+    background-color: var(--color-background-paper) !important;
+    color: var(--color-text-primary) !important;
+    border: 1px solid var(--color-accent-main) !important;
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.3s ease;
+  }
 
-@media (max-width: 768px) {
-  .mobile-only {
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-primary-main) !important;
+    box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.2);
+  }
+
+  [data-theme="dark"] .form-input:focus {
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+  }
+
+  .form-input::placeholder {
+    color: var(--color-text-secondary) !important;
+  }
+
+  .form-select {
+    width: 100%;
+    background-color: var(--color-background-paper) !important;
+    color: var(--color-text-primary) !important;
+    border: 1px solid var(--color-accent-main) !important;
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-select:focus {
+    outline: none;
+    border-color: var(--color-primary-main) !important;
+    box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.2);
+  }
+
+  [data-theme="dark"] .form-select:focus {
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+  }
+
+  .form-select option {
+    background-color: var(--color-background-paper) !important;
+    color: var(--color-text-primary) !important;
+  }
+
+  .form-textarea {
+    width: 100%;
+    background-color: var(--color-background-paper) !important;
+    color: var(--color-text-primary) !important;
+    border: 1px solid var(--color-accent-main) !important;
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.3s ease;
+    resize: vertical;
+  }
+
+  .form-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary-main) !important;
+    box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.2);
+  }
+
+  [data-theme="dark"] .form-textarea:focus {
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+  }
+
+  .form-label {
     display: block;
+    color: var(--color-text-primary) !important;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
   }
-  
-  .desktop-only {
-    display: none;
+
+  /* Input field specific enhancements */
+  input[type="text"], 
+  input[type="email"], 
+  input[type="password"], 
+  input[type="date"], 
+  input[type="number"],
+  select,
+  textarea {
+    background-color: var(--color-background-paper) !important;
+    color: var(--color-text-primary) !important;
+    border: 1px solid var(--color-accent-main) !important;
+  }
+
+  input[type="text"]:focus, 
+  input[type="email"]:focus, 
+  input[type="password"]:focus, 
+  input[type="date"]:focus, 
+  input[type="number"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--color-primary-main) !important;
+    box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.2) !important;
+  }
+
+  [data-theme="dark"] input[type="text"]:focus, 
+  [data-theme="dark"] input[type="email"]:focus, 
+  [data-theme="dark"] input[type="password"]:focus, 
+  [data-theme="dark"] input[type="date"]:focus, 
+  [data-theme="dark"] input[type="number"]:focus,
+  [data-theme="dark"] select:focus,
+  [data-theme="dark"] textarea:focus {
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3) !important;
   }
 }
 
-/* タッチデバイス最適化 */
-@media (hover: none) {
-  .touch-target {
-    min-height: 44px;
-    min-width: 44px;
+@layer utilities {
+  /* Custom utilities for Industrial Refined theme */
+  .text-industrial-primary {
+    color: var(--color-primary-main);
+  }
+
+  .bg-industrial-primary {
+    background-color: var(--color-primary-main);
+  }
+
+  .border-industrial-accent {
+    border-color: var(--color-accent-main);
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.4s ease-out;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

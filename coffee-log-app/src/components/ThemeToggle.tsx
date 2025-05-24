@@ -34,7 +34,7 @@ export const ThemeToggle: React.FC = () => {
     <div className="flex items-center">
       <button
         onClick={handleToggle}
-        className="p-2 rounded-md bg-transparent border-none cursor-pointer flex items-center justify-center transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+        className="p-2 rounded-md bg-transparent border-none cursor-pointer flex items-center justify-center transition-colors hover:bg-accent-light dark:hover:bg-accent-dark"
         aria-label={isDark ? 'ライトモードに切り替え' : 'ダークモードに切り替え'}
       >
         {isDark ? (
@@ -84,7 +84,7 @@ export const ThemeToggle: React.FC = () => {
         <select
           value={mode}
           onChange={(e) => handleModeChange(e.target.value as 'light' | 'dark' | 'system')}
-          className="px-2 py-1 rounded-md text-sm border border-gray-300 dark:border-gray-700 bg-background-paper dark:bg-background-paper text-text-primary dark:text-text-primary focus:outline-none focus:ring-1 focus:ring-primary-main"
+          className="px-2 py-1 rounded-md text-sm border border-accent-main dark:border-accent-dark bg-background-paper dark:bg-background-paper text-text-primary dark:text-text-primary focus:outline-none focus:ring-1 focus:ring-primary-main"
         >
           <option value="light">ライト</option>
           <option value="dark">ダーク</option>

@@ -29,7 +29,7 @@ export default function Home() {
         textAlign: 'center'
       }}>
         <div style={{ marginBottom: styles.spacing('md') }}>
-          <Image src="/LogCup_logo.png" alt="LOGCUP" width={80} height={80} />
+          <Image src="/LOG.png" alt="LOGCUP" width={90} height={90} />
         </div>
         <Typography variant="h1">LOGCUP</Typography>
         <Typography 
