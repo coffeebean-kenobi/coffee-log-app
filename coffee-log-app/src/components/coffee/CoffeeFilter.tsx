@@ -1,6 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { Typography } from '@/components/Typography'
+import { Button } from '@/components/Button'
+import { Card } from '@/components/Card'
+import { useThemeStyles } from '@/theme/utils'
 
 type Filters = {
   shopName?: string
@@ -13,6 +17,7 @@ type Props = {
 }
 
 export default function CoffeeFilter({ onFilterChange }: Props) {
+  const styles = useThemeStyles()
   const [filters, setFilters] = useState<Filters>({
     shopName: '',
     country: '',
@@ -42,71 +47,108 @@ export default function CoffeeFilter({ onFilterChange }: Props) {
     onFilterChange(resetFilters)
   }
 
+  // 入力フィールドのスタイル
+  const inputStyle = {
+    width: '100%',
+    padding: styles.spacing('sm'),
+    border: '1px solid var(--color-accent-main)',
+    borderRadius: styles.borderRadius('sm'),
+    fontSize: styles.typography('fontSize.body1'),
+    backgroundColor: 'var(--color-background-paper)',
+    color: 'var(--color-text-primary)',
+  }
+
+  // ラベルのスタイル
+  const labelStyle = {
+    display: 'block',
+    marginBottom: styles.spacing('xs'),
+    fontSize: styles.typography('fontSize.body2'),
+    fontWeight: styles.typography('fontWeight.medium'),
+    color: 'var(--color-text-primary)',
+  }
+
   return (
-    <div className="bg-card p-4 rounded-lg mb-6 shadow-sm">
-      <h2 className="text-lg font-medium mb-4 text-card-foreground">絞り込み検索</h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <label htmlFor="shopName" className="block text-sm font-medium mb-1 text-card-foreground">
-            店名
-          </label>
-          <input
-            type="text"
-            id="shopName"
-            name="shopName"
-            value={filters.shopName}
-            onChange={handleChange}
-            placeholder="店名で検索"
-            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-          />
+    <Card style={{ marginBottom: styles.spacing('lg') }}>
+      <div style={{ padding: styles.spacing('lg') }}>
+        <Typography variant="h4" style={{ marginBottom: styles.spacing('md') }}>
+          絞り込み検索
+        </Typography>
+        
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: styles.spacing('md'),
+          marginBottom: styles.spacing('md')
+        }}>
+          <div>
+            <label htmlFor="shopName" style={labelStyle}>
+              店名
+            </label>
+            <input
+              type="text"
+              id="shopName"
+              name="shopName"
+              value={filters.shopName}
+              onChange={handleChange}
+              placeholder="店名で検索"
+              style={inputStyle}
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="country" style={labelStyle}>
+              原産国
+            </label>
+            <input
+              type="text"
+              id="country"
+              name="country"
+              value={filters.country}
+              onChange={handleChange}
+              placeholder="原産国で検索"
+              style={inputStyle}
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="rating" style={labelStyle}>
+              評価
+            </label>
+            <select
+              id="rating"
+              name="rating"
+              value={filters.rating || ''}
+              onChange={handleChange}
+              style={inputStyle}
+            >
+              <option value="">すべて</option>
+              <option value="5">★★★★★ (5)</option>
+              <option value="4">★★★★☆ 以上 (4+)</option>
+              <option value="3">★★★☆☆ 以上 (3+)</option>
+              <option value="2">★★☆☆☆ 以上 (2+)</option>
+              <option value="1">★☆☆☆☆ 以上 (1+)</option>
+            </select>
+          </div>
         </div>
         
-        <div>
-          <label htmlFor="country" className="block text-sm font-medium mb-1 text-card-foreground">
-            原産国
-          </label>
-          <input
-            type="text"
-            id="country"
-            name="country"
-            value={filters.country}
-            onChange={handleChange}
-            placeholder="原産国で検索"
-            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-        </div>
-        
-        <div>
-          <label htmlFor="rating" className="block text-sm font-medium mb-1 text-card-foreground">
-            評価
-          </label>
-          <select
-            id="rating"
-            name="rating"
-            value={filters.rating || ''}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <button
+            type="button"
+            onClick={handleReset}
+            style={{
+              padding: `${styles.spacing('xs')} ${styles.spacing('sm')}`,
+              fontSize: styles.typography('fontSize.sm'),
+              color: 'var(--color-text-secondary)',
+              backgroundColor: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              textDecoration: 'underline'
+            }}
           >
-            <option value="">すべて</option>
-            <option value="5">★★★★★ (5)</option>
-            <option value="4">★★★★☆ 以上 (4+)</option>
-            <option value="3">★★★☆☆ 以上 (3+)</option>
-            <option value="2">★★☆☆☆ 以上 (2+)</option>
-            <option value="1">★☆☆☆☆ 以上 (1+)</option>
-          </select>
+            リセット
+          </button>
         </div>
       </div>
-      
-      <div className="mt-4 flex justify-end">
-        <button
-          type="button"
-          onClick={handleReset}
-          className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          リセット
-        </button>
-      </div>
-    </div>
+    </Card>
   );
 }

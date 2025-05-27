@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase'
 import Link from 'next/link'
 import ClientCoffeeList from './ClientCoffeeList'
+import CoffeeFilter from '@/components/coffee/CoffeeFilter'
 import { Container } from '@/components/Container'
 import { Typography } from '@/components/Typography'
 import { Button } from '@/components/Button'
@@ -11,8 +12,15 @@ import { Database } from '@/types/database.types'
 
 type CoffeeRecord = Database['public']['Tables']['coffee_records']['Row']
 
+type Filters = {
+  shopName?: string
+  country?: string
+  rating?: number
+}
+
 export default function CoffeeListPage() {
-  const [coffees, setCoffees] = useState<CoffeeRecord[]>([])
+  const [allCoffees, setAllCoffees] = useState<CoffeeRecord[]>([])
+  const [filteredCoffees, setFilteredCoffees] = useState<CoffeeRecord[]>([])
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
   
@@ -27,7 +35,8 @@ export default function CoffeeListPage() {
         if (error) {
           console.error('Error fetching coffee records:', error)
         } else {
-          setCoffees(coffees || [])
+          setAllCoffees(coffees || [])
+          setFilteredCoffees(coffees || [])
         }
       } catch (error) {
         console.error('Error fetching coffee records:', error)
@@ -38,6 +47,30 @@ export default function CoffeeListPage() {
     
     fetchCoffees()
   }, [])
+
+  const handleFilterChange = (filters: Filters) => {
+    let filtered = allCoffees
+
+    if (filters.shopName) {
+      filtered = filtered.filter(coffee => 
+        coffee.shop_name?.toLowerCase().includes(filters.shopName!.toLowerCase())
+      )
+    }
+
+    if (filters.country) {
+      filtered = filtered.filter(coffee => 
+        coffee.country?.toLowerCase().includes(filters.country!.toLowerCase())
+      )
+    }
+
+    if (filters.rating) {
+      filtered = filtered.filter(coffee => 
+        coffee.rating && coffee.rating >= filters.rating!
+      )
+    }
+
+    setFilteredCoffees(filtered)
+  }
 
   if (loading) {
     return (
@@ -69,7 +102,9 @@ export default function CoffeeListPage() {
           </Link>
         </div>
         
-        <ClientCoffeeList initialCoffees={coffees} />
+        <CoffeeFilter onFilterChange={handleFilterChange} />
+        
+        <ClientCoffeeList initialCoffees={filteredCoffees} />
       </div>
     </Container>
   )

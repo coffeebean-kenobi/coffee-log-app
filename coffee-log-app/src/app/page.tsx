@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { createClient } from '@/lib/supabase-server'
+import { useState, useEffect } from 'react'
+import { createClient } from '@/lib/supabase'
 import { Typography } from '@/components/Typography'
 import { Button } from '@/components/Button'
 import { Card } from '@/components/Card'
@@ -11,11 +12,18 @@ import { useThemeStyles } from '@/theme/utils'
 
 export default function Home() {
   const styles = useThemeStyles()
+  const [user, setUser] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const supabase = createClient()
   
-  // クライアントコンポーネントではSupabaseのServer APIは使用できないので、
-  // ユーザーがログインしているかどうかはクライアントサイドで確認するロジックが必要
-  // 一旦このデモではログインしていないと仮定
-  const isLoggedIn = false
+  useEffect(() => {
+    async function getUser() {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+      setLoading(false)
+    }
+    getUser()
+  }, [])
 
   return (
     <Container>
@@ -47,7 +55,9 @@ export default function Home() {
           gap: styles.spacing('md'),
           marginBottom: styles.spacing('xl')
         }}>
-          {isLoggedIn ? (
+          {loading ? (
+            <Typography variant="body2">読み込み中...</Typography>
+          ) : user ? (
             <>
               <Link href="/coffee">
                 <Button variant="primary">記録を見る</Button>

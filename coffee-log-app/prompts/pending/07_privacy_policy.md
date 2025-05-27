@@ -155,6 +155,9 @@ declare global {
 import { useState } from 'react'
 import Link from 'next/link'
 import { useCookieConsent, CookieConsent } from '@/hooks/useCookieConsent'
+import { Container } from '@/components/Container'
+import { Button } from '@/components/Button'
+import { Typography } from '@/components/Typography'
 
 export default function CookieConsentBanner() {
   const { 
@@ -189,15 +192,22 @@ export default function CookieConsentBanner() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border shadow-lg">
-      <div className="container mx-auto px-4 py-4">
-        {!showDetails ? (
-          // 基本バナー
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-card-foreground mb-2">
-                🍪 クッキーの使用について
-              </h3>
+    <div 
+      className="fixed bottom-0 left-0 right-0 z-50 shadow-lg"
+      style={{
+        backgroundColor: 'var(--color-background-card)',
+        borderTop: '1px solid var(--color-border)',
+      }}
+    >
+      <Container>
+        <div className="py-4">
+          {!showDetails ? (
+            // 基本バナー
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+              <div className="flex-1">
+                <Typography variant="h3" style={{ marginBottom: '0.5rem' }}>
+                  🍪 クッキーの使用について
+                </Typography>
               <p className="text-sm text-muted-foreground">
                 当サイトではユーザー体験の向上と分析のためにクッキーを使用しています。
                 詳細は

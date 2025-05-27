@@ -7,6 +7,8 @@ Google AdSenseの収益最大化とユーザーエクスペリエンス維持の
 - 06_adsense_foundation.mdの実装が完了していること
 - 07_privacy_policy.mdの実装が完了していること
 
+**重要**: このプロンプトは既存のコードベース（Next.js 14.1.3、現在のコンポーネント構造）に合わせて修正済みです。実行前に現在の実装状況を確認してください。
+
 ## 実装する機能
 1. 効果的な広告配置戦略
 2. ページ別広告最適化
@@ -146,47 +148,92 @@ export default function StrategicAdPlacement({
 ### 3. コーヒー記録詳細ページ広告統合: `src/app/coffee/[id]/page.tsx`を修正
 ```typescript
 // 既存のコーヒー詳細ページに広告を統合
-import StrategicAdPlacement from '@/components/ads/StrategicAdPlacement'
+// 注意: 既存のimportとコンポーネント構造を保持しながら広告を追加
+'use client'
 
-export default function CoffeeDetailPage({ params }: { params: { id: string } }) {
-  // 既存のコード...
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import DeleteCoffeeButton from '@/components/coffee/DeleteCoffeeButton'
+import CoffeeDetailTasteChart from '@/components/coffee/CoffeeDetailTasteChart'
+import StrategicAdPlacement from '@/components/ads/StrategicAdPlacement'
+import { Container } from '@/components/Container'
+import { Typography } from '@/components/Typography'
+import { Card } from '@/components/Card'
+import { Button } from '@/components/Button'
+import { Database } from '@/types/database.types'
+
+type CoffeeRecord = Database['public']['Tables']['coffee_records']['Row']
+
+interface CoffeeDetailPageProps {
+  params: { id: string }
+}
+
+export default function CoffeeDetailPage({ params }: CoffeeDetailPageProps) {
+  // 既存のstate管理とデータ取得ロジックを保持...
+  const [coffee, setCoffee] = useState<CoffeeRecord | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
+  const supabase = createClient()
+  const router = useRouter()
+  
+  // 既存のuseEffectとデータ取得ロジックを保持...
+  
+  if (loading || notFound || !coffee) {
+    // 既存のローディング・エラー処理を保持...
+  }
 
   return (
     <Container>
-      <div className="py-8">
+      <div style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+        {/* 既存のナビゲーション */}
+        <div style={{ marginBottom: '2rem' }}>
+          <Link href="/coffee">
+            <Button variant="secondary">← 一覧に戻る</Button>
+          </Link>
+        </div>
+
         {/* コンテンツ上部広告 */}
         <StrategicAdPlacement placementId="content-top" className="mb-8" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* メインコンテンツ */}
-          <div className="lg:col-span-3">
-            {/* 既存のコーヒー詳細コンテンツ */}
-            <CoffeeDetailCard coffee={coffee} />
-            
-            {/* 中間広告（記事内） */}
-            <StrategicAdPlacement 
-              placementId="content-middle" 
-              className="my-8"
-            />
-            
-            {/* 味覚プロファイル等の詳細情報 */}
-            <TasteProfileDisplay />
+        <Card>
+          {/* 既存のコーヒー詳細コンテンツを保持 */}
+          <Typography variant="h2" style={{ marginBottom: '1.5rem' }}>
+            {coffee.shop_name} - {coffee.coffee_name}
+          </Typography>
+          
+          {/* 既存の詳細情報表示を保持 */}
+          <div style={{ display: 'grid', gap: '1rem', marginBottom: '2rem' }}>
+            {/* 既存のフィールド表示ロジックを保持 */}
           </div>
 
-          {/* サイドバー */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-8 space-y-6">
-              {/* サイドバー広告 */}
-              <StrategicAdPlacement 
-                placementId="sidebar-main"
-                className="mb-6"
-              />
-              
-              {/* 既存のサイドバーコンテンツ */}
-              <RelatedCoffees />
-            </div>
+          {/* 中間広告（記事内） */}
+          <StrategicAdPlacement 
+            placementId="content-middle" 
+            className="my-8"
+          />
+
+          {/* 既存のテイスティングチャート */}
+          <div style={{ marginBottom: '2rem' }}>
+            <Typography variant="h3" style={{ marginBottom: '1rem' }}>
+              テイスティング評価
+            </Typography>
+            <CoffeeDetailTasteChart coffee={coffee} />
           </div>
-        </div>
+
+          {/* 既存のアクションボタン */}
+          <div style={{ 
+            display: 'flex', 
+            gap: '1rem', 
+            justifyContent: 'flex-end' 
+          }}>
+            <Link href={`/coffee/edit/${coffee.id}`}>
+              <Button variant="secondary">編集</Button>
+            </Link>
+            <DeleteCoffeeButton coffeeId={coffee.id} />
+          </div>
+        </Card>
 
         {/* コンテンツ下部広告 */}
         <StrategicAdPlacement placementId="content-bottom" className="mt-8" />
@@ -198,42 +245,127 @@ export default function CoffeeDetailPage({ params }: { params: { id: string } })
 
 ### 4. コーヒー記録一覧ページ広告統合: `src/app/coffee/page.tsx`を修正
 ```typescript
+// 注意: 既存のコーヒー一覧ページに広告を統合
+// 既存のimportとコンポーネント構造を保持しながら広告を追加
+// 2025年1月時点で、CoffeeFilterは既に統合済みです
+
+'use client'
+
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase'
+import Link from 'next/link'
+import ClientCoffeeList from './ClientCoffeeList'
+import CoffeeFilter from '@/components/coffee/CoffeeFilter' // 既に統合済み
 import StrategicAdPlacement from '@/components/ads/StrategicAdPlacement'
-import InFeedAdComponent from '@/components/ads/InFeedAdComponent'
+import { Container } from '@/components/Container'
+import { Typography } from '@/components/Typography'
+import { Button } from '@/components/Button'
+import { Database } from '@/types/database.types'
+
+type CoffeeRecord = Database['public']['Tables']['coffee_records']['Row']
+
+type Filters = {
+  shopName?: string
+  country?: string
+  rating?: number
+}
 
 export default function CoffeeListPage() {
-  // 既存のコード...
+  // 既存のstate管理とデータ取得ロジック（フィルター機能付き）
+  const [allCoffees, setAllCoffees] = useState<CoffeeRecord[]>([])
+  const [filteredCoffees, setFilteredCoffees] = useState<CoffeeRecord[]>([])
+  const [loading, setLoading] = useState(true)
+  const supabase = createClient()
+  
+  useEffect(() => {
+    async function fetchCoffees() {
+      try {
+        const { data: coffees, error } = await supabase
+          .from('coffee_records')
+          .select('*')
+          .order('consumed_at', { ascending: false })
+        
+        if (error) {
+          console.error('Error fetching coffee records:', error)
+        } else {
+          setAllCoffees(coffees || [])
+          setFilteredCoffees(coffees || [])
+        }
+      } catch (error) {
+        console.error('Error fetching coffee records:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchCoffees()
+  }, [])
+
+  const handleFilterChange = (filters: Filters) => {
+    let filtered = allCoffees
+
+    if (filters.shopName) {
+      filtered = filtered.filter(coffee => 
+        coffee.shop_name?.toLowerCase().includes(filters.shopName!.toLowerCase())
+      )
+    }
+
+    if (filters.country) {
+      filtered = filtered.filter(coffee => 
+        coffee.country?.toLowerCase().includes(filters.country!.toLowerCase())
+      )
+    }
+
+    if (filters.rating) {
+      filtered = filtered.filter(coffee => 
+        coffee.rating && coffee.rating >= filters.rating!
+      )
+    }
+
+    setFilteredCoffees(filtered)
+  }
+  
+  if (loading) {
+    return (
+      <Container>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          minHeight: '60vh' 
+        }}>
+          <Typography variant="body1">読み込み中...</Typography>
+        </div>
+      </Container>
+    )
+  }
 
   return (
     <Container>
-      <div className="py-8">
-        {/* ページトップ広告 */}
+      <div style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+        {/* コンテンツ上部広告 */}
         <StrategicAdPlacement placementId="content-top" className="mb-8" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* メインコンテンツ */}
-          <div className="lg:col-span-3">
-            <h1 className="text-2xl font-bold mb-6">コーヒー記録</h1>
-            
-            {/* フィルターコンポーネント */}
-            <CoffeeFilter />
-            
-            {/* コーヒー記録リスト（広告を間に挟む） */}
-            <CoffeeListWithAds records={coffeeRecords} />
-          </div>
-
-          {/* サイドバー */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-8">
-              <StrategicAdPlacement 
-                placementId="sidebar-main"
-                className="mb-6"
-              />
-            </div>
-          </div>
+        {/* 既存のヘッダー部分を保持 */}
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          marginBottom: '2rem' 
+        }}>
+          <Typography variant="h2">コーヒー記録一覧</Typography>
+          <Link href="/coffee/add">
+            <Button variant="primary">新しい記録を追加</Button>
+          </Link>
         </div>
+        
+        {/* 既存のフィルターコンポーネント（統合済み） */}
+        <CoffeeFilter onFilterChange={handleFilterChange} />
+        
+        {/* 既存のコーヒーリストコンポーネントを保持 */}
+        <ClientCoffeeList initialCoffees={filteredCoffees} />
 
-        {/* ページ下部広告 */}
+        {/* コンテンツ下部広告 */}
         <StrategicAdPlacement placementId="content-bottom" className="mt-8" />
       </div>
     </Container>

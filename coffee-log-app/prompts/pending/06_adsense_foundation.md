@@ -3,11 +3,16 @@
 ## 概要
 Coffee Log AppにGoogle AdSenseを統合して月$20の収益を目指します。この段階では、AdSense統合の基盤、環境変数設定、基本的な広告コンポーネントを作成します。
 
+**注意**: 現在のプロジェクトはNext.js 14.1.3を使用し、独自のテーマシステムが実装されています。既存の構造を保持しながら段階的に機能を追加します。
+
+## 前提条件
+- 現在のコードベース（Next.js 14.1.3、カスタムテーマシステム）の理解
+
 ## 実装する機能
 1. Google AdSenseアカウント申請準備
 2. 環境変数とAdSense設定
 3. 基本的な広告バナーコンポーネント
-4. Next.js 15対応のScript統合
+4. Next.js 14.1.3対応のScript統合
 
 ## 必要なファイル作成
 
@@ -187,16 +192,23 @@ export default function AdBanner({
       {/* 開発環境では広告プレースホルダーを表示 */}
       {adsenseConfig.testMode ? (
         <div 
-          className="ad-placeholder bg-muted border-2 border-dashed border-muted-foreground/50 rounded-lg flex items-center justify-center text-muted-foreground"
+          className="ad-placeholder"
           style={{
             width: adSize?.width || '100%',
             height: adSize?.height || 90,
-            maxWidth: '100%'
+            maxWidth: '100%',
+            backgroundColor: 'var(--color-background-muted)',
+            border: '2px dashed var(--color-border)',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--color-text-muted)'
           }}
         >
-          <div className="text-center">
-            <p className="text-sm">📢 広告エリア</p>
-            <p className="text-xs">Slot: {adSlot}</p>
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: '14px', margin: '0 0 4px 0' }}>📢 広告エリア</p>
+            <p style={{ fontSize: '12px', margin: '0' }}>Slot: {adSlot}</p>
           </div>
         </div>
       ) : (
@@ -287,26 +299,79 @@ export default function ResponsiveAdBanner({
 }
 ```
 
-### 6. レイアウト統合: `src/app/layout.tsx`を修正
+### 6. レイアウト統合: `src/app/layout.tsx`を段階的に修正
 ```typescript
-import GoogleAdsScript from '@/components/ads/GoogleAdsScript'
+// 注意: 既存のlayout.tsxを段階的に更新します
+// 既存のimport、フォント設定、テーマシステムを保持しながらGoogleAdsScriptを追加
+
+import type { Metadata } from "next";
+import { Noto_Sans_JP } from "next/font/google";
+import { ThemeProvider } from "@/theme/ThemeProvider";
+import { Header } from "@/components/layout/Header";
+import GoogleAdsScript from '@/components/ads/GoogleAdsScript'; // 新規追加
+import "./globals.css";
+
+// 既存のフォント設定を保持
+const notoSansJP = Noto_Sans_JP({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  variable: '--font-noto-sans',
+});
+
+// 既存のメタデータを保持
+export const metadata: Metadata = {
+  title: "LOGCUP",
+  description: "コーヒーの情報や感想を記録するアプリ",
+  icons: {
+    icon: '/LOG.png',
+    apple: '/LOG.png',
+  },
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <head>
+        {/* 既存のテーマスクリプトを保持 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const mode = localStorage.getItem('theme-mode') || 'system';
+                  const isDark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+        {/* 新規追加: GoogleAdsScript */}
         <GoogleAdsScript />
       </head>
-      <body>
-        {/* 既存のレイアウト */}
-        {children}
-      </body>
+      <ThemeProvider>
+        <body 
+          className={`${notoSansJP.className} min-h-screen`}
+          style={{
+            backgroundColor: 'var(--color-background-main)',
+            color: 'var(--color-text-primary)',
+            transition: 'background-color 0.3s ease, color 0.3s ease'
+          }}
+        >
+          {/* 既存のHeader構造を保持 */}
+          <Header />
+          <main className="pb-20">
+            {children}
+          </main>
+        </body>
+      </ThemeProvider>
     </html>
-  )
+  );
 }
 ```
 
