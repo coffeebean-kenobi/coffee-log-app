@@ -76,6 +76,16 @@ export const Header = () => {
                     <Typography variant="body1">新規追加</Typography>
                   </Link>
                   <Link 
+                    href="/analytics" 
+                    className={`px-3 py-2 rounded-md transition-colors ${
+                      isActive('/analytics') 
+                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
+                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
+                    }`}
+                  >
+                    <Typography variant="body1">📊 分析</Typography>
+                  </Link>
+                  <Link 
                     href="/profile" 
                     className={`px-3 py-2 rounded-md transition-colors ${
                       isActive('/profile') 
