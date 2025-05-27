@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import { ThemeProvider } from "@/theme/ThemeProvider";
 import { Header } from "@/components/layout/Header";
-import GoogleAdsScript from "@/components/ads/GoogleAdsScript";
 import "./globals.css";
 
 // Noto Sans JPフォントを設定
@@ -30,7 +29,6 @@ export default function RootLayout({
   return (
     <html lang="ja" suppressHydrationWarning>
       <head>
-        <GoogleAdsScript />
         <script
           dangerouslySetInnerHTML={{
             __html: `
