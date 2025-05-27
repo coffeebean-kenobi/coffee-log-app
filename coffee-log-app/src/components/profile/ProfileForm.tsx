@@ -4,6 +4,10 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { Database } from '@/types/database.types'
+import { Card } from '@/components/Card'
+import { Typography } from '@/components/Typography'
+import { Button } from '@/components/Button'
+import { useThemeStyles } from '@/theme/utils'
 
 type Profile = Database['public']['Tables']['profiles']['Row']
 
@@ -13,6 +17,7 @@ type Props = {
 
 export default function ProfileForm({ initialProfile }: Props) {
   const router = useRouter()
+  const styles = useThemeStyles()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
@@ -86,87 +91,143 @@ export default function ProfileForm({ initialProfile }: Props) {
     router.refresh()
   }
 
+  // 入力フィールドのスタイル
+  const inputStyle = {
+    width: '100%',
+    padding: styles.spacing('sm'),
+    border: '1px solid var(--color-accent-main)',
+    borderRadius: styles.borderRadius('sm'),
+    fontSize: styles.typography('fontSize.body1'),
+    backgroundColor: 'var(--color-background-paper)',
+    color: 'var(--color-text-primary)',
+    marginTop: styles.spacing('xs'),
+  }
+
+  // ラベルのスタイル
+  const labelStyle = {
+    display: 'block',
+    marginBottom: styles.spacing('xs'),
+    fontSize: styles.typography('fontSize.body2'),
+    fontWeight: styles.typography('fontWeight.medium'),
+    color: 'var(--color-text-primary)',
+  }
+
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
-        </div>
-      )}
-      
-      {success && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-          プロフィールを更新しました
-        </div>
-      )}
-      
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="username" className="block text-sm font-medium mb-1">
-            ユーザー名
-          </label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username || ''}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            placeholder="ユーザー名"
-          />
-          <p className="mt-1 text-xs text-gray-500">
-            他のユーザーに表示される一意のユーザー名です
-          </p>
-        </div>
+    <Card>
+      <div style={{ padding: styles.spacing('lg') }}>
+        {error && (
+          <div style={{ 
+            padding: styles.spacing('md'),
+            backgroundColor: 'var(--color-text-error)',
+            borderRadius: styles.borderRadius('sm'),
+            color: 'var(--color-background-paper)',
+            marginBottom: styles.spacing('md'),
+            border: '1px solid var(--color-text-error)',
+          }}>
+            <Typography variant="body2" style={{ color: 'inherit' }}>{error}</Typography>
+          </div>
+        )}
         
-        <div>
-          <label htmlFor="display_name" className="block text-sm font-medium mb-1">
-            表示名
-          </label>
-          <input
-            type="text"
-            id="display_name"
-            name="display_name"
-            value={formData.display_name || ''}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            placeholder="表示名"
-          />
-        </div>
+        {success && (
+          <div style={{ 
+            padding: styles.spacing('md'),
+            backgroundColor: 'var(--color-highlight-light)',
+            borderRadius: styles.borderRadius('sm'),
+            color: 'var(--color-primary-main)',
+            marginBottom: styles.spacing('md'),
+            border: '1px solid var(--color-highlight-main)',
+          }}>
+            <Typography variant="body2" style={{ color: 'inherit' }}>プロフィールを更新しました</Typography>
+          </div>
+        )}
         
-        <div>
-          <label htmlFor="bio" className="block text-sm font-medium mb-1">
-            自己紹介
-          </label>
-          <textarea
-            id="bio"
-            name="bio"
-            rows={4}
-            value={formData.bio || ''}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            placeholder="あなたのコーヒーの好みや経験について教えてください"
-          />
-        </div>
-        
-        <div className="flex justify-between">
-          <button
-            type="button"
-            onClick={handleSignOut}
-            className="px-4 py-2 text-red-600 border border-red-600 rounded-md hover:bg-red-50"
-          >
-            ログアウト
-          </button>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: styles.spacing('lg') }}>
+          <div>
+            <label htmlFor="username" style={labelStyle}>
+              ユーザー名
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username || ''}
+              onChange={handleChange}
+              style={inputStyle}
+              placeholder="ユーザー名"
+            />
+            <Typography variant="body2" style={{ 
+              marginTop: styles.spacing('xs'),
+              color: 'var(--color-text-secondary)'
+            }}>
+              他のユーザーに表示される一意のユーザー名です
+            </Typography>
+          </div>
           
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading ? '更新中...' : 'プロフィールを更新'}
-          </button>
-        </div>
-      </form>
-    </div>
+          <div>
+            <label htmlFor="display_name" style={labelStyle}>
+              表示名
+            </label>
+            <input
+              type="text"
+              id="display_name"
+              name="display_name"
+              value={formData.display_name || ''}
+              onChange={handleChange}
+              style={inputStyle}
+              placeholder="表示名"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="bio" style={labelStyle}>
+              自己紹介
+            </label>
+            <textarea
+              id="bio"
+              name="bio"
+              rows={4}
+              value={formData.bio || ''}
+              onChange={handleChange}
+              style={{
+                ...inputStyle,
+                resize: 'vertical',
+                minHeight: '100px'
+              }}
+              placeholder="あなたのコーヒーの好みや経験について教えてください"
+            />
+          </div>
+          
+                     <div style={{ 
+             display: 'flex', 
+             justifyContent: 'space-between',
+             marginTop: styles.spacing('md')
+           }}>
+             <button
+               onClick={handleSignOut}
+               type="button"
+               style={{
+                 padding: styles.spacing('sm'),
+                 backgroundColor: 'var(--color-text-error)',
+                 color: 'var(--color-background-paper)',
+                 border: 'none',
+                 borderRadius: styles.borderRadius('sm'),
+                 cursor: 'pointer',
+                 fontSize: styles.typography('fontSize.body1')
+               }}
+             >
+               ログアウト
+             </button>
+             
+             <Button
+               variant="primary"
+               disabled={loading}
+               type="submit"
+             >
+               {loading ? '更新中...' : 'プロフィールを更新'}
+             </Button>
+           </div>
+        </form>
+      </div>
+    </Card>
   )
 }

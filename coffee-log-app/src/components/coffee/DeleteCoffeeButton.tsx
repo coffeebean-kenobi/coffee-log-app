@@ -3,6 +3,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
+import { Button } from '@/components/Button'
+import { Typography } from '@/components/Typography'
+import { useThemeStyles } from '@/theme/utils'
 
 type Props = {
   coffeeId: string
@@ -10,6 +13,7 @@ type Props = {
 
 export default function DeleteCoffeeButton({ coffeeId }: Props) {
   const router = useRouter()
+  const styles = useThemeStyles()
   const [isDeleting, setIsDeleting] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const supabase = createClient()
@@ -38,22 +42,68 @@ export default function DeleteCoffeeButton({ coffeeId }: Props) {
 
   if (showConfirm) {
     return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-card p-6 rounded-lg max-w-sm w-full border border-border shadow-lg">
-          <h3 className="text-lg font-bold mb-4 text-card-foreground">削除の確認</h3>
-          <p className="mb-6 text-card-foreground">この記録を削除してもよろしいですか？この操作は元に戻せません。</p>
-          <div className="flex justify-end space-x-3">
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 50
+      }}>
+        <div style={{
+          backgroundColor: 'var(--color-background-paper)',
+          padding: styles.spacing('lg'),
+          borderRadius: styles.borderRadius('md'),
+          maxWidth: '400px',
+          width: '100%',
+          margin: styles.spacing('md'),
+          border: '1px solid var(--color-accent-main)',
+          boxShadow: styles.shadows('lg')
+        }}>
+          <Typography variant="h4" style={{ marginBottom: styles.spacing('md') }}>
+            削除の確認
+          </Typography>
+          <Typography variant="body1" style={{ marginBottom: styles.spacing('lg') }}>
+            この記録を削除してもよろしいですか？この操作は元に戻せません。
+          </Typography>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'flex-end', 
+            gap: styles.spacing('sm') 
+          }}>
             <button
               onClick={() => setShowConfirm(false)}
-              className="px-4 py-2 text-foreground bg-background border border-border rounded hover:bg-secondary transition-colors"
               disabled={isDeleting}
+              style={{
+                padding: `${styles.spacing('sm')} ${styles.spacing('md')}`,
+                backgroundColor: 'var(--color-background-main)',
+                color: 'var(--color-text-primary)',
+                border: '1px solid var(--color-accent-main)',
+                borderRadius: styles.borderRadius('sm'),
+                cursor: 'pointer',
+                fontSize: styles.typography('fontSize.body1'),
+                opacity: isDeleting ? 0.6 : 1
+              }}
             >
               キャンセル
             </button>
             <button
               onClick={handleDelete}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition-colors"
               disabled={isDeleting}
+              style={{
+                padding: `${styles.spacing('sm')} ${styles.spacing('md')}`,
+                backgroundColor: 'var(--color-text-error)',
+                color: 'var(--color-background-paper)',
+                border: 'none',
+                borderRadius: styles.borderRadius('sm'),
+                cursor: 'pointer',
+                fontSize: styles.typography('fontSize.body1'),
+                opacity: isDeleting ? 0.6 : 1
+              }}
             >
               {isDeleting ? '削除中...' : '削除する'}
             </button>
@@ -66,7 +116,15 @@ export default function DeleteCoffeeButton({ coffeeId }: Props) {
   return (
     <button
       onClick={() => setShowConfirm(true)}
-      className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
+      style={{
+        padding: `${styles.spacing('xs')} ${styles.spacing('sm')}`,
+        backgroundColor: 'var(--color-text-error)',
+        color: 'var(--color-background-paper)',
+        fontSize: styles.typography('fontSize.sm'),
+        border: 'none',
+        borderRadius: styles.borderRadius('sm'),
+        cursor: 'pointer'
+      }}
     >
       削除
     </button>

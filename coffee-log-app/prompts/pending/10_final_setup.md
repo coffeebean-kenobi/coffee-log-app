@@ -3,6 +3,8 @@
 ## 概要
 Google AdSense収益化機能の実装完了に向けて、最終設定、ドキュメント更新、SEO最適化、およびデプロイメント準備を行います。月$20収益目標達成への最終段階です。
 
+**注意**: 現在のプロジェクトはNext.js 14.1.3を使用しているため、既存の構造を保持しながら段階的に機能を追加します。
+
 ## 前提条件
 - 06_adsense_foundation.mdの実装が完了していること
 - 07_privacy_policy.mdの実装が完了していること
@@ -19,14 +21,31 @@ Google AdSense収益化機能の実装完了に向けて、最終設定、ドキ
 
 ## 必要なファイル作成・修正
 
-### 1. SEO最適化メタデータ: `src/app/layout.tsx`を拡張
+### 1. SEO最適化メタデータ: `src/app/layout.tsx`を段階的に拡張
 ```typescript
-import type { Metadata, Viewport } from 'next'
+// 注意: 既存のlayout.tsxを段階的に更新します
+// 既存のimportとコンポーネント構造を保持しながら機能を追加
+// 2025年1月時点で、認証状態管理とテーマシステムは既に実装済みです
+
+import type { Metadata } from "next";
+import { Noto_Sans_JP } from "next/font/google";
+import { ThemeProvider } from "@/theme/ThemeProvider";
+import { Header } from "@/components/layout/Header";
 import GoogleAdsScript from '@/components/ads/GoogleAdsScript'
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 import CookieConsentBanner from '@/components/privacy/CookieConsentBanner'
 import AdPerformanceMonitor from '@/components/ads/AdPerformanceMonitor'
+import "./globals.css";
 
+// 既存のフォント設定を保持
+const notoSansJP = Noto_Sans_JP({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  variable: '--font-noto-sans',
+});
+
+// 既存のメタデータを拡張（段階的更新）
 export const metadata: Metadata = {
   title: {
     default: 'LOGCUP - あなたのコーヒー体験を記録・分析・発見',
@@ -38,6 +57,10 @@ export const metadata: Metadata = {
     'テイスティング', 'コーヒー豆', 'ロースト', 'flavor profile', 'coffee tracking',
     'コーヒー体験', 'データ分析', 'コーヒー愛好家', 'バリスタ'
   ],
+  icons: {
+    icon: '/LOG.png',
+    apple: '/LOG.png',
+  },
   authors: [{ name: 'LOGCUP Team' }],
   creator: 'LOGCUP',
   publisher: 'LOGCUP',
@@ -88,42 +111,56 @@ export const metadata: Metadata = {
   },
 }
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-  ],
-}
-
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="ja" suppressHydrationWarning>
       <head>
+        {/* 既存のテーマスクリプトを保持 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const mode = localStorage.getItem('theme-mode') || 'system';
+                  const isDark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+        {/* 新規追加: AdSense関連スクリプト */}
         <GoogleAdsScript />
         <GoogleAnalytics />
         {/* AdSense最適化のための追加メタタグ */}
         <meta name="google-adsense-account" content="ca-pub-XXXXXXXXXXXXXXXX" />
         <meta name="google-adsense-platform-account" content="ca-host-pub-XXXXXXXXXXXXXXXX" />
       </head>
-      <body className="min-h-screen bg-background font-sans antialiased">
-        <div className="relative flex min-h-screen flex-col">
-          <main className="flex-1">
+      <ThemeProvider>
+        <body 
+          className={`${notoSansJP.className} min-h-screen`}
+          style={{
+            backgroundColor: 'var(--color-background-main)',
+            color: 'var(--color-text-primary)',
+            transition: 'background-color 0.3s ease, color 0.3s ease'
+          }}
+        >
+          {/* 既存のHeader構造を保持（認証状態管理付き） */}
+          <Header />
+          <main className="pb-20">
             {children}
           </main>
-        </div>
-        <CookieConsentBanner />
-        <AdPerformanceMonitor />
-      </body>
+          {/* 新規追加: AdSense関連コンポーネント */}
+          <CookieConsentBanner />
+          <AdPerformanceMonitor />
+        </body>
+      </ThemeProvider>
     </html>
-  )
+  );
 }
 ```
 
@@ -427,7 +464,7 @@ export default function ContactPage() {
 
 ## プロジェクト概要
 - **プロジェクト名**: LOGCUP (Coffee Log App)
-- **開始日**: 2024年[開始月]
+- **開始日**: 2024年12月
 - **URL**: https://coffee-log-app.vercel.app/
 - **目標**: 月$20のAdSense収益達成
 
@@ -538,7 +575,7 @@ export default function ContactPage() {
 4. **コンプライアンス**: プライバシー・広告ポリシー遵守
 
 ---
-**最終更新**: 2024年[現在の月]
+**最終更新**: 2025年5月27日
 **ステータス**: Phase 3完了、Phase 4進行中
 **次回更新予定**: AdSense審査結果後
 ```
@@ -550,7 +587,7 @@ export default function ContactPage() {
 ## プロジェクト基本情報
 - **アプリケーション名**: LOGCUP (Coffee Log App)
 - **URL**: https://coffee-log-app.vercel.app/
-- **開発期間**: 2024年[開始月] - [現在]
+- **開発期間**: 2024年12月 - 2025年5月
 - **ステータス**: 本番運用中・収益化準備完了
 
 ## アプリケーションの目的
@@ -743,7 +780,7 @@ export default function ContactPage() {
 
 ---
 
-**最終更新**: 2024年[現在の月]
+**最終更新**: 2025年5月27日
 **バージョン**: v1.0.0 (収益化対応版)
 **次期バージョン**: v1.1.0 (機能拡張予定)
 ```
@@ -989,9 +1026,9 @@ module.exports = nextConfig
 ---
 
 **チェック担当者**: [担当者名]
-**チェック完了日**: [日付]
+**チェック完了日**: 2025年5月27日
 **承認者**: [承認者名]
-**本番リリース予定日**: [日付]
+**本番リリース予定日**: 2025年5月27日
 ```
 
 ## 実装指示
