@@ -154,14 +154,37 @@ export const Header = () => {
             {/* モバイルメニューボタン */}
             <button
               onClick={toggleMobileMenu}
-              className="md:hidden p-2 rounded-md transition-colors text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark"
+              className="md:hidden p-2 rounded-md transition-all duration-200"
               aria-label="メニュー"
-              style={{ minWidth: '44px', minHeight: '44px' }}
+              style={{ 
+                minWidth: '44px', 
+                minHeight: '44px',
+                backgroundColor: 'transparent',
+                border: '2px solid var(--color-accent-main)',
+                color: 'var(--color-text-primary)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                e.currentTarget.style.transform = 'scale(1.05)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent'
+                e.currentTarget.style.transform = 'scale(1)'
+              }}
             >
               <span className="block w-6 h-6 relative">
-                <span className={`block absolute h-0.5 w-6 bg-current transform transition duration-300 ease-in-out ${mobileMenuOpen ? 'rotate-45 translate-y-2.5' : 'translate-y-0'}`}></span>
-                <span className={`block absolute h-0.5 w-6 bg-current transform transition duration-300 ease-in-out translate-y-2 ${mobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-                <span className={`block absolute h-0.5 w-6 bg-current transform transition duration-300 ease-in-out ${mobileMenuOpen ? '-rotate-45 translate-y-2.5' : 'translate-y-4'}`}></span>
+                <span 
+                  className={`block absolute h-0.5 w-6 transform transition duration-300 ease-in-out ${mobileMenuOpen ? 'rotate-45 translate-y-2.5' : 'translate-y-0'}`}
+                  style={{ backgroundColor: 'var(--color-text-primary)' }}
+                ></span>
+                <span 
+                  className={`block absolute h-0.5 w-6 transform transition duration-300 ease-in-out translate-y-2 ${mobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}
+                  style={{ backgroundColor: 'var(--color-text-primary)' }}
+                ></span>
+                <span 
+                  className={`block absolute h-0.5 w-6 transform transition duration-300 ease-in-out ${mobileMenuOpen ? '-rotate-45 translate-y-2.5' : 'translate-y-4'}`}
+                  style={{ backgroundColor: 'var(--color-text-primary)' }}
+                ></span>
               </span>
             </button>
           </div>
@@ -169,62 +192,140 @@ export const Header = () => {
 
         {/* モバイルメニュー */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-accent-main">
+          <div 
+            className="md:hidden"
+            style={{
+              borderTop: '2px solid var(--color-accent-main)',
+              backgroundColor: 'var(--color-background-paper)',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+            }}
+          >
             <nav className="py-4 space-y-2">
               {!loading && user ? (
                 <>
                   <Link 
                     href="/coffee" 
-                    className={`block px-3 py-3 rounded-md transition-colors ${
+                    className={`block px-3 py-3 rounded-md transition-all duration-200 ${
                       isActive('/coffee') 
-                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
-                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
+                        ? '' 
+                        : ''
                     }`}
                     onClick={closeMobileMenu}
-                    style={{ minHeight: '44px' }}
+                    style={{ 
+                      minHeight: '44px',
+                      backgroundColor: isActive('/coffee') ? 'var(--color-primary-main)' : 'transparent',
+                      color: isActive('/coffee') ? 'var(--color-background-paper)' : 'var(--color-text-primary)',
+                      border: isActive('/coffee') ? 'none' : '1px solid var(--color-accent-main)'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive('/coffee')) {
+                        e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive('/coffee')) {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                      }
+                    }}
                   >
                     <Typography variant="body1">コーヒー一覧</Typography>
                   </Link>
                   <Link 
                     href="/coffee/add" 
-                    className={`block px-3 py-3 rounded-md transition-colors ${
+                    className={`block px-3 py-3 rounded-md transition-all duration-200 ${
                       isActive('/coffee/add') 
-                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
-                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
+                        ? '' 
+                        : ''
                     }`}
                     onClick={closeMobileMenu}
-                    style={{ minHeight: '44px' }}
+                    style={{ 
+                      minHeight: '44px',
+                      backgroundColor: isActive('/coffee/add') ? 'var(--color-primary-main)' : 'transparent',
+                      color: isActive('/coffee/add') ? 'var(--color-background-paper)' : 'var(--color-text-primary)',
+                      border: isActive('/coffee/add') ? 'none' : '1px solid var(--color-accent-main)'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive('/coffee/add')) {
+                        e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive('/coffee/add')) {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                      }
+                    }}
                   >
                     <Typography variant="body1">新規追加</Typography>
                   </Link>
                   <Link 
                     href="/analytics" 
-                    className={`block px-3 py-3 rounded-md transition-colors ${
+                    className={`block px-3 py-3 rounded-md transition-all duration-200 ${
                       isActive('/analytics') 
-                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
-                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
+                        ? '' 
+                        : ''
                     }`}
                     onClick={closeMobileMenu}
-                    style={{ minHeight: '44px' }}
+                    style={{ 
+                      minHeight: '44px',
+                      backgroundColor: isActive('/analytics') ? 'var(--color-primary-main)' : 'transparent',
+                      color: isActive('/analytics') ? 'var(--color-background-paper)' : 'var(--color-text-primary)',
+                      border: isActive('/analytics') ? 'none' : '1px solid var(--color-accent-main)'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive('/analytics')) {
+                        e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive('/analytics')) {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                      }
+                    }}
                   >
                     <Typography variant="body1">分析</Typography>
                   </Link>
                   <Link 
                     href="/profile" 
-                    className={`block px-3 py-3 rounded-md transition-colors ${
+                    className={`block px-3 py-3 rounded-md transition-all duration-200 ${
                       isActive('/profile') 
-                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
-                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
+                        ? '' 
+                        : ''
                     }`}
                     onClick={closeMobileMenu}
-                    style={{ minHeight: '44px' }}
+                    style={{ 
+                      minHeight: '44px',
+                      backgroundColor: isActive('/profile') ? 'var(--color-primary-main)' : 'transparent',
+                      color: isActive('/profile') ? 'var(--color-background-paper)' : 'var(--color-text-primary)',
+                      border: isActive('/profile') ? 'none' : '1px solid var(--color-accent-main)'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive('/profile')) {
+                        e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive('/profile')) {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                      }
+                    }}
                   >
                     <Typography variant="body1">プロフィール</Typography>
                   </Link>
                   <button
                     onClick={handleSignOut}
-                    className="block w-full text-left px-3 py-3 rounded-md transition-colors text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark"
-                    style={{ minHeight: '44px' }}
+                    className="block w-full text-left px-3 py-3 rounded-md transition-all duration-200"
+                    style={{ 
+                      minHeight: '44px',
+                      backgroundColor: 'transparent',
+                      color: 'var(--color-text-primary)',
+                      border: '1px solid var(--color-accent-main)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent'
+                    }}
                   >
                     <Typography variant="body1">ログアウト</Typography>
                   </button>
@@ -233,25 +334,55 @@ export const Header = () => {
                 <>
                   <Link 
                     href="/signin" 
-                    className={`block px-3 py-3 rounded-md transition-colors ${
+                    className={`block px-3 py-3 rounded-md transition-all duration-200 ${
                       isActive('/signin') 
-                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
-                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
+                        ? '' 
+                        : ''
                     }`}
                     onClick={closeMobileMenu}
-                    style={{ minHeight: '44px' }}
+                    style={{ 
+                      minHeight: '44px',
+                      backgroundColor: isActive('/signin') ? 'var(--color-primary-main)' : 'transparent',
+                      color: isActive('/signin') ? 'var(--color-background-paper)' : 'var(--color-text-primary)',
+                      border: isActive('/signin') ? 'none' : '1px solid var(--color-accent-main)'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive('/signin')) {
+                        e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive('/signin')) {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                      }
+                    }}
                   >
                     <Typography variant="body1">ログイン</Typography>
                   </Link>
                   <Link 
                     href="/signup" 
-                    className={`block px-3 py-3 rounded-md transition-colors ${
+                    className={`block px-3 py-3 rounded-md transition-all duration-200 ${
                       isActive('/signup') 
-                        ? 'bg-accent-light dark:bg-accent-dark text-primary-main dark:text-primary-light' 
-                        : 'text-text-primary dark:text-text-primary hover:bg-accent-light dark:hover:bg-accent-dark'
+                        ? '' 
+                        : ''
                     }`}
                     onClick={closeMobileMenu}
-                    style={{ minHeight: '44px' }}
+                    style={{ 
+                      minHeight: '44px',
+                      backgroundColor: isActive('/signup') ? 'var(--color-primary-main)' : 'transparent',
+                      color: isActive('/signup') ? 'var(--color-background-paper)' : 'var(--color-text-primary)',
+                      border: isActive('/signup') ? 'none' : '1px solid var(--color-accent-main)'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive('/signup')) {
+                        e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive('/signup')) {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                      }
+                    }}
                   >
                     <Typography variant="body1">ユーザー登録</Typography>
                   </Link>

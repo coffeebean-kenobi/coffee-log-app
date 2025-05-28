@@ -42,7 +42,7 @@ export default function ContactPage() {
                   borderRadius: '0.375rem'
                 }}
               >
-                support@logcup.app
+                coffeefunk0123@gmail.com
               </Typography>
             </Card>
 
