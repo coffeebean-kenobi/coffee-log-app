@@ -25,7 +25,17 @@ export const Header = () => {
     }
     
     getUser();
-  }, []);
+
+    // 認証状態の変更を監視
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, [supabase]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
