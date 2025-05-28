@@ -8,6 +8,7 @@ import { Typography } from '@/components/Typography'
 import { Button } from '@/components/Button'
 import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
+import StrategicAdPlacement from '@/components/ads/StrategicAdPlacement'
 import { useThemeStyles } from '@/theme/utils'
 
 export default function Home() {
@@ -23,7 +24,17 @@ export default function Home() {
       setLoading(false)
     }
     getUser()
-  }, [])
+
+    // 認証状態の変更を監視
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null)
+        setLoading(false)
+      }
+    )
+
+    return () => subscription.unsubscribe()
+  }, [supabase])
 
   return (
     <Container>
@@ -36,6 +47,9 @@ export default function Home() {
         padding: styles.spacing('md'),
         textAlign: 'center'
       }}>
+        {/* コンテンツ上部広告 */}
+        <StrategicAdPlacement placementId="content-top" className="mb-8" />
+
         <div style={{ marginBottom: styles.spacing('md') }}>
           <Image src="/LOG.png" alt="LOGCUP" width={90} height={90} />
         </div>
@@ -77,6 +91,12 @@ export default function Home() {
             </>
           )}
         </div>
+
+        {/* 中間広告 */}
+        <StrategicAdPlacement 
+          placementId="content-middle" 
+          className="my-8"
+        />
         
         <div style={{ 
           display: 'grid', 
@@ -102,6 +122,9 @@ export default function Home() {
             <Typography variant="body1">あなたの好みのパターンを見つけて、新しいコーヒーとの出会いを楽しみましょう。</Typography>
           </Card>
         </div>
+
+        {/* コンテンツ下部広告 */}
+        <StrategicAdPlacement placementId="content-bottom" className="mt-8" />
       </div>
     </Container>
   )
