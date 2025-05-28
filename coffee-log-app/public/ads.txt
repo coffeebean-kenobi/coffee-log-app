@@ -1,0 +1,5 @@
+# AdSense ads.txt - AdSenseアカウント承認後に更新
+google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+
+# 将来的にパートナーネットワークを追加する場合
+# partnername.com, pub-XXXXXXXXXXXXXXXX, RESELLER, f08c47fec0942fa0 

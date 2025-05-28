@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase'
 import Link from 'next/link'
 import ClientCoffeeList from './ClientCoffeeList'
 import CoffeeFilter from '@/components/coffee/CoffeeFilter'
+import StrategicAdPlacement from '@/components/ads/StrategicAdPlacement'
 import { Container } from '@/components/Container'
 import { Typography } from '@/components/Typography'
 import { Button } from '@/components/Button'
@@ -90,6 +91,9 @@ export default function CoffeeListPage() {
   return (
     <Container>
       <div style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+        {/* コンテンツ上部広告 */}
+        <StrategicAdPlacement placementId="content-top" className="mb-8" />
+
         <div style={{ 
           display: 'flex', 
           justifyContent: 'space-between', 
@@ -105,6 +109,9 @@ export default function CoffeeListPage() {
         <CoffeeFilter onFilterChange={handleFilterChange} />
         
         <ClientCoffeeList initialCoffees={filteredCoffees} />
+
+        {/* コンテンツ下部広告 */}
+        <StrategicAdPlacement placementId="content-bottom" className="mt-8" />
       </div>
     </Container>
   )

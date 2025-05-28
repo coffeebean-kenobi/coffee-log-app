@@ -13,6 +13,7 @@ import {
   TasteProfileChart,
   ExportButton
 } from '@/components/analytics'
+import StrategicAdPlacement from '@/components/ads/StrategicAdPlacement'
 import { useThemeStyles } from '@/theme/utils'
 
 export default function AnalyticsDashboard() {
@@ -113,6 +114,9 @@ export default function AnalyticsDashboard() {
         )}
       </div>
 
+      {/* トップ広告 */}
+      <StrategicAdPlacement placementId="content-top" className="mb-8" />
+
       {/* フィルター */}
       <AnalyticsFilter 
         onFilterChange={updateFilters}
@@ -182,6 +186,12 @@ export default function AnalyticsDashboard() {
           {/* 統計サマリー */}
           <StatsSummary data={analyticsData} loading={loading} />
 
+          {/* 中間広告 */}
+          <StrategicAdPlacement 
+            placementId="content-middle" 
+            className="my-8"
+          />
+
           {/* メインチャート群 */}
           <div style={{ 
             display: 'grid', 
@@ -202,127 +212,16 @@ export default function AnalyticsDashboard() {
             {/* 抽出方法分析 */}
             <BrewMethodChart data={analyticsData.brewMethodData} loading={loading} />
 
-            {/* 味覚プロファイル分析 */}
-            <TasteProfileChart data={analyticsData.tasteProfile} loading={loading} />
-          </div>
-
-          {/* 詳細データセクション */}
-          <div style={{
-            backgroundColor: styles.color('background.paper'),
-            padding: styles.spacing('lg'),
-            borderRadius: styles.borderRadius('lg'),
-            border: `1px solid ${styles.color('secondary.light')}`,
-            boxShadow: styles.shadows('sm')
-          }}>
-            <h2 style={{ 
-              fontSize: styles.typography('fontSize.lg'),
-              fontWeight: styles.typography('fontWeight.semibold'),
-              marginBottom: styles.spacing('md'),
-              color: styles.color('text.primary')
-            }}>
-              詳細データ
-            </h2>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: styles.spacing('lg')
-            }}>
-              <div>
-                <h3 style={{ 
-                  fontWeight: styles.typography('fontWeight.medium'),
-                  color: styles.color('text.primary'),
-                  marginBottom: styles.spacing('sm')
-                }}>
-                  ショップ別統計
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: styles.spacing('sm') }}>
-                  {analyticsData.shopData.slice(0, 5).map((shop, index) => (
-                    <div key={index} style={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between',
-                      fontSize: styles.typography('fontSize.sm')
-                    }}>
-                      <span style={{ 
-                        color: styles.color('text.secondary'),
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap'
-                      }}>
-                        {shop.shopName}
-                      </span>
-                      <span style={{ color: styles.color('text.primary') }}>
-                        {shop.count}杯
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div>
-                <h3 style={{ 
-                  fontWeight: styles.typography('fontWeight.medium'),
-                  color: styles.color('text.primary'),
-                  marginBottom: styles.spacing('sm')
-                }}>
-                  原産地別統計
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: styles.spacing('sm') }}>
-                  {analyticsData.originData.slice(0, 5).map((origin, index) => (
-                    <div key={index} style={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between',
-                      fontSize: styles.typography('fontSize.sm')
-                    }}>
-                      <span style={{ 
-                        color: styles.color('text.secondary'),
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap'
-                      }}>
-                        {origin.origin}
-                      </span>
-                      <span style={{ color: styles.color('text.primary') }}>
-                        {origin.count}杯
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div>
-                <h3 style={{ 
-                  fontWeight: styles.typography('fontWeight.medium'),
-                  color: styles.color('text.primary'),
-                  marginBottom: styles.spacing('sm')
-                }}>
-                  抽出方法別統計
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: styles.spacing('sm') }}>
-                  {analyticsData.brewMethodData.map((brewMethod, index) => (
-                    <div key={index} style={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between',
-                      fontSize: styles.typography('fontSize.sm')
-                    }}>
-                      <span style={{ 
-                        color: styles.color('text.secondary'),
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap'
-                      }}>
-                        {brewMethod.brewMethod}
-                      </span>
-                      <span style={{ color: styles.color('text.primary') }}>
-                        {brewMethod.count}杯
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {/* テイストプロファイル */}
+            <div style={{ gridColumn: '1 / -1' }}>
+              <TasteProfileChart data={analyticsData.tasteProfile} loading={loading} />
             </div>
           </div>
         </div>
       )}
+
+      {/* 下部広告 */}
+      <StrategicAdPlacement placementId="content-bottom" className="mt-8" />
     </div>
   )
 } 
