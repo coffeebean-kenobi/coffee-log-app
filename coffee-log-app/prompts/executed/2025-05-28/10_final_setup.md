@@ -366,7 +366,7 @@ export default function ContactPage() {
                 ご質問やご要望がございましたら、以下のメールアドレスまでお送りください。
               </p>
               <p className="font-mono text-sm bg-muted p-3 rounded">
-                support@logcup.app
+                coffeefunk0123@gmail.com
               </p>
             </div>
 

@@ -94,16 +94,26 @@ export default function CoffeeListPage() {
         {/* コンテンツ上部広告 */}
         <StrategicAdPlacement placementId="content-top" className="mb-8" />
 
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
-          marginBottom: '2rem' 
-        }}>
-          <Typography variant="h2">コーヒー記録一覧</Typography>
-          <Link href="/coffee/add">
-            <Button variant="primary">新しい記録を追加</Button>
-          </Link>
+        <div 
+          style={{ 
+            marginBottom: '2rem' 
+          }}
+        >
+          <div 
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem'
+            }}
+            className="sm:flex-row sm:justify-between sm:items-center sm:gap-8"
+          >
+            <Typography variant="h2" style={{ margin: 0 }}>コーヒー記録一覧</Typography>
+            <div>
+              <Link href="/coffee/add">
+                <Button variant="primary">新しい記録を追加</Button>
+              </Link>
+            </div>
+          </div>
         </div>
         
         <CoffeeFilter onFilterChange={handleFilterChange} />

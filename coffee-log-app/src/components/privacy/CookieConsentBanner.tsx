@@ -41,79 +41,86 @@ export default function CookieConsentBanner() {
 
   return (
     <div 
-      className="fixed bottom-0 left-0 right-0 z-50 shadow-lg"
+      className="fixed bottom-0 left-0 right-0 z-50 shadow-2xl backdrop-blur-sm"
       style={{
-        backgroundColor: 'var(--color-background-card)',
-        borderTop: '1px solid var(--color-border)',
+        backgroundColor: 'var(--color-background-paper)',
+        borderTop: '2px solid var(--color-accent-main)',
+        boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.15)',
       }}
     >
       <Container>
-        <div className="py-4">
+        <div className="py-6">
           {!showDetails ? (
             // 基本バナー
             <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
               <div className="flex-1">
-                <Typography variant="h3" style={{ marginBottom: '0.5rem' }}>
+                <Typography variant="h3" style={{ marginBottom: '0.5rem', color: 'var(--color-text-primary)' }}>
                   🍪 クッキーの使用について
                 </Typography>
-                <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+                <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
                   当サイトではユーザー体験の向上と分析のためにクッキーを使用しています。
                   詳細は
-                  <Link href="/privacy-policy" className="hover:underline mx-1" style={{ color: 'var(--color-primary)' }}>
+                  <Link href="/privacy-policy" className="hover:underline mx-1" style={{ color: 'var(--color-primary-main)' }}>
                     プライバシーポリシー
                   </Link>
                   をご確認ください。
                 </p>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-2">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={() => setShowDetails(true)}
-                  className="px-4 py-2 text-sm rounded-md transition-colors"
+                  className="px-5 py-3 text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
                   style={{
-                    border: '1px solid var(--color-border)',
-                    backgroundColor: 'transparent',
-                    color: 'var(--color-text)',
+                    border: '2px solid var(--color-accent-main)',
+                    backgroundColor: 'var(--color-background-main)',
+                    color: 'var(--color-text-primary)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'var(--color-background-accent)'
+                    e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                    e.currentTarget.style.transform = 'translateY(-1px)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent'
+                    e.currentTarget.style.backgroundColor = 'var(--color-background-main)'
+                    e.currentTarget.style.transform = 'translateY(0)'
                   }}
                 >
                   設定をカスタマイズ
                 </button>
                 <button
                   onClick={acceptNecessaryOnly}
-                  className="px-4 py-2 text-sm rounded-md transition-colors"
+                  className="px-5 py-3 text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
                   style={{
-                    border: '1px solid var(--color-border)',
-                    backgroundColor: 'transparent',
-                    color: 'var(--color-text)',
+                    border: '2px solid var(--color-accent-main)',
+                    backgroundColor: 'var(--color-background-main)',
+                    color: 'var(--color-text-primary)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'var(--color-background-accent)'
+                    e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                    e.currentTarget.style.transform = 'translateY(-1px)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent'
+                    e.currentTarget.style.backgroundColor = 'var(--color-background-main)'
+                    e.currentTarget.style.transform = 'translateY(0)'
                   }}
                 >
                   必要最小限のみ
                 </button>
                 <button
                   onClick={acceptAll}
-                  className="px-4 py-2 text-sm rounded-md transition-colors"
+                  className="px-5 py-3 text-sm font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
                   style={{
-                    backgroundColor: 'var(--color-primary)',
-                    color: 'var(--color-primary-foreground)',
-                    border: 'none',
+                    backgroundColor: 'var(--color-primary-main)',
+                    color: 'var(--color-background-paper)',
+                    border: '2px solid var(--color-primary-main)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.opacity = '0.9'
+                    e.currentTarget.style.transform = 'translateY(-1px)'
+                    e.currentTarget.style.filter = 'brightness(1.1)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.opacity = '1'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.filter = 'brightness(1)'
                   }}
                 >
                   すべて承諾
@@ -122,15 +129,24 @@ export default function CookieConsentBanner() {
             </div>
           ) : (
             // 詳細設定
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text)' }}>
+                <h3 className="text-xl font-semibold" style={{ color: 'var(--color-text-primary)' }}>
                   クッキー設定
                 </h3>
                 <button
                   onClick={() => setShowDetails(false)}
-                  className="hover:opacity-70"
-                  style={{ color: 'var(--color-text-muted)' }}
+                  className="p-2 rounded-full transition-colors"
+                  style={{ 
+                    color: 'var(--color-text-secondary)',
+                    backgroundColor: 'transparent'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                  }}
                 >
                   ✕
                 </button>
@@ -139,12 +155,15 @@ export default function CookieConsentBanner() {
               <div className="grid gap-4">
                 {/* 必須クッキー */}
                 <div 
-                  className="flex items-center justify-between p-3 rounded-lg"
-                  style={{ border: '1px solid var(--color-border)' }}
+                  className="flex items-center justify-between p-4 rounded-lg shadow-sm"
+                  style={{ 
+                    border: '1px solid var(--color-accent-main)',
+                    backgroundColor: 'var(--color-background-main)'
+                  }}
                 >
                   <div>
-                    <h4 className="font-medium" style={{ color: 'var(--color-text)' }}>必須クッキー</h4>
-                    <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+                    <h4 className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>必須クッキー</h4>
+                    <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>
                       サイトの基本機能に必要なクッキーです（認証、セッション管理など）
                     </p>
                   </div>
@@ -153,110 +172,135 @@ export default function CookieConsentBanner() {
                       type="checkbox"
                       checked={true}
                       disabled={true}
-                      className="mr-2"
+                      className="mr-2 w-4 h-4"
+                      style={{
+                        accentColor: 'var(--color-primary-main)'
+                      }}
                     />
-                    <span className="text-sm" style={{ color: 'var(--color-text-muted)' }}>必須</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>必須</span>
                   </div>
                 </div>
 
                 {/* 分析クッキー */}
                 <div 
-                  className="flex items-center justify-between p-3 rounded-lg"
-                  style={{ border: '1px solid var(--color-border)' }}
+                  className="flex items-center justify-between p-4 rounded-lg shadow-sm"
+                  style={{ 
+                    border: '1px solid var(--color-accent-main)',
+                    backgroundColor: 'var(--color-background-main)'
+                  }}
                 >
                   <div>
-                    <h4 className="font-medium" style={{ color: 'var(--color-text)' }}>分析クッキー</h4>
-                    <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+                    <h4 className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>分析クッキー</h4>
+                    <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>
                       サイト利用状況の分析と改善のためのクッキーです（Google Analytics）
                     </p>
                   </div>
-                  <label className="flex items-center">
+                  <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={customConsent.analytics}
                       onChange={(e) => handleCustomConsentChange('analytics', e.target.checked)}
-                      className="mr-2"
+                      className="mr-2 w-4 h-4"
+                      style={{
+                        accentColor: 'var(--color-primary-main)'
+                      }}
                     />
-                    <span className="text-sm" style={{ color: 'var(--color-text)' }}>許可</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>許可</span>
                   </label>
                 </div>
 
                 {/* 広告クッキー */}
                 <div 
-                  className="flex items-center justify-between p-3 rounded-lg"
-                  style={{ border: '1px solid var(--color-border)' }}
+                  className="flex items-center justify-between p-4 rounded-lg shadow-sm"
+                  style={{ 
+                    border: '1px solid var(--color-accent-main)',
+                    backgroundColor: 'var(--color-background-main)'
+                  }}
                 >
                   <div>
-                    <h4 className="font-medium" style={{ color: 'var(--color-text)' }}>広告クッキー</h4>
-                    <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+                    <h4 className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>広告クッキー</h4>
+                    <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>
                       パーソナライズされた広告表示のためのクッキーです（Google AdSense）
                     </p>
                   </div>
-                  <label className="flex items-center">
+                  <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={customConsent.advertising}
                       onChange={(e) => handleCustomConsentChange('advertising', e.target.checked)}
-                      className="mr-2"
+                      className="mr-2 w-4 h-4"
+                      style={{
+                        accentColor: 'var(--color-primary-main)'
+                      }}
                     />
-                    <span className="text-sm" style={{ color: 'var(--color-text)' }}>許可</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>許可</span>
                   </label>
                 </div>
 
                 {/* 設定クッキー */}
                 <div 
-                  className="flex items-center justify-between p-3 rounded-lg"
-                  style={{ border: '1px solid var(--color-border)' }}
+                  className="flex items-center justify-between p-4 rounded-lg shadow-sm"
+                  style={{ 
+                    border: '1px solid var(--color-accent-main)',
+                    backgroundColor: 'var(--color-background-main)'
+                  }}
                 >
                   <div>
-                    <h4 className="font-medium" style={{ color: 'var(--color-text)' }}>設定クッキー</h4>
-                    <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+                    <h4 className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>設定クッキー</h4>
+                    <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>
                       ユーザー設定の保存のためのクッキーです（テーマ、言語設定など）
                     </p>
                   </div>
-                  <label className="flex items-center">
+                  <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       checked={customConsent.preferences}
                       onChange={(e) => handleCustomConsentChange('preferences', e.target.checked)}
-                      className="mr-2"
+                      className="mr-2 w-4 h-4"
+                      style={{
+                        accentColor: 'var(--color-primary-main)'
+                      }}
                     />
-                    <span className="text-sm" style={{ color: 'var(--color-text)' }}>許可</span>
+                    <span className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>許可</span>
                   </label>
                 </div>
               </div>
 
-              <div className="flex justify-end gap-2">
+              <div className="flex justify-end gap-3 pt-4">
                 <button
                   onClick={acceptNecessaryOnly}
-                  className="px-4 py-2 text-sm rounded-md transition-colors"
+                  className="px-5 py-3 text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
                   style={{
-                    border: '1px solid var(--color-border)',
-                    backgroundColor: 'transparent',
-                    color: 'var(--color-text)',
+                    border: '2px solid var(--color-accent-main)',
+                    backgroundColor: 'var(--color-background-main)',
+                    color: 'var(--color-text-primary)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'var(--color-background-accent)'
+                    e.currentTarget.style.backgroundColor = 'var(--color-accent-light)'
+                    e.currentTarget.style.transform = 'translateY(-1px)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent'
+                    e.currentTarget.style.backgroundColor = 'var(--color-background-main)'
+                    e.currentTarget.style.transform = 'translateY(0)'
                   }}
                 >
                   必要最小限のみ
                 </button>
                 <button
                   onClick={handleSaveCustom}
-                  className="px-4 py-2 text-sm rounded-md transition-colors"
+                  className="px-5 py-3 text-sm font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
                   style={{
-                    backgroundColor: 'var(--color-primary)',
-                    color: 'var(--color-primary-foreground)',
-                    border: 'none',
+                    backgroundColor: 'var(--color-primary-main)',
+                    color: 'var(--color-background-paper)',
+                    border: '2px solid var(--color-primary-main)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.opacity = '0.9'
+                    e.currentTarget.style.transform = 'translateY(-1px)'
+                    e.currentTarget.style.filter = 'brightness(1.1)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.opacity = '1'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.filter = 'brightness(1)'
                   }}
                 >
                   設定を保存
