@@ -12,6 +12,7 @@ import { Typography } from '@/components/Typography'
 import { Card } from '@/components/Card'
 import { Button } from '@/components/Button'
 import { Database } from '@/types/database.types'
+import { useTheme } from '@/theme/ThemeProvider'
 
 type CoffeeRecord = Database['public']['Tables']['coffee_records']['Row']
 
@@ -25,6 +26,7 @@ export default function CoffeeDetailPage({ params }: CoffeeDetailPageProps) {
   const [notFound, setNotFound] = useState(false)
   const supabase = createClient()
   const router = useRouter()
+  const { isDark } = useTheme()
   
   useEffect(() => {
     async function fetchCoffee() {
@@ -87,7 +89,7 @@ export default function CoffeeDetailPage({ params }: CoffeeDetailPageProps) {
       <style jsx>{`
         .coffee-detail-grid {
           display: grid;
-          grid-template-columns: minmax(0, 1fr) minmax(0, 620px);
+          grid-template-columns: minmax(0, 1fr) 500px;
           gap: 2rem;
           margin-bottom: 2rem;
         }
@@ -118,7 +120,7 @@ export default function CoffeeDetailPage({ params }: CoffeeDetailPageProps) {
           {/* メイン情報とテイスティングチャートを並列配置 */}
           <div style={{ 
             display: 'grid', 
-            gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 620px)',
+            gridTemplateColumns: 'minmax(0, 1fr) 500px',
             gap: '2rem',
             marginBottom: '2rem'
           }} className="coffee-detail-grid">
@@ -171,9 +173,9 @@ export default function CoffeeDetailPage({ params }: CoffeeDetailPageProps) {
                   <Typography variant="body2" style={{ fontWeight: 600, color: '#6b7280', marginBottom: '0.5rem', fontSize: '0.95rem' }}>感想・メモ</Typography>
                   <div style={{ 
                     padding: '1rem',
-                    backgroundColor: '#f9fafb',
+                    backgroundColor: isDark ? '#1F2937' : '#f9fafb',
                     borderRadius: '8px',
-                    border: '1px solid #e5e7eb'
+                    border: `1px solid ${isDark ? '#374151' : '#e5e7eb'}`
                   }}>
                     <Typography variant="body1" style={{ lineHeight: '1.6', fontSize: '1.1rem' }}>{coffee.description}</Typography>
                   </div>
@@ -187,7 +189,7 @@ export default function CoffeeDetailPage({ params }: CoffeeDetailPageProps) {
                 テイスティング評価
               </Typography>
               <div style={{ 
-                minHeight: '600px',
+                minHeight: '500px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center'
@@ -201,9 +203,9 @@ export default function CoffeeDetailPage({ params }: CoffeeDetailPageProps) {
           <div style={{ 
             marginBottom: '2rem',
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: isDark ? '#374151' : '#f8f9fa',
             borderRadius: '8px',
-            border: '1px solid #e9ecef'
+            border: `1px solid ${isDark ? '#4B5563' : '#e9ecef'}`
           }}>
             <CoffeeImageExport coffee={coffee} />
           </div>

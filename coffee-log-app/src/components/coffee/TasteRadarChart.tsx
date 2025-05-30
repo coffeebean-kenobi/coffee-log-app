@@ -37,12 +37,18 @@ interface TasteRadarChartProps {
   ratings: TasteRatings
   editable?: boolean
   onChange?: (ratings: TasteRatings) => void
+  containerWidth?: number
+  containerHeight?: number
+  isImageExport?: boolean
 }
 
 const TasteRadarChart: FC<TasteRadarChartProps> = ({ 
   ratings, 
   editable = false,
-  onChange 
+  onChange,
+  containerWidth,
+  containerHeight,
+  isImageExport
 }) => {
   const { isDark } = useTheme();
   const isDarkMode = isDark;
@@ -95,6 +101,19 @@ const TasteRadarChart: FC<TasteRadarChartProps> = ({
   }
 
   const options = {
+    layout: {
+      padding: isImageExport ? {
+        top: 60,
+        right: 60,
+        bottom: 60,
+        left: 60
+      } : {
+        top: 40,
+        right: 40,
+        bottom: 40,
+        left: 40
+      }
+    },
     scales: {
       r: {
         angleLines: {
@@ -111,16 +130,18 @@ const TasteRadarChart: FC<TasteRadarChartProps> = ({
           backdropColor: 'transparent',
           color: isDarkMode ? '#D1D5DB' : '#666666', // text-secondary colors
           font: {
-            size: 16,
-          }
+            size: isImageExport ? 10 : 11,
+          },
+          display: true
         },
         pointLabels: {
           color: isDarkMode ? '#F9FAFB' : '#1A1A1A', // text-primary colors
           font: {
-            size: 16,
+            size: isImageExport ? 10 : 11,
             weight: 'bold' as const
           },
-          padding: 40
+          padding: isImageExport ? 35 : 25,
+          centerPointLabels: false
         }
       }
     },
@@ -129,7 +150,7 @@ const TasteRadarChart: FC<TasteRadarChartProps> = ({
         labels: {
           color: isDarkMode ? '#F9FAFB' : '#1A1A1A', // text-primary colors
           font: {
-            size: 14,
+            size: isImageExport ? 10 : 11,
           }
         }
       },
@@ -140,10 +161,10 @@ const TasteRadarChart: FC<TasteRadarChartProps> = ({
         borderColor: isDarkMode ? '#F59E0B' : '#C0C0C0', // accent colors
         borderWidth: 1,
         titleFont: {
-          size: 14,
+          size: isImageExport ? 10 : 11,
         },
         bodyFont: {
-          size: 12,
+          size: isImageExport ? 9 : 10,
         }
       }
     },
@@ -153,14 +174,19 @@ const TasteRadarChart: FC<TasteRadarChartProps> = ({
 
   return (
     <div className="w-full mx-auto" style={{ 
-      backgroundColor: isDarkMode ? 'var(--color-background-paper)' : 'var(--color-background-paper)',
-      padding: '3rem',
-      borderRadius: '0.5rem',
-      border: `1px solid ${isDarkMode ? 'var(--color-accent-main)' : 'var(--color-accent-main)'}`,
-      minWidth: '550px',
-      maxWidth: '600px'
+      backgroundColor: isImageExport ? 'transparent' : (isDarkMode ? 'var(--color-background-paper)' : 'var(--color-background-paper)'),
+      padding: isImageExport ? '0' : '2rem',
+      borderRadius: isImageExport ? '0' : '0.5rem',
+      border: isImageExport ? 'none' : `1px solid ${isDarkMode ? 'var(--color-accent-main)' : 'var(--color-accent-main)'}`,
+      width: containerWidth || '500px',
+      height: containerHeight || '500px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
     }}>
-      <Radar data={data} options={options} />
+      <div style={{ width: '100%', height: '100%' }}>
+        <Radar data={data} options={options} />
+      </div>
     </div>
   )
 }

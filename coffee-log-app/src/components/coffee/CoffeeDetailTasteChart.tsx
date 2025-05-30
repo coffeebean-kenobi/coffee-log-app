@@ -30,7 +30,7 @@ const CoffeeDetailTasteChart: FC<CoffeeDetailTasteChartProps> = ({ coffee }) => 
   }
 
   return (
-    <div style={{ width: '100%', maxWidth: '600px', minWidth: '550px' }}>
+    <div style={{ width: '500px', height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <TasteRadarChart ratings={tasteRatings} />
     </div>
   )
