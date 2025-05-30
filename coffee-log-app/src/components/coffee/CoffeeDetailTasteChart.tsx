@@ -30,8 +30,7 @@ const CoffeeDetailTasteChart: FC<CoffeeDetailTasteChartProps> = ({ coffee }) => 
   }
 
   return (
-    <div className="mt-6">
-      <h2 className="font-medium text-lg mb-4 text-card-foreground">味わい評価</h2>
+    <div style={{ width: '100%', maxWidth: '600px', minWidth: '550px' }}>
       <TasteRadarChart ratings={tasteRatings} />
     </div>
   )
