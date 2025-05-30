@@ -60,13 +60,13 @@ const TasteRadarChart: FC<TasteRadarChartProps> = ({
 
   const data = {
     labels: [
-      '酸味 (Acidity)', 
-      'フレーバー (Flavor)', 
-      '甘味 (Sweetness)', 
-      '口当たり (Mouthfeel)', 
-      'コク (Body)', 
-      'クリーンカップ', 
-      'バランス (Balance)'
+      ['酸味', 'Acidity'], 
+      ['フレーバー', 'Flavor'], 
+      ['甘味', 'Sweetness'], 
+      ['口当たり', 'Mouthfeel'], 
+      ['コク', 'Body'], 
+      ['クリーンカップ', 'Clean Cup'], 
+      ['バランス', 'Balance']
     ],
     datasets: [
       {
@@ -111,14 +111,16 @@ const TasteRadarChart: FC<TasteRadarChartProps> = ({
           backdropColor: 'transparent',
           color: isDarkMode ? '#D1D5DB' : '#666666', // text-secondary colors
           font: {
-            size: 12,
+            size: 16,
           }
         },
         pointLabels: {
           color: isDarkMode ? '#F9FAFB' : '#1A1A1A', // text-primary colors
           font: {
-            size: 12,
-          }
+            size: 16,
+            weight: 'bold' as const
+          },
+          padding: 40
         }
       }
     },
@@ -150,11 +152,13 @@ const TasteRadarChart: FC<TasteRadarChartProps> = ({
   }
 
   return (
-    <div className="w-full max-w-md mx-auto" style={{ 
+    <div className="w-full mx-auto" style={{ 
       backgroundColor: isDarkMode ? 'var(--color-background-paper)' : 'var(--color-background-paper)',
-      padding: '1rem',
+      padding: '3rem',
       borderRadius: '0.5rem',
       border: `1px solid ${isDarkMode ? 'var(--color-accent-main)' : 'var(--color-accent-main)'}`,
+      minWidth: '550px',
+      maxWidth: '600px'
     }}>
       <Radar data={data} options={options} />
     </div>
